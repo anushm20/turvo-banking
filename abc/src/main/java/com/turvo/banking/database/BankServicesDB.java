@@ -14,6 +14,8 @@ import com.turvo.banking.entities.BankService;
  */
 public class BankServicesDB {
 	
-	static Map<Long, BankService> bankServices = new HashMap<>();
+	public static Long bankServicesCount = 1L;
+	
+	public static Map<Long, BankService> bankServices = new HashMap<>();
 
 }

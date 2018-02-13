@@ -5,21 +5,29 @@ package com.turvo.banking.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.turvo.banking.dao.BankServiceDao;
 import com.turvo.banking.entities.BankService;
 
 /**
  * @author anushm
  *
  */
+@Service("bankServices")
 public class BankServicesImpl implements BankServices {
+	
+	@Autowired
+	BankServiceDao bankDao;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.services.BankServices#getAllBranchServices()
 	 */
 	@Override
-	public List<BankService> getAllBranchServices() {
+	public List<BankService> getAllBankServices() {
 		// TODO Auto-generated method stub
-		return null;
+		return bankDao.getAllBankServices();
 	}
 
 	/* (non-Javadoc)

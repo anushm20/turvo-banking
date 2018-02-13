@@ -13,7 +13,7 @@ import com.turvo.banking.entities.BankService;
  */
 public interface BankServiceDao {
 	
-	List<BankService> getAllBranchServices();
+	List<BankService> getAllBankServices();
 	
 	BankService getBankServiceById(Long serviceId);
 	

@@ -1,10 +1,12 @@
 /**
- * 
+ * Implementation class for Branch Dao
  */
 package com.turvo.banking.branch.dao;
 
 import java.util.List;
 import java.util.PriorityQueue;
+
+import org.springframework.stereotype.Repository;
 
 import com.turvo.banking.branch.entities.ServiceCounter;
 import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
@@ -14,6 +16,8 @@ import com.turvo.banking.branch.token.entities.CustomerToken;
  * @author anushm
  *
  */
+
+@Repository("branchDao")
 public class BranchDaoImpl implements BranchDao {
 
 	/* (non-Javadoc)

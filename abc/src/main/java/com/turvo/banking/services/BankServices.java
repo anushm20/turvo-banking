@@ -1,5 +1,5 @@
 /**
- * 
+ * Used for CRUD operations on Banking services
  */
 package com.turvo.banking.services;
 
@@ -13,7 +13,11 @@ import com.turvo.banking.entities.BankService;
  */
 public interface BankServices {
 	
-	List<BankService> getAllBranchServices();
+	/**
+	 * Method to list all available bank services
+	 * @return
+	 */
+	List<BankService> getAllBankServices();
 	
 	BankService getBankServiceById(Long serviceId);
 	

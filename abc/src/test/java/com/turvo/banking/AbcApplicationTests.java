@@ -1,4 +1,4 @@
-package com.turvo.banking.token.abc;
+package com.turvo.banking;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,5 +1,5 @@
 /**
- * 
+ * Required for managing Branch DAO operations
  */
 /**
  * @author anushm

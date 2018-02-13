@@ -3,10 +3,14 @@
  */
 package com.turvo.banking.entities;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author anushm
  *
  */
+
+@Component
 public class BankService {
 	
 	private Long serviceId;

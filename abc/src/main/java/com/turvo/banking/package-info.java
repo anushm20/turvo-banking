@@ -5,4 +5,4 @@
  * @author anushm
  *
  */
-package com.turvo.banking.application;
+package com.turvo.banking;

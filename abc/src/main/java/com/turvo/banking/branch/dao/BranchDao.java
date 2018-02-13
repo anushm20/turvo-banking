@@ -25,18 +25,47 @@ public interface BranchDao {
 	 */
 	List<Long> getServiceCountersForService(Long serviceId);
 
+	/**
+	 * Method to create service to Service counter mapping in a branch
+	 * @param mapping
+	 */
 	void createServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping);
 
+	/**
+	 * Method to update service to Service counter mapping in a branch
+	 * @param mapping
+	 */
 	void updateServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping);
 
+	/**
+	 * Method to delete service to Service counter mapping in a branch
+	 * @param serviceId
+	 */
 	void deleteServiceToServiceCounterMapping(Long serviceId);
 	
+	/**
+	 * Method to get token queue for that service counter
+	 * @param counterId
+	 * @return priority queue with customer tokens
+	 */
 	PriorityQueue<CustomerToken> getQueueForServiceCounter(Long counterId);
 	
+	/**
+	 * Method to create token queue for that service counter
+	 * @param counter
+	 */
 	void createQueueForServiceCounter(ServiceCounter counter);
 	
+	/**
+	 * Method to update token queue for that service counter
+	 * @param counter
+	 */
 	void updateQueueForServiceCounter(ServiceCounter counter);
 	
+	/**
+	 * Method to delete token queue for that service counter
+	 * @param counterId
+	 */
 	void deleteQueueForServiceCounter(Long counterId);
 	
 }

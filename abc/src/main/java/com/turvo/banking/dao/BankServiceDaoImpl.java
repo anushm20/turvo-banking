@@ -1,5 +1,5 @@
 /**
- * 
+ * DAO implementation for BankService DAO
  */
 package com.turvo.banking.dao;
 
@@ -55,8 +55,7 @@ public class BankServiceDaoImpl implements BankServiceDao {
 	 */
 	@Override
 	public void updateBankService(BankService service) {
-		// TODO Auto-generated method stub
-
+		BankServicesDB.bankServices.put(service.getServiceId(),service);
 	}
 
 	/* (non-Javadoc)
@@ -64,8 +63,7 @@ public class BankServiceDaoImpl implements BankServiceDao {
 	 */
 	@Override
 	public void deleteBankService(Long serviceId) {
-		// TODO Auto-generated method stub
-
+		BankServicesDB.bankServices.remove(serviceId);
 	}
 
 }

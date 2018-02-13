@@ -1,5 +1,5 @@
 /**
- * 
+ * DAO interface for BankService
  */
 package com.turvo.banking.dao;
 
@@ -13,14 +13,36 @@ import com.turvo.banking.entities.BankService;
  */
 public interface BankServiceDao {
 	
+	/**
+	 * Method to list all available bank services
+	 * @return list of bank services
+	 */
 	List<BankService> getAllBankServices();
 	
+	/**
+	 * Method to return service by service Id
+	 * @param serviceId
+	 * @return bank service object
+	 */
 	BankService getBankServiceById(Long serviceId);
 	
+	/**
+	 * Method to create bank service
+	 * @param service
+	 * @return id of bank service
+	 */
 	Long createBankService(BankService service);
 	
+	/**
+	 * Method to update bank service object
+	 * @param service
+	 */
 	void updateBankService(BankService service);
 	
+	/**
+	 * Method to delete bank service object
+	 * @param serviceId
+	 */
 	void deleteBankService(Long serviceId);
 
 }

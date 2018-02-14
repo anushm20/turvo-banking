@@ -15,10 +15,10 @@ import com.turvo.banking.branch.token.services.CustomerTokenHelper;
 public class AbcApplication {
 
 	public static void main(String[] args) {
-		//ConfigurableApplicationContext context = 
+		ConfigurableApplicationContext context = 
 				SpringApplication.run(AbcApplication.class, args);
-	/*	CustomerTokenHelper helper = new CustomerTokenHelper();
+		CustomerTokenHelper helper = new CustomerTokenHelper();
 		ServiceCounterListener listener = new ServiceCounterListener(helper);
-		helper.addObserver(listener);*/
+		helper.addObserver(listener);
 	}
 }

@@ -16,18 +16,13 @@ public class CustomerTokenHelper extends Observable {
 	
 	private CustomerToken token;
 	
-	public CustomerTokenHelper() {
-		
+	public CustomerToken getToken() {
+		return token;
 	}
 	
-	public CustomerTokenHelper(CustomerToken token) {
+	public void setCustomerToken(CustomerToken token) {
 		this.token = token;
 		setChanged();
 		notifyObservers(token);
 	}
-
-	public CustomerToken getToken() {
-		return token;
-	}
-
 }

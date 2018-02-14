@@ -15,7 +15,7 @@ public class ServiceCounter {
 	
 	private Long serviceCounterId;
 	private Long serviceId;
-	private ServiceCounterType counterType;
+	private CounterType counterType;
 	private PriorityQueue<CustomerToken> tokenQueue;
 	
 	public Long getServiceCounterId() {
@@ -34,11 +34,11 @@ public class ServiceCounter {
 		this.serviceId = serviceId;
 	}
 
-	public ServiceCounterType getCounterType() {
+	public CounterType getCounterType() {
 		return counterType;
 	}
 
-	public void setCounterType(ServiceCounterType counterType) {
+	public void setCounterType(CounterType counterType) {
 		this.counterType = counterType;
 	}
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.turvo.banking.branch.counter.database.ServiceCounterDatabase;
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.entities.ServiceCounterType;
+import com.turvo.banking.branch.counter.entities.CounterType;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
 /**
@@ -28,7 +28,7 @@ public class ServiceCounterDaoImpl implements ServiceCounterDao {
 	public List<Long> getPremiumServiceCounters() {
 		List<Long> counters = new ArrayList<>();
 		for (ServiceCounter counter : ServiceCounterDatabase.serviceCounterMap.values()) {
-			if(ServiceCounterType.PREMIUM.toString().equals(counter.getCounterType().toString())) {
+			if(CounterType.PREMIUM.toString().equals(counter.getCounterType().toString())) {
 				counters.add(counter.getServiceCounterId());
 			}
 		}

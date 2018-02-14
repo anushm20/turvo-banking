@@ -8,7 +8,6 @@
  */
 package com.turvo.banking.branch.services;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,7 +15,9 @@ import java.util.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.entities.ServiceCounter;
+import com.turvo.banking.branch.counter.operations.PremiumServiceCounter;
+import com.turvo.banking.branch.counter.operations.RegularServiceCounter;
+import com.turvo.banking.branch.counter.operations.ServiceCounterPicker;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
@@ -58,35 +59,17 @@ public class ServiceCounterListener implements Observer {
 	
 	public void updateTokeninQueues(CustomerToken token) {
 		// Premium Customer
-			if(CustomerType.PREMIUM.toString().equalsIgnoreCase(token.getCustomerType())) {
-				List<Long> counters = counterServices.getPremiumServiceCounters();
-				if(Objects.nonNull(counters) && counters.size() > 0) {
-					// Get Priority Service Counter
-					// Get the first one for now and assign the token
-					updateServiceCounterQueue(token, counters);
-				}
-			} else {
-				// Regular Customer
-				List<Long> services = token.getServices();
-				for (Long serviceId : services) {
-					// Get Service Counters for the services
-					List<Long> counters = branchServices.getServiceCountersForService(serviceId);
-					updateServiceCounterQueue(token, counters);
-				}
-			}
+		ServiceCounterPicker picker = new ServiceCounterPicker();
+		if(CustomerType.PREMIUM.toString().equalsIgnoreCase(token.getCustomerType())) {
+			picker.setServiceCounterType(ApplicationContextProvider.
+					getApplicationContext().getBean("premiumServiceCounter",
+							PremiumServiceCounter.class));
+		} else {
+			// Regular Customer
+			picker.setServiceCounterType(ApplicationContextProvider.getApplicationContext().
+					getBean("regularServiceCounter",RegularServiceCounter.class));
+		}
+		picker.updateQueue(token);
 	}
 
-	private void updateServiceCounterQueue(CustomerToken token, List<Long> counters) {
-		//TODO Load balancing strategy for each counter
-		ServiceCounter counter = counterServices.getServiceCounterById(counters.get(0));
-		// Add token to queue
-		if(Objects.nonNull(counter.getTokenQueue())) {
-			counter.getTokenQueue().add(token);
-		} else {
-			// This should not get executed for in memory database
-			// First create the queue
-			// Then add the element
-		}
-	}
-	
 }

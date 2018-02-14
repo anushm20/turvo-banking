@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.turvo.banking.AbcApplication;
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.entities.ServiceCounterType;
+import com.turvo.banking.branch.counter.entities.CounterType;
 import com.turvo.banking.branch.services.CustomerTokenComparator;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
@@ -42,7 +42,7 @@ public class CounterServiceTest {
 	@Test
 	public void createServiceCounter() {
 		ServiceCounter counter = new ServiceCounter();
-		counter.setCounterType(ServiceCounterType.PREMIUM);
+		counter.setCounterType(CounterType.PREMIUM);
 		counter.setServiceId(1L);
 		PriorityQueue<CustomerToken> queue = new PriorityQueue<>(new CustomerTokenComparator());
 		counter.setTokenQueue(queue);

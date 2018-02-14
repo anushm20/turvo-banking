@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.services.CustomerTokenComparator;
+import com.turvo.banking.branch.services.ServiceCounterOperator;
 import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.token.entities.TokenStatus;
 
 /**
  * @author anushm
@@ -33,6 +35,9 @@ public class ServiceCounterController {
 	
 	@Autowired
 	ServiceCounterService counterService;
+	
+	@Autowired
+	ServiceCounterOperator operator;
 	
 	@GetMapping("/servicecounter/{id}")
 	public ServiceCounter getServiceCounter(@PathVariable("id") Long id) {
@@ -73,4 +78,22 @@ public class ServiceCounterController {
 		Collections.sort(tokens);
 		return tokens;
 	}
+	
+	@GetMapping("/servicecounter/{id}/token/{action}")
+	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
+			@PathVariable("action") String action,@RequestBody CustomerToken token) {
+		if(TokenStatus.COMPLETED.toString().equalsIgnoreCase(action)) {
+			operator.takeActiononTokeninCounter(counterId, token);
+			return HttpStatus.OK;
+		} else if (TokenStatus.CANCELLED.toString().equalsIgnoreCase(action)) {
+			operator.cancelToken(counterId, token);
+			return HttpStatus.OK;
+		} else if (TokenStatus.REVISIT.toString().equalsIgnoreCase(action)) {
+			operator.revisitToken(counterId, token);
+			return HttpStatus.OK;
+		} else {
+			return HttpStatus.BAD_REQUEST;
+		}
+	}
+	
 }

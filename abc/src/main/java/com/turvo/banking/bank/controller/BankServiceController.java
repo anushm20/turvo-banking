@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.bank.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +27,11 @@ public class BankServiceController {
 	
 	@Autowired
 	BankServices bankServices;
+	
+	@GetMapping("/bankservices")
+	public List<BankService> getAllBankServices() {
+		return bankServices.getAllBankServices();
+	}
 
 	@GetMapping("/bankservices/{id}")
 	public BankService getBankService(@PathVariable("id") Long id) {

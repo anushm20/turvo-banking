@@ -6,6 +6,7 @@ package com.turvo.banking.branch.token.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.turvo.banking.branch.services.ApplicationContextProvider;
 import com.turvo.banking.branch.token.dao.CustomerTokenDao;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
@@ -28,18 +29,21 @@ public class CustomerTokenServiceImpl implements CustomerTokenService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.token.services.CustomerTokenService#createCustomerToken(com.turvo.banking.branch.token.entities.CustomerToken)
+	 * @see com.turvo.banking.branch.token.services.CustomerTokenService#
+	 * createCustomerToken(com.turvo.banking.branch.token.entities.CustomerToken)
 	 */
 	@Override
 	public Long createCustomerToken(CustomerToken token) {
 		Long id = tokenDao.createCustomerToken(token);
-		// inform listeners about the new Token
-		new CustomerTokenHelper(token);
+		CustomerTokenHelper helper = ApplicationContextProvider.getApplicationContext().
+				getBean("customTokenHelper",CustomerTokenHelper.class);
+		helper.setCustomerToken(token);
 		return id; 
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.token.services.CustomerTokenService#updateCustomerToken(com.turvo.banking.branch.token.entities.CustomerToken)
+	 * @see com.turvo.banking.branch.token.services.CustomerTokenService
+	 * #updateCustomerToken(com.turvo.banking.branch.token.entities.CustomerToken)
 	 */
 	@Override
 	public void updateCustomerToken(CustomerToken token) {

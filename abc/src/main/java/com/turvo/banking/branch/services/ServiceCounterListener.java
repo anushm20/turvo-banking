@@ -15,13 +15,10 @@ import java.util.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.operations.PremiumServiceCounter;
-import com.turvo.banking.branch.counter.operations.RegularServiceCounter;
-import com.turvo.banking.branch.counter.operations.ServiceCounterPicker;
+import com.turvo.banking.branch.counter.operations.ServiceCounterType;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
-import com.turvo.banking.customer.entities.CustomerType;
 
 /**
  * @author anushm
@@ -58,18 +55,13 @@ public class ServiceCounterListener implements Observer {
 	}
 	
 	public void updateTokeninQueues(CustomerToken token) {
-		// Premium Customer
-		ServiceCounterPicker picker = new ServiceCounterPicker();
-		if(CustomerType.PREMIUM.toString().equalsIgnoreCase(token.getCustomerType())) {
-			picker.setServiceCounterType(ApplicationContextProvider.
-					getApplicationContext().getBean("premiumServiceCounter",
-							PremiumServiceCounter.class));
-		} else {
-			// Regular Customer
-			picker.setServiceCounterType(ApplicationContextProvider.getApplicationContext().
-					getBean("regularServiceCounter",RegularServiceCounter.class));
+		// Based on Customer Type respective service counter 
+		// will be picked automatically
+		if(token.getCustomerType() != null && !token.getCustomerType().isEmpty()) {
+			ServiceCounterType  counterType = (ServiceCounterType)ApplicationContextProvider.
+					getApplicationContext().getBean(token.getCustomerType()+"ServiceCounter");
+			counterType.updateServiceCounterQueue(token);
 		}
-		picker.updateQueue(token);
 	}
 
 }

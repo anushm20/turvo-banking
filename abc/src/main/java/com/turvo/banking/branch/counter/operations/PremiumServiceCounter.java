@@ -16,7 +16,7 @@ import com.turvo.banking.branch.token.entities.CustomerToken;
  * @author anushm
  *
  */
-@Component
+@Component("PREMIUMServiceCounter")
 public class PremiumServiceCounter implements ServiceCounterType {
 	
 	@Autowired

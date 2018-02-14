@@ -36,6 +36,7 @@ public class ServiceCounterOperator {
 	public void takeActiononTokeninCounter(Long counterId, CustomerToken token) {
 		// Action Completed
 		// Check for Multi-counter service & Customer Priority
+		// For priority customer all services will be handled at one counter only
 		ServiceCounter counter = counterService.getServiceCounterById(counterId);
 		List<Long> counters = branchServices.getServiceCountersForService(counter.getServiceId());
 		if(counters.size() > 1 && CustomerType.REGULAR.toString().equalsIgnoreCase(token.getCustomerType())) {

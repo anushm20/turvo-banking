@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
+import com.turvo.banking.branch.counter.operations.CustomerTokenComparator;
+import com.turvo.banking.branch.counter.operations.ServiceCounterOperator;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
-import com.turvo.banking.branch.services.CustomerTokenComparator;
-import com.turvo.banking.branch.services.ServiceCounterOperator;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 
@@ -81,7 +81,9 @@ public class ServiceCounterController {
 	
 	@GetMapping("/servicecounter/{id}/token/{action}")
 	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
-			@PathVariable("action") String action,@RequestBody CustomerToken token) {
+			@PathVariable("action") String action) {
+		PriorityQueue<CustomerToken> queue = counterService.getQueueForServiceCounter(counterId);
+		CustomerToken token = queue.peek();
 		if(TokenStatus.COMPLETED.toString().equalsIgnoreCase(action)) {
 			operator.takeActiononTokeninCounter(counterId, token);
 			return HttpStatus.OK;

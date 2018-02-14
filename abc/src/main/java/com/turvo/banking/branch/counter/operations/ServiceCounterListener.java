@@ -6,7 +6,7 @@
  * This will take care of keeping the token in queues at respective 
  * service counters
  */
-package com.turvo.banking.branch.services;
+package com.turvo.banking.branch.counter.operations;
 
 import java.util.Objects;
 import java.util.Observable;
@@ -15,10 +15,11 @@ import java.util.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.operations.ServiceCounterType;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
+import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
+import com.turvo.banking.common.ApplicationContextProvider;
 
 /**
  * @author anushm

@@ -6,9 +6,9 @@ package com.turvo.banking.branch.token.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.branch.services.ApplicationContextProvider;
 import com.turvo.banking.branch.token.dao.CustomerTokenDao;
 import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.common.ApplicationContextProvider;
 
 /**
  * @author anushm

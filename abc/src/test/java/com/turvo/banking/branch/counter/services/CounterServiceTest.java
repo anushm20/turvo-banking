@@ -1,5 +1,5 @@
 /**
- * 
+ * Test Class for Service Counter Service
  */
 package com.turvo.banking.branch.counter.services;
 
@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.turvo.banking.AbcApplication;
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
+import com.turvo.banking.branch.counter.operations.CustomerTokenComparator;
 import com.turvo.banking.branch.counter.entities.CounterType;
-import com.turvo.banking.branch.services.CustomerTokenComparator;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 import com.turvo.banking.customer.entities.CustomerType;
@@ -32,12 +32,6 @@ public class CounterServiceTest {
 	
 	@Autowired
 	ServiceCounterService counterService;
-	
-	@Test
-	public void getServiceCounter() {
-		
-	}
-	
 	
 	@Test
 	public void createServiceCounter() {
@@ -59,16 +53,6 @@ public class CounterServiceTest {
 		// Assert token
 		ServiceCounter counter2 = counterService.getServiceCounterById(id);
 		assertEquals(counter2.getTokenQueue().peek(), token);
-	}
-	
-	@Test
-	public void updateServiceCounter() {
-		
-	}
-	
-	@Test
-	public void deleteServiceCounter() {
-		
 	}
 
 }

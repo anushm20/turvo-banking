@@ -7,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.turvo.banking.branch.services.ServiceCounterListener;
+import com.turvo.banking.branch.counter.operations.ServiceCounterListener;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
 
 @SpringBootApplication

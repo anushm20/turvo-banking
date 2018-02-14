@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.turvo.banking.branch.services;
+package com.turvo.banking.common;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -3,15 +3,17 @@
  * 
  * Performs necessary operations on the token in a service counter
  */
-package com.turvo.banking.branch.services;
+package com.turvo.banking.branch.counter.operations;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
+import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 import com.turvo.banking.branch.token.services.CustomerTokenService;
@@ -39,7 +41,8 @@ public class ServiceCounterOperator {
 		// For priority customer all services will be handled at one counter only
 		ServiceCounter counter = counterService.getServiceCounterById(counterId);
 		List<Long> counters = branchServices.getServiceCountersForService(counter.getServiceId());
-		if(counters.size() > 1 && CustomerType.REGULAR.toString().equalsIgnoreCase(token.getCustomerType())) {
+		if(Objects.nonNull(counters) && counters.size() > 1 && 
+				CustomerType.REGULAR.toString().equalsIgnoreCase(token.getCustomerType())) {
 			// Yes 
 			Long nextCounter = 0L;
 			boolean next = false;
@@ -55,17 +58,21 @@ public class ServiceCounterOperator {
 			// Insert the token into next priority queue 
 			ServiceCounter nextServiceCounter = counterService.getServiceCounterById(nextCounter);
 			nextServiceCounter.getTokenQueue().add(token);
+			//Remove the token at current queue
+			counter.getTokenQueue().remove(token);
+			token.setStatus(TokenStatus.INPROGRESS);
+			token.setComments("");
 			token.setComments(token.getComments()+"Service Completed at Counter :"+ counterId+".");
 		} else {
 			// No
 			// Mark the status as complete
 			token.setStatus(TokenStatus.COMPLETED);
-			// Update token
-			tokenService.updateCustomerToken(token);
 			// Remove the token from counter Queue
 			counter.getTokenQueue().remove(token);
 			counterService.updateServiceCounter(counter);
 		}
+		// Update token 
+		tokenService.updateCustomerToken(token);
 		
 	}
 	

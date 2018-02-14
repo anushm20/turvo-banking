@@ -2,7 +2,7 @@
  * Comparator used for sorting tokens in a service counter 
  * priority queue
  */
-package com.turvo.banking.branch.services;
+package com.turvo.banking.branch.counter.operations;
 
 import java.util.Comparator;
 

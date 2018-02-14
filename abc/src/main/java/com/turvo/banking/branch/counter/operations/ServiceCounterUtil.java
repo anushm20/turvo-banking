@@ -1,5 +1,5 @@
 /**
- * Utililty class for Service Counter Operations 
+ * Utility class for Service Counter Operations 
  */
 package com.turvo.banking.branch.counter.operations;
 

@@ -6,8 +6,6 @@ package com.turvo.banking.branch.token.entities;
 import java.util.List;
 import java.util.Objects;
 
-import org.hamcrest.core.IsInstanceOf;
-
 /**
  * @author anushm
  *

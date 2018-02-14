@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.turvo.banking.services;
+package com.turvo.banking.bank.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.turvo.banking.AbcApplication;
-import com.turvo.banking.entities.BankService;
+import com.turvo.banking.bank.entities.BankService;
 
 /**
  * @author anushm
@@ -60,7 +60,7 @@ public class BankServicesTest {
 	public void getAllBankServices() {
 		List<BankService> services = bankServices.getAllBankServices();
 		for (BankService service : services) {
-			System.out.println("MAK :"+ service.getServiceName() + "ID"+service.getServiceId());
+			System.out.println("Service :"+ service.getServiceName() + "ID"+service.getServiceId());
 		}
 	}
 }

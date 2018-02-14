@@ -1,15 +1,15 @@
 /**
  * DAO implementation for BankService DAO
  */
-package com.turvo.banking.dao;
+package com.turvo.banking.bank.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.turvo.banking.database.BankServicesDB;
-import com.turvo.banking.entities.BankService;
+import com.turvo.banking.bank.database.BankServicesDB;
+import com.turvo.banking.bank.entities.BankService;
 
 /**
  * @author anushm

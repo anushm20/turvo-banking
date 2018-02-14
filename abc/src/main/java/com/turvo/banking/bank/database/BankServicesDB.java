@@ -1,12 +1,12 @@
 /**
- * 
+ * Database class for Bank Service
  */
-package com.turvo.banking.database;
+package com.turvo.banking.bank.database;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.turvo.banking.entities.BankService;
+import com.turvo.banking.bank.entities.BankService;
 
 /**
  * @author anushm

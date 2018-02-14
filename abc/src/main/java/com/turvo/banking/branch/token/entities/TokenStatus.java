@@ -1,5 +1,5 @@
 /**
- * 
+ * Possible status for customer token
  */
 package com.turvo.banking.branch.token.entities;
 
@@ -10,6 +10,7 @@ package com.turvo.banking.branch.token.entities;
 public enum TokenStatus {
 	CREATED,
 	INPROGRESS,
+	REVISIT,
 	COMPLETED,
 	CANCELLED;	
 }

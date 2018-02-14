@@ -1,5 +1,5 @@
 /**
- * 
+ * Service to Service Counter Mapping in a Branch
  */
 package com.turvo.banking.branch.entities;
 

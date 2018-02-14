@@ -1,38 +1,42 @@
 /**
- * 
+ * Service Implementation for Customer Operations
  */
 package com.turvo.banking.customer.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.turvo.banking.customer.dao.CustomerDao;
 import com.turvo.banking.customer.entities.Customer;
 
 /**
  * @author anushm
  *
  */
+@Service
 public class CustomerServiceImpl implements CustomerService {
+	
+	@Autowired
+	CustomerDao customerDao;
 
 	@Override
 	public Customer getCustomerById(Long customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerDao.getCustomerById(customerId);
 	}
 
 	@Override
 	public Long createCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerDao.insertCustomer(customer);
 	}
 
 	@Override
 	public void updateCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		
+		customerDao.updateCustomer(customer);
 	}
 
 	@Override
 	public void deleteCustomer(Long customerId) {
-		// TODO Auto-generated method stub
-		
+		customerDao.deleteCustomer(customerId);
 	}
 
 }

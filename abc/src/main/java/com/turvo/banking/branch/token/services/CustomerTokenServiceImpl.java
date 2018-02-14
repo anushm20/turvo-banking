@@ -1,32 +1,41 @@
 /**
- * 
+ * Implementation for Services of a Customer token
  */
 package com.turvo.banking.branch.token.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.turvo.banking.branch.token.dao.CustomerTokenDao;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
 /**
  * @author anushm
  *
  */
+@Service
 public class CustomerTokenServiceImpl implements CustomerTokenService {
+	
+	@Autowired 
+	CustomerTokenDao tokenDao;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.CustomerTokenService#getCustomerTokenById(java.lang.Long)
 	 */
 	@Override
-	public CustomerToken getCustomerTokenById(Long number) {
-		// TODO Auto-generated method stub
-		return null;
+	public CustomerToken getCustomerTokenByNumber(Long number) {
+		return tokenDao.getCustomerTokenByNumber(number);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.CustomerTokenService#createCustomerToken(com.turvo.banking.branch.token.entities.CustomerToken)
 	 */
 	@Override
-	public void createCustomerToken(CustomerToken token) {
-		// TODO Auto-generated method stub
-
+	public Long createCustomerToken(CustomerToken token) {
+		Long id = tokenDao.createCustomerToken(token);
+		// inform listeners about the new Token
+		new CustomerTokenHelper(token);
+		return id; 
 	}
 
 	/* (non-Javadoc)
@@ -34,8 +43,7 @@ public class CustomerTokenServiceImpl implements CustomerTokenService {
 	 */
 	@Override
 	public void updateCustomerToken(CustomerToken token) {
-		// TODO Auto-generated method stub
-
+		tokenDao.updateCustomerToken(token);
 	}
 
 	/* (non-Javadoc)
@@ -43,8 +51,7 @@ public class CustomerTokenServiceImpl implements CustomerTokenService {
 	 */
 	@Override
 	public void deleteCustomerToken(Long tokenId) {
-		// TODO Auto-generated method stub
-
+		tokenDao.deleteCustomerToken(tokenId);
 	}
 
 }

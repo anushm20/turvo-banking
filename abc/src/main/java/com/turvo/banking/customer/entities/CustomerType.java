@@ -1,5 +1,5 @@
 /**
- * 
+ * Enum for Possible Customer Types
  */
 package com.turvo.banking.customer.entities;
 

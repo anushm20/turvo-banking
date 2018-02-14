@@ -1,9 +1,12 @@
 /**
- * 
+ * Customer Token Entity
  */
 package com.turvo.banking.branch.token.entities;
 
 import java.util.List;
+import java.util.Objects;
+
+import org.hamcrest.core.IsInstanceOf;
 
 /**
  * @author anushm
@@ -11,30 +14,30 @@ import java.util.List;
  */
 public class CustomerToken {
 	
-	private Long customerId;
 	private Long number;
-	private int priority;
+	private Long customerId ;
+	private String customerType;
 	private String comments;
 	private TokenStatus status;
 	private List<Long> services;
 	
-	public Long getCustomerId() {
-		return customerId;
-	}
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
 	public Long getNumber() {
 		return number;
 	}
 	public void setNumber(Long number) {
 		this.number = number;
 	}
-	public int getPriority() {
-		return priority;
+	public Long getCustomerId() {
+		return customerId;
 	}
-	public void setPriority(int priority) {
-		this.priority = priority;
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+	public String getCustomerType() {
+		return customerType;
+	}
+	public void setCustomerType(String customerType) {
+		this.customerType = customerType;
 	}
 	public String getComments() {
 		return comments;
@@ -53,6 +56,16 @@ public class CustomerToken {
 	}
 	public void setServices(List<Long> services) {
 		this.services = services;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(Objects.isNull(obj)) return false;
+		
+		if(!(obj instanceof CustomerToken)) return false;
+		
+		CustomerToken token = (CustomerToken) obj;
+		return this.number == token.getNumber();
 	}
 	
 }

@@ -1,21 +1,21 @@
 /**
- * 
+ * Implementation for services of Bank Service 
  */
-package com.turvo.banking.services;
+package com.turvo.banking.bank.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.dao.BankServiceDao;
-import com.turvo.banking.entities.BankService;
+import com.turvo.banking.bank.dao.BankServiceDao;
+import com.turvo.banking.bank.entities.BankService;
 
 /**
  * @author anushm
  *
  */
-@Service("bankServices")
+@Service
 public class BankServicesImpl implements BankServices {
 	
 	@Autowired

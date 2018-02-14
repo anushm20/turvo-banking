@@ -1,14 +1,18 @@
 /**
- * 
+ * DAO implemnetation for Customer 
  */
 package com.turvo.banking.customer.dao;
 
+import org.springframework.stereotype.Repository;
+
+import com.turvo.banking.customer.database.CustomerDB;
 import com.turvo.banking.customer.entities.Customer;
 
 /**
  * @author anushm
  *
  */
+@Repository
 public class CustomerDaoImpl implements CustomerDao {
 
 	/* (non-Javadoc)
@@ -16,8 +20,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	 */
 	@Override
 	public Customer getCustomerById(Long customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return CustomerDB.customerMap.get(customerId);
 	}
 
 	/* (non-Javadoc)
@@ -25,8 +28,11 @@ public class CustomerDaoImpl implements CustomerDao {
 	 */
 	@Override
 	public Long insertCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+		Long id = CustomerDB.customerId;
+		customer.setCustomerId(id);
+		CustomerDB.customerMap.put(id, customer);
+		CustomerDB.customerId++;
+		return id;
 	}
 
 	/* (non-Javadoc)
@@ -34,8 +40,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	 */
 	@Override
 	public void updateCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-
+		CustomerDB.customerMap.put(customer.getCustomerId(), customer);
 	}
 
 	/* (non-Javadoc)
@@ -43,8 +48,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	 */
 	@Override
 	public void deleteCustomer(Long customerId) {
-		// TODO Auto-generated method stub
-
+		CustomerDB.customerMap.remove(customerId);
 	}
 
 }

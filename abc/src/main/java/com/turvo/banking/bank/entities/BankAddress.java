@@ -1,7 +1,7 @@
 /**
- * 
+ * BankAddress Entity
  */
-package com.turvo.banking.entities;
+package com.turvo.banking.bank.entities;
 
 /**
  * @author anushm

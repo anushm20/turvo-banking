@@ -1,5 +1,5 @@
 /**
- * 
+ *  Contains Database classes for Customer Token
  */
 /**
  * @author anushm

@@ -1,5 +1,5 @@
 /**
- * 
+ * Customer Entity
  */
 package com.turvo.banking.customer.entities;
 

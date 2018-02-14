@@ -1,11 +1,11 @@
 /**
  * Used for CRUD operations on Banking services
  */
-package com.turvo.banking.services;
+package com.turvo.banking.bank.services;
 
 import java.util.List;
 
-import com.turvo.banking.entities.BankService;
+import com.turvo.banking.bank.entities.BankService;
 
 /**
  * @author anushm

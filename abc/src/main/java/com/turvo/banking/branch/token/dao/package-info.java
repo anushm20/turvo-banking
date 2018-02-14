@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains DAO classes for Customer Token
  */
 /**
  * @author anushm

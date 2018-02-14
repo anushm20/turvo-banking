@@ -1,11 +1,11 @@
 /**
  * DAO interface for BankService
  */
-package com.turvo.banking.dao;
+package com.turvo.banking.bank.dao;
 
 import java.util.List;
 
-import com.turvo.banking.entities.BankService;
+import com.turvo.banking.bank.entities.BankService;
 
 /**
  * @author anushm

@@ -1,5 +1,5 @@
 /**
- * 
+ * Database class for customer Database
  */
 package com.turvo.banking.customer.database;
 
@@ -14,6 +14,7 @@ import com.turvo.banking.customer.entities.Customer;
  */
 public class CustomerDB {
 	
-	static Map<Long,Customer> customerMap = new HashMap<>();
+	public static Long customerId = 1L;
+	public static Map<Long,Customer> customerMap = new HashMap<>();
 
 }

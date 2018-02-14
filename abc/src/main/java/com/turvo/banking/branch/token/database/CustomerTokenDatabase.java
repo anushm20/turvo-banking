@@ -1,5 +1,5 @@
 /**
- * 
+ * Database class for Customer Token 
  */
 package com.turvo.banking.branch.token.database;
 
@@ -13,6 +13,7 @@ import com.turvo.banking.branch.token.entities.CustomerToken;
  *
  */
 public class CustomerTokenDatabase {
-
-	static Map<Long, CustomerToken> customerTokenMap = new HashMap<>();
+	
+	public static Long customerTokenId = 1L;
+	public static Map<Long, CustomerToken> customerTokenMap = new HashMap<>();
 }

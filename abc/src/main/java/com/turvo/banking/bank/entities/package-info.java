@@ -6,4 +6,4 @@
  * @author anushm
  *
  */
-package com.turvo.banking.entities;
+package com.turvo.banking.bank.entities;

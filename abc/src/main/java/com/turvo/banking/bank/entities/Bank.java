@@ -3,13 +3,19 @@
  */
 package com.turvo.banking.bank.entities;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author anushm
  *
  */
 public class Bank {
+	
+	@ApiModelProperty(notes = "Name of the bank")
 	private String Name;
+	@ApiModelProperty(notes = "Address of the Main branch of the bank")
 	private BankAddress rootBankLocation;
+	@ApiModelProperty(notes = "Unqiue code given to the bank")
 	private int bankCode;
 	
 	public String getName() {

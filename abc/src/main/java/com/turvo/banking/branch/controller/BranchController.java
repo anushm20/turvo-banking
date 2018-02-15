@@ -18,21 +18,28 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
 import com.turvo.banking.branch.services.BranchServices;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author anushm
  *
  */
 @RestController
+@Api(description="API's to map Service to "
+		+ "service counters in branch of a bank")
 public class BranchController {
 	
 	@Autowired
 	BranchServices branchServices;
 
+	@ApiOperation(value = "Get list of Service Counter Id's for a given bank service", response = List.class)
 	@GetMapping("/countermapping/{id}")
 	public List<Long> getServiceCountersForService(@PathVariable("id") Long serviceId) {
 		return branchServices.getServiceCountersForService(serviceId);
 	}
 	
+	@ApiOperation(value = "Map a service to a service counter in branch of a bank", response = HttpStatus.class)
 	@PostMapping(path="/countermappings",consumes = "application/json")
 	public HttpStatus createServiceCounterMapping
 				(@RequestBody ServiceToServiceCounterMapping mapping){
@@ -40,6 +47,7 @@ public class BranchController {
 		return HttpStatus.CREATED;
 	}
 	
+	@ApiOperation(value = "Update a service to a service counter in branch of a bank", response = HttpStatus.class)
 	@PutMapping("/countermapping/{id}")
 	public HttpStatus updateServiceCounterMapping(@PathVariable("id") Long serviceId,
 				@RequestBody ServiceToServiceCounterMapping mapping){
@@ -47,6 +55,7 @@ public class BranchController {
 		return HttpStatus.OK;
 	}
 	
+	@ApiOperation(value = "Delete a service to a service counter in branch of a bank", response = HttpStatus.class)
 	@DeleteMapping("/countermapping/{id}")
 	public HttpStatus deleteServiceCounterMapping(@PathVariable("id") Long serviceId) {
 		branchServices.deleteServiceToServiceCounterMapping(serviceId);

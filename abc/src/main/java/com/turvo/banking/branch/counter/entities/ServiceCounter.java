@@ -7,15 +7,21 @@ import java.util.PriorityQueue;
 
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author anushm
  *
  */
 public class ServiceCounter {
 	
+	@ApiModelProperty(notes = "Database Generated ID for Service Counter")
 	private Long serviceCounterId;
+	@ApiModelProperty(notes = "Service which Service counter can serve",required=true)
 	private Long serviceId;
+	@ApiModelProperty(notes = "Type of the Service Counter", required = true)
 	private CounterType counterType;
+	@ApiModelProperty(notes = "Priority Queue to manage the tokens in the counter")
 	private PriorityQueue<CustomerToken> tokenQueue;
 	
 	public Long getServiceCounterId() {

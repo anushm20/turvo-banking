@@ -5,16 +5,23 @@ package com.turvo.banking.customer.entities;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author anushm
  *
  */
 public class Customer {
-	
+	@ApiModelProperty(notes = "ID generated internally and used for"
+			+ "future communications")
 	private Long customerId;
+	@ApiModelProperty(notes = "Name of the customer",required=true)
 	private String name;
+	@ApiModelProperty(notes = "Type of the customer", required=true)
 	private CustomerType type;
+	@ApiModelProperty(notes = "Addresses of the customer(atleast one)",required=true)
 	private List<CustomerAddress> addresses;
+	@ApiModelProperty(notes = "Phone Number of the customer",required=true)
 	private long phoneNumber;
 	
 	public Long getCustomerId() {

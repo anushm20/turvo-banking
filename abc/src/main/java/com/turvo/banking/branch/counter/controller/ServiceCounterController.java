@@ -26,11 +26,15 @@ import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author anushm
  *
  */
 @RestController
+@Api(description="API's to create service counters in branch of a bank")
 public class ServiceCounterController {
 	
 	@Autowired
@@ -39,11 +43,13 @@ public class ServiceCounterController {
 	@Autowired
 	ServiceCounterOperator operator;
 	
+	@ApiOperation(value = "View a given Bank Service Counter", response = ServiceCounter.class)
 	@GetMapping("/servicecounter/{id}")
 	public ServiceCounter getServiceCounter(@PathVariable("id") Long id) {
 		return counterService.getServiceCounterById(id);
 	}
 	
+	@ApiOperation(value = "Create a new Bank Service Counter", response = HttpStatus.class)
 	@PostMapping(path="/servicecounters",consumes = "application/json")
 	public HttpStatus createServiceCounter(@RequestBody ServiceCounter counter){
 		// Set priority Queue for each counter
@@ -53,6 +59,7 @@ public class ServiceCounterController {
 		return HttpStatus.CREATED;
 	}
 	
+	@ApiOperation(value = "Update a Bank Service Counter", response = HttpStatus.class)
 	@PutMapping("/servicecounter/{id}")
 	public HttpStatus updateServiceCounter(@PathVariable("id") Long id,
 				@RequestBody ServiceCounter counter){
@@ -62,12 +69,14 @@ public class ServiceCounterController {
 		return HttpStatus.OK;
 	}
 	
+	@ApiOperation(value = "Delete a Bank Service Counter", response = HttpStatus.class)
 	@DeleteMapping("/servicecounter/{id}")
 	public HttpStatus deleteServiceCounter(@PathVariable("id") Long id) {
 		counterService.deleteServiceCounter(id);
 		return HttpStatus.OK;
 	}
 	
+	@ApiOperation(value = "View list of tokens available at a Service Counter", response = List.class)
 	@GetMapping("/servicecounter/{id}/tokens")
 	public List<Long> getTokensAtCounter(@PathVariable("id") Long id){
 		List<Long> tokens = new ArrayList<>();
@@ -79,6 +88,7 @@ public class ServiceCounterController {
 		return tokens;
 	}
 	
+	@ApiOperation(value = "Take an action aganist a token in a Service Counter", response = HttpStatus.class)
 	@GetMapping("/servicecounter/{id}/token/{action}")
 	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
 			@PathVariable("action") String action) {

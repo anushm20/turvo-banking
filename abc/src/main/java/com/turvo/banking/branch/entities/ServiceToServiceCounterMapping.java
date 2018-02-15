@@ -5,13 +5,18 @@ package com.turvo.banking.branch.entities;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author anushm
  *
  */
 public class ServiceToServiceCounterMapping {
 	
+	@ApiModelProperty(notes = "Service ID of the bank", required=true)
 	private Long serviceId;
+	@ApiModelProperty(notes = "List of service counters which can "
+			+ "		serve the service", required=true)
 	private List<Long> serviceCounters;
 	
 	public Long getServiceId() {

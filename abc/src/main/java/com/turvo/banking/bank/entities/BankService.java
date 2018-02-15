@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.bank.entities;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author anushm
  *
@@ -10,7 +12,9 @@ package com.turvo.banking.bank.entities;
 
 public class BankService {
 	
+	@ApiModelProperty(notes = "The database generated Service ID")
 	private Long serviceId;
+	@ApiModelProperty(notes = "Name of the service in Bank say Deposit etc",required=true)
 	private String serviceName;
 
 	public Long getServiceId() {

@@ -16,27 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.services.CustomerTokenService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author anushm
  *
  */
 @RestController
+@Api(description="API's to create customer tokens in a bank")
 public class CustomerTokenController {
 	
 	@Autowired
 	CustomerTokenService tokenService;
 	
+	@ApiOperation(value = "View a customer Token Details", response = CustomerToken.class)
 	@GetMapping("/token/{id}")
 	public CustomerToken getCustomerToken(@PathVariable("id") Long tokenId) {
 		return tokenService.getCustomerTokenByNumber(tokenId);
 	}
 	
+	@ApiOperation(value = "Create a new Customer token", response = HttpStatus.class)
 	@PostMapping(path="/tokens",consumes = "application/json")
 	public HttpStatus createCustomerToken(@RequestBody CustomerToken token){
 		Long id = tokenService.createCustomerToken(token);
 		return HttpStatus.CREATED;
 	}
 	
+	@ApiOperation(value = "Update a new Customer token", response = HttpStatus.class)
 	@PutMapping("/token/{id}")
 	public HttpStatus updateCustomerToken(@PathVariable("id") Long id,
 				@RequestBody CustomerToken token){
@@ -44,6 +51,7 @@ public class CustomerTokenController {
 		return HttpStatus.OK;
 	}
 	
+	@ApiOperation(value = "Delete a new Customer token", response = HttpStatus.class)
 	@DeleteMapping("/token/{id}")
 	public HttpStatus deleteCustomerToken(@PathVariable("id") Long id) {
 		tokenService.deleteCustomerToken(id);

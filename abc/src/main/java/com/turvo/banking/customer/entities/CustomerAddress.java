@@ -3,18 +3,27 @@
  */
 package com.turvo.banking.customer.entities;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author anushm
  *
  */
 public class CustomerAddress {
 
+	@ApiModelProperty(notes = "Address type(communication/permanent)")
 	private CustomerAddressType addressType;	
+	@ApiModelProperty(notes = "Address of the customer")
 	private String addressLine1;
+	@ApiModelProperty(notes = "Address of the customer")
 	private String addressLine2;
+	@ApiModelProperty(notes = "Postal code of the customer")
 	private String postalCode;
+	@ApiModelProperty(notes = "City of the customer")
 	private String city;
+	@ApiModelProperty(notes = "State of the customer")
 	private String state;
+	@ApiModelProperty(notes = "Country of the customer")
 	private String country;
 	
 	public CustomerAddressType getAddressType() {

@@ -5,6 +5,7 @@ package com.turvo.banking.branch.token.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,9 +39,9 @@ public class CustomerTokenController {
 	
 	@ApiOperation(value = "Create a new Customer token", response = HttpStatus.class)
 	@PostMapping(path="/tokens",consumes = "application/json")
-	public HttpStatus createCustomerToken(@RequestBody CustomerToken token){
+	public ResponseEntity<Long> createCustomerToken(@RequestBody CustomerToken token){
 		Long id = tokenService.createCustomerToken(token);
-		return HttpStatus.CREATED;
+		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Update a new Customer token", response = HttpStatus.class)

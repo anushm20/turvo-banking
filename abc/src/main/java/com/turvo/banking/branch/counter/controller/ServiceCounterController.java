@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,12 +52,12 @@ public class ServiceCounterController {
 	
 	@ApiOperation(value = "Create a new Bank Service Counter", response = HttpStatus.class)
 	@PostMapping(path="/servicecounters",consumes = "application/json")
-	public HttpStatus createServiceCounter(@RequestBody ServiceCounter counter){
+	public ResponseEntity<Long> createServiceCounter(@RequestBody ServiceCounter counter){
 		// Set priority Queue for each counter
 		PriorityQueue<CustomerToken> queue = new PriorityQueue<>(new CustomerTokenComparator());
 		counter.setTokenQueue(queue);
 		Long id = counterService.createServiceCounter(counter);
-		return HttpStatus.CREATED;
+		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Update a Bank Service Counter", response = HttpStatus.class)

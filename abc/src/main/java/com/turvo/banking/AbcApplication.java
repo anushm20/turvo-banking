@@ -3,7 +3,6 @@ package com.turvo.banking;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -16,8 +15,7 @@ import com.turvo.banking.branch.token.services.CustomerTokenHelper;
 public class AbcApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = 
-				SpringApplication.run(AbcApplication.class, args);
+			SpringApplication.run(AbcApplication.class, args);
 	}
 	
 	@Bean

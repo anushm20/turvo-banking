@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.bank.entities;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -18,6 +20,8 @@ public class BankService {
 	@Id
 	@ApiModelProperty(notes = "The database generated Service ID")
 	private Long serviceId;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Name of the service in Bank say Deposit etc",required=true)
 	private String serviceName;
 

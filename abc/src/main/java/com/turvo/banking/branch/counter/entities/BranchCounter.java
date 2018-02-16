@@ -5,6 +5,8 @@ package com.turvo.banking.branch.counter.entities;
 
 import java.util.PriorityQueue;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -22,10 +24,15 @@ public class BranchCounter {
 	@Id
 	@ApiModelProperty(notes = "Database Generated ID for Service Counter")
 	private Long serviceCounterId;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Service which Service counter can serve",required=true)
 	private Long serviceId;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Type of the Service Counter", required = true)
 	private CounterType counterType;
+	
 	@ApiModelProperty(notes = "Priority Queue to manage the tokens in the counter")
 	private PriorityQueue<CustomerToken> tokenQueue;
 	

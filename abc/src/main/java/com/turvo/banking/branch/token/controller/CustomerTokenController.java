@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.branch.token.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,7 @@ public class CustomerTokenController {
 	
 	@ApiOperation(value = "Create a new Customer token", response = HttpStatus.class)
 	@PostMapping(path="/tokens",consumes = "application/json")
-	public ResponseEntity<Long> createCustomerToken(@RequestBody CustomerToken token){
+	public ResponseEntity<Long> createCustomerToken(@Valid @RequestBody CustomerToken token){
 		Long id = tokenService.createCustomerToken(token);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
@@ -47,7 +49,7 @@ public class CustomerTokenController {
 	@ApiOperation(value = "Update a new Customer token", response = HttpStatus.class)
 	@PutMapping("/token/{id}")
 	public HttpStatus updateCustomerToken(@PathVariable("id") Long id,
-				@RequestBody CustomerToken token){
+				@Valid @RequestBody CustomerToken token){
 		tokenService.updateCustomerToken(token);
 		return HttpStatus.OK;
 	}

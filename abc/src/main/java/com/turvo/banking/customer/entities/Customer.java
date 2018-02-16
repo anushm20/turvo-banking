@@ -5,6 +5,8 @@ package com.turvo.banking.customer.entities;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -16,16 +18,24 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @RedisHash("customers")
 public class Customer {
+	
 	@Id
 	@ApiModelProperty(notes = "ID generated internally and used for"
 			+ "future communications")
 	private Long customerId;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Name of the customer",required=true)
 	private String name;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Type of the customer", required=true)
 	private CustomerType type;
+	
 	@ApiModelProperty(notes = "Addresses of the customer(atleast one)",required=true)
 	private List<CustomerAddress> addresses;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Phone Number of the customer",required=true)
 	private long phoneNumber;
 	

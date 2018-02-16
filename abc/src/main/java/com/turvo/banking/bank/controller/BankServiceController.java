@@ -5,6 +5,8 @@ package com.turvo.banking.bank.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +49,7 @@ public class BankServiceController {
 	
 	@ApiOperation(value = "Create a new Bank Service", response = HttpStatus.class)
 	@PostMapping(path="/bankservices",consumes = "application/json")
-	public ResponseEntity<Long> createBankService(@RequestBody BankService service){
+	public ResponseEntity<Long> createBankService(@Valid @RequestBody BankService service){
 		Long id = bankServices.createBankService(service);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
@@ -55,7 +57,7 @@ public class BankServiceController {
 	@PutMapping("/bankservices/{id}")
 	@ApiOperation(value = "Update a Bank Service", response = HttpStatus.class)
 	public HttpStatus updateBankService(@PathVariable("id") Long id,
-				@RequestBody BankService service){
+				@Valid @RequestBody BankService service){
 		bankServices.updateBankService(service);
 		return HttpStatus.OK;
 	}

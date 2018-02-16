@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.customer.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,7 @@ public class CustomerController {
 	
 	@ApiOperation(value = "Create a new Customer", response = HttpStatus.class)
 	@PostMapping(path="/customers",consumes = "application/json")
-	public ResponseEntity<Long> createCustomer(@RequestBody Customer customer){
+	public ResponseEntity<Long> createCustomer(@Valid @RequestBody Customer customer){
 		Long id = customerService.createCustomer(customer);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
@@ -47,7 +49,7 @@ public class CustomerController {
 	@ApiOperation(value = "Update Customer details", response = HttpStatus.class)
 	@PutMapping("/customer/{id}")
 	public HttpStatus updateCustomer(@PathVariable("id") Long id,
-				@RequestBody Customer customer){
+				@Valid @RequestBody Customer customer){
 		customerService.updateCustomer(customer);
 		return HttpStatus.OK;
 	}

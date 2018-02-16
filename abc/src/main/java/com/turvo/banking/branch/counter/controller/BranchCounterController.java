@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,37 +45,38 @@ public class BranchCounterController {
 	@Autowired
 	BranchCounterOperator operator;
 	
-	@ApiOperation(value = "View a given Bank Service Counter", response = BranchCounter.class)
+	@ApiOperation(value = "View a given Branch Service Counter", response = BranchCounter.class)
 	@GetMapping("/servicecounter/{id}")
-	public BranchCounter getServiceCounter(@PathVariable("id") Long id) {
+	public BranchCounter getBranchCounter(@PathVariable("id") Long id) {
 		return counterService.getServiceCounterById(id);
 	}
 	
-	@ApiOperation(value = "Create a new Bank Service Counter", response = HttpStatus.class)
+	@ApiOperation(value = "Create a new Branch Service Counter", response = HttpStatus.class)
 	@PostMapping(path="/servicecounters",consumes = "application/json")
-	public ResponseEntity<Long> createServiceCounter(@RequestBody BranchCounter counter){
+	public ResponseEntity<Long> createBranchCounter(@Valid @RequestBody BranchCounter counter){
 		Long id = counterService.createServiceCounter(counter);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Update a Bank Service Counter", response = HttpStatus.class)
+	@ApiOperation(value = "Update a Branch Service Counter", response = HttpStatus.class)
 	@PutMapping("/servicecounter/{id}")
-	public HttpStatus updateServiceCounter(@PathVariable("id") Long id,
-				@RequestBody BranchCounter counter){
+	public HttpStatus updateBranchCounter(@PathVariable("id") Long id,
+				@Valid @RequestBody BranchCounter counter){
 		BranchCounter dbCounter = counterService.getServiceCounterById(id);
 		counter.setTokenQueue(dbCounter.getTokenQueue());
 		counterService.updateServiceCounter(counter);
 		return HttpStatus.OK;
 	}
 	
-	@ApiOperation(value = "Delete a Bank Service Counter", response = HttpStatus.class)
+	@ApiOperation(value = "Delete a Branch Service Counter", response = HttpStatus.class)
 	@DeleteMapping("/servicecounter/{id}")
-	public HttpStatus deleteServiceCounter(@PathVariable("id") Long id) {
+	public HttpStatus deleteBranchCounter(@PathVariable("id") Long id) {
 		counterService.deleteServiceCounter(id);
 		return HttpStatus.OK;
 	}
 	
-	@ApiOperation(value = "View list of tokens available at a Service Counter", response = List.class)
+	@ApiOperation(value = "View list of tokens available at a "
+			+ "Branch Service Counter", response = List.class)
 	@GetMapping("/servicecounter/{id}/tokens")
 	public List<Long> getTokensAtCounter(@PathVariable("id") Long id){
 		List<Long> tokens = new ArrayList<>();
@@ -85,7 +88,8 @@ public class BranchCounterController {
 		return tokens;
 	}
 	
-	@ApiOperation(value = "Take an action aganist a token in a Service Counter", response = HttpStatus.class)
+	@ApiOperation(value = "Take an action aganist a token in a "
+			+ "	Branch Service Counter", response = HttpStatus.class)
 	@GetMapping("/servicecounter/{id}/token/{action}")
 	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
 			@PathVariable("action") String action) {

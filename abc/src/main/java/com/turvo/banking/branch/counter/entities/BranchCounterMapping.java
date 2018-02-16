@@ -5,6 +5,8 @@ package com.turvo.banking.branch.counter.entities;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -20,6 +22,8 @@ public class BranchCounterMapping {
 	@Id
 	@ApiModelProperty(notes = "Service ID of the bank", required=true)
 	private Long serviceId;
+	
+	@NotNull
 	@ApiModelProperty(notes = "List of service counters which can "
 			+ "		serve the service", required=true)
 	private List<Long> serviceCounters;

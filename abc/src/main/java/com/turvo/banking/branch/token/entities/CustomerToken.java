@@ -6,6 +6,8 @@ package com.turvo.banking.branch.token.entities;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -21,14 +23,22 @@ public class CustomerToken implements Comparable<CustomerToken>{
 	@Id
 	@ApiModelProperty(notes = "Token Number(Generated internally)")
 	private Long number;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Customer ID who came for the services",required=true)
 	private Long customerId ;
+	
+	@NotNull
 	@ApiModelProperty(notes = "Type of the customer(Premium/Non-Premium",required=true)
 	private String customerType;
+	
 	@ApiModelProperty(notes = "Notes that can be added at service counter(s)")
 	private String comments;
+	
 	@ApiModelProperty(notes = "Current Status of the token ")
 	private TokenStatus status;
+	
+	@NotNull
 	@ApiModelProperty(notes = "List of services opted by customer")
 	private List<Long> services;
 	

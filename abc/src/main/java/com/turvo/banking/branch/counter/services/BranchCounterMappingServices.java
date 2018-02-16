@@ -1,17 +1,17 @@
 /**
  * Service Interface for Branch Operations
  */
-package com.turvo.banking.branch.services;
+package com.turvo.banking.branch.counter.services;
 
 import java.util.List;
 
-import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
+import com.turvo.banking.branch.counter.entities.BranchCounterMapping;
 
 /**
  * @author anushm
  *
  */
-public interface BranchServices {
+public interface BranchCounterMappingServices {
 	
 	/**
 	 * Get list of counters for a service in a branch
@@ -24,13 +24,13 @@ public interface BranchServices {
 	 * Method to create a mapping for service and service counter
 	 * @param mapping
 	 */
-	void createServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping);
+	void createServiceToServiceCounterMapping(BranchCounterMapping mapping);
 
 	/**
 	 * Method to update a mapping for service and service counter
 	 * @param mapping
 	 */
-	void updateServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping);
+	void updateServiceToServiceCounterMapping(BranchCounterMapping mapping);
 
 	/**
 	 * Method to delete a mapping for service and service counter

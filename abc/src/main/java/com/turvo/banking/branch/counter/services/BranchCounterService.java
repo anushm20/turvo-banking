@@ -6,14 +6,14 @@ package com.turvo.banking.branch.counter.services;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import com.turvo.banking.branch.counter.entities.ServiceCounter;
+import com.turvo.banking.branch.counter.entities.BranchCounter;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
 /**
  * @author anushm
  *
  */
-public interface ServiceCounterService {
+public interface BranchCounterService {
 	
 	/**
 	 * Get all premimum service counters in a branch
@@ -26,7 +26,7 @@ public interface ServiceCounterService {
 	 * @param counterId
 	 * @return Service counter object
 	 */
-	ServiceCounter getServiceCounterById(Long counterId);
+	BranchCounter getServiceCounterById(Long counterId);
 	
 	/**
 	 * Get Queue for a particular service counter
@@ -39,13 +39,13 @@ public interface ServiceCounterService {
 	 * Method to Create a service counter 
 	 * @param counter
 	 */
-	Long createServiceCounter(ServiceCounter counter);
+	Long createServiceCounter(BranchCounter counter);
 	
 	/**
 	 * Method to update a service counter
 	 * @param counter
 	 */
-	void updateServiceCounter(ServiceCounter counter);
+	void updateServiceCounter(BranchCounter counter);
 	
 	/**
 	 * Method to delete a service counter

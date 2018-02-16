@@ -8,9 +8,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.services.ServiceCounterService;
-import com.turvo.banking.branch.services.BranchServices;
+import com.turvo.banking.branch.counter.entities.BranchCounter;
+import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
+import com.turvo.banking.branch.counter.services.BranchCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
 /**
@@ -18,13 +18,13 @@ import com.turvo.banking.branch.token.entities.CustomerToken;
  *
  */
 @Component("REGULARServiceCounter")
-public class RegularServiceCounter implements ServiceCounterType {
+public class RegularCounterTokenPicker implements BranchCounterTokenPicker {
 
 	@Autowired
-	BranchServices branchServices;
+	BranchCounterMappingServices branchCounterMappingServices;
 	
 	@Autowired
-	ServiceCounterService counterServices;
+	BranchCounterService counterServices;
 	
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.counter.operations.ServiceCounterType#updateServiceCounterQueue(com.turvo.banking.branch.token.entities.CustomerToken)
@@ -34,10 +34,10 @@ public class RegularServiceCounter implements ServiceCounterType {
 		List<Long> services = token.getServices();
 		for (Long serviceId : services) {
 			// Get Service Counters for the services
-			List<Long> counters = branchServices.getServiceCountersForService(serviceId);
-			ServiceCounter counter = counterServices.getServiceCounterById
+			List<Long> counters = branchCounterMappingServices.getServiceCountersForService(serviceId);
+			BranchCounter counter = counterServices.getServiceCounterById
 					(counters.get(0));
-			ServiceCounterUtil.updateServiceCounterQueue
+			BranchCounterUtil.updateServiceCounterQueue
 				(token, counter);
 			counterServices.updateServiceCounter(counter);
 		}

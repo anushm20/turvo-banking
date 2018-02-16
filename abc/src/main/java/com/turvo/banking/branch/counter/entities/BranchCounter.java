@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @RedisHash("servicecounters")
-public class ServiceCounter {
+public class BranchCounter {
 	
 	@Id
 	@ApiModelProperty(notes = "Database Generated ID for Service Counter")

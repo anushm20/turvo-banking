@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
-import com.turvo.banking.branch.counter.operations.ServiceCounterListener;
+import com.turvo.banking.branch.counter.operations.BranchCounterTokenAssigner;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
 
 @SpringBootApplication
@@ -22,7 +22,7 @@ public class AbcApplication {
 	@Bean
 	public  CustomerTokenHelper customTokenHelper() {
 		CustomerTokenHelper helper = new CustomerTokenHelper();
-		ServiceCounterListener listener = new ServiceCounterListener(helper);
+		BranchCounterTokenAssigner listener = new BranchCounterTokenAssigner(helper);
 		helper.addObserver(listener);
 		return helper;
 	}

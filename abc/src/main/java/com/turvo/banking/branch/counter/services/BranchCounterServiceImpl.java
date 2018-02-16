@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turvo.banking.branch.counter.entities.CounterType;
-import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.repositories.ServiceCounterRepository;
+import com.turvo.banking.branch.counter.entities.BranchCounter;
+import com.turvo.banking.branch.counter.repositories.BranchCounterRepository;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.common.services.SequencesServices;
 
@@ -22,10 +22,10 @@ import com.turvo.banking.common.services.SequencesServices;
  *
  */
 @Service
-public class ServiceCounterServiceImpl implements ServiceCounterService {
+public class BranchCounterServiceImpl implements BranchCounterService {
 	
 	@Autowired
-	ServiceCounterRepository counterRepo;
+	BranchCounterRepository counterRepo;
 	
 	@Autowired
 	SequencesServices sequenceService;
@@ -33,7 +33,7 @@ public class ServiceCounterServiceImpl implements ServiceCounterService {
 	@Override
 	public List<Long> getPremiumServiceCounters() {
 		List<Long> counters = new ArrayList<>();
-		counterRepo.findAll().forEach((ServiceCounter counter)->{
+		counterRepo.findAll().forEach((BranchCounter counter)->{
 			if(CounterType.PREMIUM.toString().equals
 						(counter.getCounterType().toString())) {
 				counters.add(counter.getServiceCounterId());
@@ -43,7 +43,7 @@ public class ServiceCounterServiceImpl implements ServiceCounterService {
 	}
 	
 	@Override
-	public ServiceCounter getServiceCounterById(Long counterId) {
+	public BranchCounter getServiceCounterById(Long counterId) {
 		return counterRepo.findOne(counterId);
 	}
 
@@ -52,7 +52,7 @@ public class ServiceCounterServiceImpl implements ServiceCounterService {
 	 */
 	@Override
 	public PriorityQueue<CustomerToken> getQueueForServiceCounter(Long counterId) {
-		ServiceCounter counter = getServiceCounterById(counterId);
+		BranchCounter counter = getServiceCounterById(counterId);
 		if(Objects.nonNull(counter))
 			return counter.getTokenQueue();
 		else 
@@ -63,7 +63,7 @@ public class ServiceCounterServiceImpl implements ServiceCounterService {
 	 * @see com.turvo.banking.branch.counter.services.ServiceCounterService#createQueueForServiceCounter(com.turvo.banking.branch.counter.entities.ServiceCounter)
 	 */
 	@Override
-	public Long createServiceCounter(ServiceCounter counter) {
+	public Long createServiceCounter(BranchCounter counter) {
 		counter.setServiceCounterId(sequenceService.getSequenceForEntity("servicecounters"));
 		counterRepo.save(counter);
 		return counter.getServiceCounterId();
@@ -73,7 +73,7 @@ public class ServiceCounterServiceImpl implements ServiceCounterService {
 	 * @see com.turvo.banking.branch.counter.services.ServiceCounterService#updateQueueForServiceCounter(com.turvo.banking.branch.counter.entities.ServiceCounter)
 	 */
 	@Override
-	public void updateServiceCounter(ServiceCounter counter) {
+	public void updateServiceCounter(BranchCounter counter) {
 		counterRepo.save(counter);
 	}
 

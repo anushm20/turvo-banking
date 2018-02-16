@@ -15,7 +15,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.turvo.banking.AbcApplication;
-import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
+import com.turvo.banking.branch.counter.entities.BranchCounterMapping;
+import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
 
 /**
  * @author anushm
@@ -26,15 +27,15 @@ import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
 public class BranchServiceTest {
 	
 	@Autowired
-	BranchServices branchServices;
+	BranchCounterMappingServices branchCounterMappingServices;
 
 	@Test
 	public void createBranchService() {
-		ServiceToServiceCounterMapping mapping = new ServiceToServiceCounterMapping();
+		BranchCounterMapping mapping = new BranchCounterMapping();
 		mapping.setServiceId(1L);
 		mapping.setServiceCounters(Arrays.asList(new Long[] {1L,2L}));
-		branchServices.createServiceToServiceCounterMapping(mapping);
-		List<Long> counters = branchServices.getServiceCountersForService(1L);
+		branchCounterMappingServices.createServiceToServiceCounterMapping(mapping);
+		List<Long> counters = branchCounterMappingServices.getServiceCountersForService(1L);
 		assertEquals(counters, mapping.getServiceCounters());
 	}
 }

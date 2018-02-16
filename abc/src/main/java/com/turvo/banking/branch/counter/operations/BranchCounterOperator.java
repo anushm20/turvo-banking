@@ -11,9 +11,9 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.services.ServiceCounterService;
-import com.turvo.banking.branch.services.BranchServices;
+import com.turvo.banking.branch.counter.entities.BranchCounter;
+import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
+import com.turvo.banking.branch.counter.services.BranchCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 import com.turvo.banking.branch.token.services.CustomerTokenService;
@@ -24,13 +24,13 @@ import com.turvo.banking.customer.entities.CustomerType;
  *
  */
 @Component
-public class ServiceCounterOperator {
+public class BranchCounterOperator {
 	
 	@Autowired
-	ServiceCounterService counterService;
+	BranchCounterService counterService;
 	
 	@Autowired
-	BranchServices branchServices;
+	BranchCounterMappingServices branchCounterMappingServices;
 	
 	@Autowired
 	CustomerTokenService tokenService;
@@ -39,8 +39,8 @@ public class ServiceCounterOperator {
 		// Action Completed
 		// Check for Multi-counter service & Customer Priority
 		// For priority customer all services will be handled at one counter only
-		ServiceCounter counter = counterService.getServiceCounterById(counterId);
-		List<Long> counters = branchServices.getServiceCountersForService(counter.getServiceId());
+		BranchCounter counter = counterService.getServiceCounterById(counterId);
+		List<Long> counters = branchCounterMappingServices.getServiceCountersForService(counter.getServiceId());
 		if(Objects.nonNull(counters) && counters.size() > 1 && 
 				CustomerType.REGULAR.toString().equalsIgnoreCase(token.getCustomerType())) {
 			// Yes 
@@ -56,7 +56,7 @@ public class ServiceCounterOperator {
 				}
 			}
 			// Insert the token into next priority queue 
-			ServiceCounter nextServiceCounter = counterService.getServiceCounterById(nextCounter);
+			BranchCounter nextServiceCounter = counterService.getServiceCounterById(nextCounter);
 			nextServiceCounter.getTokenQueue().add(token);
 			//Remove the token at current queue
 			counter.getTokenQueue().remove(token);

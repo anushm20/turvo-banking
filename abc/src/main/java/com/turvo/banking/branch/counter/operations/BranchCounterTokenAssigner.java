@@ -15,8 +15,8 @@ import java.util.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.services.ServiceCounterService;
-import com.turvo.banking.branch.services.BranchServices;
+import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
+import com.turvo.banking.branch.counter.services.BranchCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
 import com.turvo.banking.common.ApplicationContextProvider;
@@ -26,20 +26,20 @@ import com.turvo.banking.common.ApplicationContextProvider;
  *
  */
 @Component
-public class ServiceCounterListener implements Observer {
+public class BranchCounterTokenAssigner implements Observer {
 	
 	@Autowired
-	ServiceCounterService counterServices;
+	BranchCounterService counterServices;
 	
 	@Autowired
-	BranchServices branchServices;
+	BranchCounterMappingServices branchCounterMappingServices;
 	
 	private CustomerTokenHelper helper = null;
 	
-	public ServiceCounterListener() {
+	public BranchCounterTokenAssigner() {
 	}
 	
-	public ServiceCounterListener(CustomerTokenHelper helper) {
+	public BranchCounterTokenAssigner(CustomerTokenHelper helper) {
 		this.helper = helper;
 	}
 	
@@ -59,7 +59,7 @@ public class ServiceCounterListener implements Observer {
 		// Based on Customer Type respective service counter 
 		// will be picked automatically
 		if(token.getCustomerType() != null && !token.getCustomerType().isEmpty()) {
-			ServiceCounterType  counterType = (ServiceCounterType)ApplicationContextProvider.
+			BranchCounterTokenPicker  counterType = (BranchCounterTokenPicker)ApplicationContextProvider.
 					getApplicationContext().getBean(token.getCustomerType()+"ServiceCounter");
 			counterType.updateServiceCounterQueue(token);
 		}

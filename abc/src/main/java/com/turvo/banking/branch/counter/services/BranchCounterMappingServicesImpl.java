@@ -1,25 +1,25 @@
 /**
  * Implementation for service interface for branch operations
  */
-package com.turvo.banking.branch.services;
+package com.turvo.banking.branch.counter.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
-import com.turvo.banking.branch.repositories.BranchRepository;
+import com.turvo.banking.branch.counter.entities.BranchCounterMapping;
+import com.turvo.banking.branch.counter.repositories.BranchCounterMappingRepository;
 
 /**
  * @author anushm
  *
  */
 @Service
-public class BranchServicesImpl implements BranchServices {
+public class BranchCounterMappingServicesImpl implements BranchCounterMappingServices {
 	
 	@Autowired
-	BranchRepository branchRepo;
+	BranchCounterMappingRepository branchRepo;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.services.BranchServices#getServiceCountersForService(java.lang.Long)
@@ -33,7 +33,7 @@ public class BranchServicesImpl implements BranchServices {
 	 * @see com.turvo.banking.branch.services.BranchServices#createServiceToServiceCounterMapping(com.turvo.banking.branch.entities.ServiceToServiceCounterMapping)
 	 */
 	@Override
-	public void createServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping) {
+	public void createServiceToServiceCounterMapping(BranchCounterMapping mapping) {
 		branchRepo.save(mapping);
 	}
 
@@ -41,7 +41,7 @@ public class BranchServicesImpl implements BranchServices {
 	 * @see com.turvo.banking.branch.services.BranchServices#updateServiceToServiceCounterMapping(com.turvo.banking.branch.entities.ServiceToServiceCounterMapping)
 	 */
 	@Override
-	public void updateServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping) {
+	public void updateServiceToServiceCounterMapping(BranchCounterMapping mapping) {
 		branchRepo.save(mapping);
 	}
 

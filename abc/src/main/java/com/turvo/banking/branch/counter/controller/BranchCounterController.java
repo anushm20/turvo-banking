@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.operations.ServiceCounterOperator;
-import com.turvo.banking.branch.counter.services.ServiceCounterService;
+import com.turvo.banking.branch.counter.entities.BranchCounter;
+import com.turvo.banking.branch.counter.operations.BranchCounterOperator;
+import com.turvo.banking.branch.counter.services.BranchCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 
@@ -35,23 +35,23 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(description="API's to create service counters in branch of a bank")
-public class ServiceCounterController {
+public class BranchCounterController {
 	
 	@Autowired
-	ServiceCounterService counterService;
+	BranchCounterService counterService;
 	
 	@Autowired
-	ServiceCounterOperator operator;
+	BranchCounterOperator operator;
 	
-	@ApiOperation(value = "View a given Bank Service Counter", response = ServiceCounter.class)
+	@ApiOperation(value = "View a given Bank Service Counter", response = BranchCounter.class)
 	@GetMapping("/servicecounter/{id}")
-	public ServiceCounter getServiceCounter(@PathVariable("id") Long id) {
+	public BranchCounter getServiceCounter(@PathVariable("id") Long id) {
 		return counterService.getServiceCounterById(id);
 	}
 	
 	@ApiOperation(value = "Create a new Bank Service Counter", response = HttpStatus.class)
 	@PostMapping(path="/servicecounters",consumes = "application/json")
-	public ResponseEntity<Long> createServiceCounter(@RequestBody ServiceCounter counter){
+	public ResponseEntity<Long> createServiceCounter(@RequestBody BranchCounter counter){
 		Long id = counterService.createServiceCounter(counter);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
@@ -59,8 +59,8 @@ public class ServiceCounterController {
 	@ApiOperation(value = "Update a Bank Service Counter", response = HttpStatus.class)
 	@PutMapping("/servicecounter/{id}")
 	public HttpStatus updateServiceCounter(@PathVariable("id") Long id,
-				@RequestBody ServiceCounter counter){
-		ServiceCounter dbCounter = counterService.getServiceCounterById(id);
+				@RequestBody BranchCounter counter){
+		BranchCounter dbCounter = counterService.getServiceCounterById(id);
 		counter.setTokenQueue(dbCounter.getTokenQueue());
 		counterService.updateServiceCounter(counter);
 		return HttpStatus.OK;

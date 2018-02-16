@@ -1,7 +1,7 @@
 /**
  * Service to Service Counter Mapping in a Branch
  */
-package com.turvo.banking.branch.entities;
+package com.turvo.banking.branch.counter.entities;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @RedisHash("countermappings")
-public class ServiceToServiceCounterMapping {
+public class BranchCounterMapping {
 	
 	@Id
 	@ApiModelProperty(notes = "Service ID of the bank", required=true)

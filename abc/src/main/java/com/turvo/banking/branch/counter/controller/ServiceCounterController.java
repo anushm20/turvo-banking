@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
-import com.turvo.banking.branch.counter.operations.CustomerTokenComparator;
 import com.turvo.banking.branch.counter.operations.ServiceCounterOperator;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
@@ -53,9 +52,6 @@ public class ServiceCounterController {
 	@ApiOperation(value = "Create a new Bank Service Counter", response = HttpStatus.class)
 	@PostMapping(path="/servicecounters",consumes = "application/json")
 	public ResponseEntity<Long> createServiceCounter(@RequestBody ServiceCounter counter){
-		// Set priority Queue for each counter
-		PriorityQueue<CustomerToken> queue = new PriorityQueue<>(new CustomerTokenComparator());
-		counter.setTokenQueue(queue);
 		Long id = counterService.createServiceCounter(counter);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}

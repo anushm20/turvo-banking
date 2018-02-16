@@ -8,8 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.branch.dao.BranchDao;
 import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
+import com.turvo.banking.branch.repositories.BranchRepository;
 
 /**
  * @author anushm
@@ -19,14 +19,14 @@ import com.turvo.banking.branch.entities.ServiceToServiceCounterMapping;
 public class BranchServicesImpl implements BranchServices {
 	
 	@Autowired
-	BranchDao branchDao;
+	BranchRepository branchRepo;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.services.BranchServices#getServiceCountersForService(java.lang.Long)
 	 */
 	@Override
 	public List<Long> getServiceCountersForService(Long serviceId) {
-		return branchDao.getServiceCountersForService(serviceId);
+		return branchRepo.findOne(serviceId).getServiceCounters();
 	}
 	
 	/* (non-Javadoc)
@@ -34,7 +34,7 @@ public class BranchServicesImpl implements BranchServices {
 	 */
 	@Override
 	public void createServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping) {
-		branchDao.createServiceToServiceCounterMapping(mapping);
+		branchRepo.save(mapping);
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +42,7 @@ public class BranchServicesImpl implements BranchServices {
 	 */
 	@Override
 	public void updateServiceToServiceCounterMapping(ServiceToServiceCounterMapping mapping) {
-		branchDao.updateServiceToServiceCounterMapping(mapping);
+		branchRepo.save(mapping);
 	}
 
 	/* (non-Javadoc)
@@ -50,7 +50,7 @@ public class BranchServicesImpl implements BranchServices {
 	 */
 	@Override
 	public void deleteServiceToServiceCounterMapping(Long serviceId) {
-		branchDao.deleteServiceToServiceCounterMapping(serviceId);
+		branchRepo.delete(serviceId);
 	}
 
 }

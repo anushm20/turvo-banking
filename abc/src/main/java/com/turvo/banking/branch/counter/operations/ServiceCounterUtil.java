@@ -4,6 +4,7 @@
 package com.turvo.banking.branch.counter.operations;
 
 import java.util.Objects;
+import java.util.PriorityQueue;
 
 import com.turvo.banking.branch.counter.entities.ServiceCounter;
 import com.turvo.banking.branch.token.entities.CustomerToken;
@@ -19,9 +20,10 @@ public class ServiceCounterUtil {
 		if(Objects.nonNull(counter.getTokenQueue())) {
 			counter.getTokenQueue().add(token);
 		} else {
-			// This should not get executed for in memory database
-			// First create the queue
-			// Then add the element
+			// Create a Priority Queue
+			PriorityQueue<CustomerToken> queue = new PriorityQueue<>();
+			queue.add(token);
+			counter.setTokenQueue(queue);
 		}
 	}
 }

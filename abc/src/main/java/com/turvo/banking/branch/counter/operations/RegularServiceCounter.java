@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.turvo.banking.branch.counter.entities.ServiceCounter;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.token.entities.CustomerToken;
@@ -34,8 +35,11 @@ public class RegularServiceCounter implements ServiceCounterType {
 		for (Long serviceId : services) {
 			// Get Service Counters for the services
 			List<Long> counters = branchServices.getServiceCountersForService(serviceId);
+			ServiceCounter counter = counterServices.getServiceCounterById
+					(counters.get(0));
 			ServiceCounterUtil.updateServiceCounterQueue
-				(token, counterServices.getServiceCounterById(counters.get(0)));
+				(token, counter);
+			counterServices.updateServiceCounter(counter);
 		}
 	}
 

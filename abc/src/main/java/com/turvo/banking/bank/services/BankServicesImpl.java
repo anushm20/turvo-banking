@@ -3,13 +3,15 @@
  */
 package com.turvo.banking.bank.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.bank.dao.BankServiceDao;
 import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.repositories.BankServiceRepository;
+import com.turvo.banking.common.services.SequencesServices;
 
 /**
  * @author anushm
@@ -19,15 +21,19 @@ import com.turvo.banking.bank.entities.BankService;
 public class BankServicesImpl implements BankServices {
 	
 	@Autowired
-	BankServiceDao bankDao;
+	private BankServiceRepository serviceRepository;
+	
+	@Autowired
+	SequencesServices sequenceService;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.services.BankServices#getAllBranchServices()
 	 */
 	@Override
 	public List<BankService> getAllBankServices() {
-		// TODO Auto-generated method stub
-		return bankDao.getAllBankServices();
+		List<BankService> services = new ArrayList<BankService>();
+		serviceRepository.findAll().forEach(services::add);
+		return services;
 	}
 
 	/* (non-Javadoc)
@@ -35,8 +41,7 @@ public class BankServicesImpl implements BankServices {
 	 */
 	@Override
 	public BankService getBankServiceById(Long serviceId) {
-		// TODO Auto-generated method stub
-		return bankDao.getBankServiceById(serviceId);
+		return serviceRepository.findOne(serviceId);
 	}
 
 	/* (non-Javadoc)
@@ -44,7 +49,10 @@ public class BankServicesImpl implements BankServices {
 	 */
 	@Override
 	public Long createBankService(BankService service) {
-		return bankDao.createBankService(service);
+		service.setServiceId(sequenceService.getSequenceForEntity("bankservices"));
+		serviceRepository.save(service);
+		return service.getServiceId();
+		
 	}
 
 	/* (non-Javadoc)
@@ -52,7 +60,7 @@ public class BankServicesImpl implements BankServices {
 	 */
 	@Override
 	public void updateBankService(BankService service) {
-		bankDao.updateBankService(service);
+		serviceRepository.save(service);
 	}
 
 	/* (non-Javadoc)
@@ -60,7 +68,7 @@ public class BankServicesImpl implements BankServices {
 	 */
 	@Override
 	public void deleteBankService(Long serviceId) {
-		bankDao.deleteBankService(serviceId);
+		serviceRepository.delete(serviceId);
 	}
 
 }

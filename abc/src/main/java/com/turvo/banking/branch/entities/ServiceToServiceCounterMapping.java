@@ -5,14 +5,19 @@ package com.turvo.banking.branch.entities;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author anushm
  *
  */
+@RedisHash("countermappings")
 public class ServiceToServiceCounterMapping {
 	
+	@Id
 	@ApiModelProperty(notes = "Service ID of the bank", required=true)
 	private Long serviceId;
 	@ApiModelProperty(notes = "List of service counters which can "

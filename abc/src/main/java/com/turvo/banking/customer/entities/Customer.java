@@ -5,13 +5,18 @@ package com.turvo.banking.customer.entities;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author anushm
  *
  */
+@RedisHash("customers")
 public class Customer {
+	@Id
 	@ApiModelProperty(notes = "ID generated internally and used for"
 			+ "future communications")
 	private Long customerId;

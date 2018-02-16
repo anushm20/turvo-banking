@@ -6,9 +6,10 @@ package com.turvo.banking.branch.token.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.branch.token.dao.CustomerTokenDao;
 import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.token.repositories.CustomerTokenRepository;
 import com.turvo.banking.common.ApplicationContextProvider;
+import com.turvo.banking.common.services.SequencesServices;
 
 /**
  * @author anushm
@@ -18,14 +19,17 @@ import com.turvo.banking.common.ApplicationContextProvider;
 public class CustomerTokenServiceImpl implements CustomerTokenService {
 	
 	@Autowired 
-	CustomerTokenDao tokenDao;
+	CustomerTokenRepository tokenRepo;
+	
+	@Autowired
+	SequencesServices sequenceService;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.CustomerTokenService#getCustomerTokenById(java.lang.Long)
 	 */
 	@Override
 	public CustomerToken getCustomerTokenByNumber(Long number) {
-		return tokenDao.getCustomerTokenByNumber(number);
+		return tokenRepo.findOne(number);
 	}
 
 	/* (non-Javadoc)
@@ -34,11 +38,12 @@ public class CustomerTokenServiceImpl implements CustomerTokenService {
 	 */
 	@Override
 	public Long createCustomerToken(CustomerToken token) {
-		Long id = tokenDao.createCustomerToken(token);
+		token.setNumber(sequenceService.getSequenceForEntity("tokens"));
+		tokenRepo.save(token);
 		CustomerTokenHelper helper = ApplicationContextProvider.getApplicationContext().
 				getBean("customTokenHelper",CustomerTokenHelper.class);
 		helper.setCustomerToken(token);
-		return id; 
+		return token.getNumber(); 
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +52,7 @@ public class CustomerTokenServiceImpl implements CustomerTokenService {
 	 */
 	@Override
 	public void updateCustomerToken(CustomerToken token) {
-		tokenDao.updateCustomerToken(token);
+		tokenRepo.save(token);
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +60,7 @@ public class CustomerTokenServiceImpl implements CustomerTokenService {
 	 */
 	@Override
 	public void deleteCustomerToken(Long tokenId) {
-		tokenDao.deleteCustomerToken(tokenId);
+		tokenRepo.delete(tokenId);
 	}
 
 }

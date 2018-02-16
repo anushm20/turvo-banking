@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.turvo.banking.branch.counter.entities.ServiceCounter;
 import com.turvo.banking.branch.counter.services.ServiceCounterService;
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
@@ -31,8 +32,12 @@ public class PremiumServiceCounter implements ServiceCounterType {
 		if(Objects.nonNull(counters) && counters.size() > 0) {
 			// Get Priority Service Counter
 			// Get the first one for now and assign the token
+			ServiceCounter counter = counterServices.getServiceCounterById
+								(counters.get(0));
 			ServiceCounterUtil.updateServiceCounterQueue
-			(token, counterServices.getServiceCounterById(counters.get(0)));
+			(token, counter);
+			// Save it to database
+			counterServices.updateServiceCounter(counter);
 		}
 	}
 

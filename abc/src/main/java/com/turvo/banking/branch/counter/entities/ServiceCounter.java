@@ -5,6 +5,9 @@ package com.turvo.banking.branch.counter.entities;
 
 import java.util.PriorityQueue;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
 import com.turvo.banking.branch.token.entities.CustomerToken;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -13,8 +16,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @author anushm
  *
  */
+@RedisHash("servicecounters")
 public class ServiceCounter {
 	
+	@Id
 	@ApiModelProperty(notes = "Database Generated ID for Service Counter")
 	private Long serviceCounterId;
 	@ApiModelProperty(notes = "Service which Service counter can serve",required=true)

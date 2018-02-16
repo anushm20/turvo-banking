@@ -6,14 +6,19 @@ package com.turvo.banking.branch.token.entities;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author anushm
  *
  */
-public class CustomerToken {
+@RedisHash("tokens")
+public class CustomerToken implements Comparable<CustomerToken>{
 	
+	@Id
 	@ApiModelProperty(notes = "Token Number(Generated internally)")
 	private Long number;
 	@ApiModelProperty(notes = "Customer ID who came for the services",required=true)
@@ -72,6 +77,11 @@ public class CustomerToken {
 		
 		CustomerToken token = (CustomerToken) obj;
 		return this.number == token.getNumber();
+	}
+	
+	@Override
+	public int compareTo(CustomerToken o) {
+		return Integer.compare(this.number.intValue(), o.number.intValue());
 	}
 	
 }

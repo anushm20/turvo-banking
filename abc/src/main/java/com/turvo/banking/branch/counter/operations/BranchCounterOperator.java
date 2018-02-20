@@ -5,19 +5,13 @@
  */
 package com.turvo.banking.branch.counter.operations;
 
-import java.util.List;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.entities.BranchCounter;
-import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
-import com.turvo.banking.branch.counter.services.BranchCounterService;
-import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.counter.services.CounterService;
+import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.entities.TokenStatus;
-import com.turvo.banking.branch.token.services.CustomerTokenService;
-import com.turvo.banking.customer.entities.CustomerType;
+import com.turvo.banking.branch.token.services.TokenService;
 
 /**
  * @author anushm
@@ -27,19 +21,16 @@ import com.turvo.banking.customer.entities.CustomerType;
 public class BranchCounterOperator {
 	
 	@Autowired
-	BranchCounterService counterService;
+	CounterService counterService;
 	
 	@Autowired
-	BranchCounterMappingServices branchCounterMappingServices;
+	TokenService tokenService;
 	
-	@Autowired
-	CustomerTokenService tokenService;
-	
-	public void takeActiononTokeninCounter(Long counterId, CustomerToken token) {
+	public void takeActiononTokeninCounter(Long counterId, Token token) {
 		// Action Completed
 		// Check for Multi-counter service & Customer Priority
 		// For priority customer all services will be handled at one counter only
-		BranchCounter counter = counterService.getServiceCounterById(counterId);
+/*		Counter counter = counterService.getServiceCounterById(counterId);
 		List<Long> counters = branchCounterMappingServices.getServiceCountersForService(counter.getServiceId());
 		if(Objects.nonNull(counters) && counters.size() > 1 && 
 				CustomerType.REGULAR.toString().equalsIgnoreCase(token.getCustomerType())) {
@@ -56,7 +47,7 @@ public class BranchCounterOperator {
 				}
 			}
 			// Insert the token into next priority queue 
-			BranchCounter nextServiceCounter = counterService.getServiceCounterById(nextCounter);
+			Counter nextServiceCounter = counterService.getServiceCounterById(nextCounter);
 			nextServiceCounter.getTokenQueue().add(token);
 			//Remove the token at current queue
 			counter.getTokenQueue().remove(token);
@@ -72,24 +63,24 @@ public class BranchCounterOperator {
 			counterService.updateServiceCounter(counter);
 		}
 		// Update token 
-		tokenService.updateCustomerToken(token);
+		tokenService.updateCustomerToken(token);*/
 		
 	}
 	
-	public void cancelToken(Long counterId, CustomerToken token) {
+	public void cancelToken(Long counterId, Token token) {
 		// Operator /Manager can mark the token cancelled due to some reason
 		// Mark the status as Cancelled
 		token.setStatus(TokenStatus.CANCELLED);
 		// Update token
-		tokenService.updateCustomerToken(token);
+		tokenService.updateToken(token);
 	}
 	
-	public void revisitToken(Long counterId, CustomerToken token) {
+	public void revisitToken(Long counterId, Token token) {
 		// Operator can mark the token revisit if customer didn't appear
 		// Mark the status as Revisit
 		token.setStatus(TokenStatus.REVISIT);
 		// Update token
-		tokenService.updateCustomerToken(token);
+		tokenService.updateToken(token);
 	}
 
 }

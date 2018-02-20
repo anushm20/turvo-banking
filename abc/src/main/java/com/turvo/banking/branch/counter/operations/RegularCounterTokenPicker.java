@@ -3,43 +3,39 @@
  */
 package com.turvo.banking.branch.counter.operations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.entities.BranchCounter;
-import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
-import com.turvo.banking.branch.counter.services.BranchCounterService;
-import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.counter.services.CounterService;
+import com.turvo.banking.branch.token.entities.Token;
 
 /**
  * @author anushm
  *
  */
-@Component("REGULARServiceCounter")
+@Component("regularServiceCounter")
 public class RegularCounterTokenPicker implements BranchCounterTokenPicker {
 
 	@Autowired
-	BranchCounterMappingServices branchCounterMappingServices;
-	
-	@Autowired
-	BranchCounterService counterServices;
+	CounterService counterServices;
 	
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.counter.operations.ServiceCounterType#updateServiceCounterQueue(com.turvo.banking.branch.token.entities.CustomerToken)
 	 */
 	@Override
-	public void updateServiceCounterQueue(CustomerToken token) {
-		List<Long> services = token.getServices();
+	public void updateServiceCounterQueue(Token token) {
+		List<Long> services = new ArrayList<>();
 		for (Long serviceId : services) {
 			// Get Service Counters for the services
-			List<Long> counters = branchCounterMappingServices.getServiceCountersForService(serviceId);
-			BranchCounter counter = counterServices.getServiceCounterById
+			/*List<Long> counters = branchCounterMappingServices.getServiceCountersForService(serviceId);
+			Counter counter = counterServices.getCounterById
 					(counters.get(0));
-			BranchCounterUtil.updateServiceCounterQueue
+			BranchCounterUtil.INSTANCE.updateServiceCounterQueue
 				(token, counter);
-			counterServices.updateServiceCounter(counter);
+			counterServices.updateCounter(counter);*/
 		}
 	}
 

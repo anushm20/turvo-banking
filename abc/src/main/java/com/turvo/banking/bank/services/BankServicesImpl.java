@@ -5,13 +5,13 @@ package com.turvo.banking.bank.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turvo.banking.bank.entities.BankService;
 import com.turvo.banking.bank.repositories.BankServiceRepository;
-import com.turvo.banking.common.services.SequencesServices;
 
 /**
  * @author anushm
@@ -19,12 +19,9 @@ import com.turvo.banking.common.services.SequencesServices;
  */
 @Service
 public class BankServicesImpl implements BankServices {
-	
+
 	@Autowired
 	private BankServiceRepository serviceRepository;
-	
-	@Autowired
-	SequencesServices sequenceService;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.services.BankServices#getAllBranchServices()
@@ -49,26 +46,36 @@ public class BankServicesImpl implements BankServices {
 	 */
 	@Override
 	public Long createBankService(BankService service) {
-		service.setServiceId(sequenceService.getSequenceForEntity("bankservices"));
 		serviceRepository.save(service);
 		return service.getServiceId();
-		
+
 	}
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.services.BankServices#updateBankService(com.turvo.banking.entities.BankService)
 	 */
 	@Override
-	public void updateBankService(BankService service) {
-		serviceRepository.save(service);
+	public boolean updateBankService(BankService service) {
+		BankService saved = serviceRepository.save(service);
+		if(Objects.nonNull(saved)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.services.BankServices#deleteBankService(java.lang.Long)
 	 */
 	@Override
-	public void deleteBankService(Long serviceId) {
+	public boolean deleteBankService(Long serviceId) {
 		serviceRepository.delete(serviceId);
+		BankService service = getBankServiceById(serviceId);
+		if(Objects.isNull(service)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

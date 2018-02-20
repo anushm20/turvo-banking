@@ -6,6 +6,7 @@ package com.turvo.banking.bank.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -30,9 +31,9 @@ public class BankServicesTest {
 	
 	@Test
 	public void createBankService() {
-		BankService service = new BankService();
-		service.setServiceName("Withdrawal");
-		Long id = bankServices.createBankService(service);
+		BankService bankService = new BankService();
+		bankService.setServiceName("Withdrawal");
+		Long id = bankServices.createBankService(bankService);
 		BankService service2 = new BankService();
 		service2.setServiceName("Test Service");
 		Long id1 = bankServices.createBankService(service2);
@@ -42,9 +43,9 @@ public class BankServicesTest {
 	
 	@Test
 	public void updateBankService() {
-		BankService service = bankServices.getBankServiceById(1L);
-		service.setServiceName("Deposit");
-		bankServices.updateBankService(service);
+		BankService bankService = bankServices.getBankServiceById(1L);
+		bankService.setServiceName("Deposit");
+		bankServices.updateBankService(bankService);
 		BankService service1 = bankServices.getBankServiceById(1L);
 		assertEquals(service1.getServiceName(), "Deposit");
 	}
@@ -58,9 +59,9 @@ public class BankServicesTest {
 	
 	@Test
 	public void getAllBankServices() {
-		List<BankService> services = bankServices.getAllBankServices();
-		for (BankService service : services) {
-			System.out.println("Service :"+ service.getServiceName() + "ID"+service.getServiceId());
+		List<BankService> bankServices = new ArrayList<>();
+		for (BankService bankService : bankServices) {
+			System.out.println("Service :"+ bankService.getServiceName() + "ID"+bankService.getServiceId());
 		}
 	}
 }

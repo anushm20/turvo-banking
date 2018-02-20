@@ -15,11 +15,9 @@ import java.util.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.services.BranchCounterMappingServices;
-import com.turvo.banking.branch.counter.services.BranchCounterService;
-import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.counter.services.CounterService;
+import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.services.CustomerTokenHelper;
-import com.turvo.banking.common.ApplicationContextProvider;
 
 /**
  * @author anushm
@@ -29,10 +27,7 @@ import com.turvo.banking.common.ApplicationContextProvider;
 public class BranchCounterTokenAssigner implements Observer {
 	
 	@Autowired
-	BranchCounterService counterServices;
-	
-	@Autowired
-	BranchCounterMappingServices branchCounterMappingServices;
+	CounterService counterServices;
 	
 	private CustomerTokenHelper helper = null;
 	
@@ -49,19 +44,24 @@ public class BranchCounterTokenAssigner implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if(Objects.nonNull(arg)) {
-			CustomerToken token = (CustomerToken)arg;
+			Token token = (Token)arg;
 			updateTokeninQueues(token);
 		}
 
 	}
 	
-	public void updateTokeninQueues(CustomerToken token) {
+	public void updateTokeninQueues(Token token) {
 		// Based on Customer Type respective service counter 
 		// will be picked automatically
-		if(token.getCustomerType() != null && !token.getCustomerType().isEmpty()) {
-			BranchCounterTokenPicker  counterType = (BranchCounterTokenPicker)ApplicationContextProvider.
-					getApplicationContext().getBean(token.getCustomerType()+"ServiceCounter");
-			counterType.updateServiceCounterQueue(token);
+		if(token.getCustomer().getType() != null && !token.getCustomer().getType().toString().isEmpty()) {
+			BranchCounterTokenPicker counterType;
+			try {
+				counterType = CounterTokenAssignerFactory.
+							getTokenPicker(token.getCustomer().getType().toString());
+				counterType.updateServiceCounterQueue(token);
+			} catch (CounterStrategyNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

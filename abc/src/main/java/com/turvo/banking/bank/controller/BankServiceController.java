@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.turvo.banking.bank.entities.Bank;
 import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.services.BankCrudService;
 import com.turvo.banking.bank.services.BankServices;
 
 import io.swagger.annotations.Api;
@@ -35,6 +37,9 @@ public class BankServiceController {
 	@Autowired
 	BankServices bankServices;
 	
+	@Autowired
+	BankCrudService bankCrudService;
+	
 	@ApiOperation(value = "View a list of available bank services", response = List.class)
 	@GetMapping("/bankservices")
 	public List<BankService> getAllBankServices() {
@@ -49,16 +54,21 @@ public class BankServiceController {
 	
 	@ApiOperation(value = "Create a new Bank Service", response = HttpStatus.class)
 	@PostMapping(path="/bankservices",consumes = "application/json")
-	public ResponseEntity<Long> createBankService(@Valid @RequestBody BankService service){
-		Long id = bankServices.createBankService(service);
+	public ResponseEntity<Long> createBankService(@Valid @RequestBody BankService bankService){
+		// Get Bank object of bank Service
+		Bank bank = bankCrudService.getBankById(bankService.getBank().getBankId());
+		bankService.setBank(bank);
+		Long id = bankServices.createBankService(bankService);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/bankservices/{id}")
 	@ApiOperation(value = "Update a Bank Service", response = HttpStatus.class)
 	public HttpStatus updateBankService(@PathVariable("id") Long id,
-				@Valid @RequestBody BankService service){
-		bankServices.updateBankService(service);
+				@Valid @RequestBody BankService bankService){
+		BankService serviceFromDb = bankServices.getBankServiceById(id);
+		serviceFromDb.setServiceName(bankService.getServiceName());
+		bankServices.updateBankService(serviceFromDb);
 		return HttpStatus.OK;
 	}
 	

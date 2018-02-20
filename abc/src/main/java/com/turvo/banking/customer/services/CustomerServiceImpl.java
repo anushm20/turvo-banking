@@ -6,7 +6,6 @@ package com.turvo.banking.customer.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.common.services.SequencesServices;
 import com.turvo.banking.customer.entities.Customer;
 import com.turvo.banking.customer.repositories.CustomerRepository;
 
@@ -20,8 +19,6 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	CustomerRepository customerRepo;
 	
-	@Autowired
-	SequencesServices sequenceService;
 
 	@Override
 	public Customer getCustomerById(Long customerId) {
@@ -30,7 +27,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Long createCustomer(Customer customer) {
-		customer.setCustomerId(sequenceService.getSequenceForEntity("customers"));
 		customerRepo.save(customer);
 		return customer.getCustomerId();
 	}

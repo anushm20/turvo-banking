@@ -6,7 +6,7 @@ package com.turvo.banking.branch.token.services;
 
 import java.util.Observable;
 
-import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.token.entities.Token;
 
 /**
  * @author anushm
@@ -14,15 +14,9 @@ import com.turvo.banking.branch.token.entities.CustomerToken;
  */
 public class CustomerTokenHelper extends Observable {
 	
-	private CustomerToken token;
-	
-	public CustomerToken getToken() {
-		return token;
-	}
-	
-	public void setCustomerToken(CustomerToken token) {
-		this.token = token;
+	public void notifyPicker(Token token) {
 		setChanged();
 		notifyObservers(token);
 	}
+	
 }

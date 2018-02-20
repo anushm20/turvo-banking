@@ -9,35 +9,36 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.counter.entities.BranchCounter;
-import com.turvo.banking.branch.counter.services.BranchCounterService;
-import com.turvo.banking.branch.token.entities.CustomerToken;
+import com.turvo.banking.branch.counter.entities.Counter;
+import com.turvo.banking.branch.counter.entities.CounterType;
+import com.turvo.banking.branch.counter.services.CounterService;
+import com.turvo.banking.branch.token.entities.Token;
 
 /**
  * @author anushm
  *
  */
-@Component("PREMIUMServiceCounter")
+@Component("premiumServiceCounter")
 public class PremiumCounterTokenPicker implements BranchCounterTokenPicker {
 	
 	@Autowired
-	BranchCounterService counterServices;
+	CounterService counterServices;
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.counter.operations.ServiceCounterType#updateServiceCounterQueue(com.turvo.banking.branch.token.entities.CustomerToken)
 	 */
 	@Override
-	public void updateServiceCounterQueue(CustomerToken token) {
-		List<Long> counters = counterServices.getPremiumServiceCounters();
+	public void updateServiceCounterQueue(Token token) {
+		List<Long> counters = counterServices.getCountersByType(CounterType.PREMIUM);
 		if(Objects.nonNull(counters) && counters.size() > 0) {
 			// Get Priority Service Counter
 			// Get the first one for now and assign the token
-			BranchCounter counter = counterServices.getServiceCounterById
+			Counter counter = counterServices.getCounterById
 								(counters.get(0));
-			BranchCounterUtil.updateServiceCounterQueue
+			BranchCounterUtil.INSTANCE.updateServiceCounterQueue
 			(token, counter);
 			// Save it to database
-			counterServices.updateServiceCounter(counter);
+			counterServices.updateCounter(counter);
 		}
 	}
 

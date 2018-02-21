@@ -1,5 +1,5 @@
 /**
- * Contains main application class 
+ * Contains main application & other configuration classes 
  */
 /**
  * @author anushm

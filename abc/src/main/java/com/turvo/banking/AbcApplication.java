@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.turvo.banking.branch.counter.operations.CounterTokenAssigner;
+import com.turvo.banking.branch.counter.strategies.CounterTokenAssigner;
 import com.turvo.banking.branch.token.services.TokenHelper;
 
 @SpringBootApplication

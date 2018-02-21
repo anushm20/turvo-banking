@@ -13,7 +13,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -73,7 +72,7 @@ public class Counter {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="counter")
 	@JsonManagedReference(value="counter-reference")
 	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
-	private List<TokenCounterQueue> queuedTokens;
+	private List<TokenCounterMapper> queuedTokens;
 	
 	@Transient
 	@ApiModelProperty(notes = "Queue which holds the "
@@ -120,11 +119,11 @@ public class Counter {
 		this.capacity = capacity;
 	}
 
-	public List<TokenCounterQueue> getQueuedTokens() {
+	public List<TokenCounterMapper> getQueuedTokens() {
 		return queuedTokens;
 	}
 
-	public void setQueuedTokens(List<TokenCounterQueue> queuedTokens) {
+	public void setQueuedTokens(List<TokenCounterMapper> queuedTokens) {
 		this.queuedTokens = queuedTokens;
 	}
 

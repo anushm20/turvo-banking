@@ -1,5 +1,5 @@
 /**
- * 
+ * Swagger configuration class
  */
 package com.turvo.banking;
 

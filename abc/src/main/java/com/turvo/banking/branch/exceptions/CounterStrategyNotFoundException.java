@@ -1,7 +1,7 @@
 /**
  * Exception class when a particular strategy is not found
  */
-package com.turvo.banking.branch.counter.operations;
+package com.turvo.banking.branch.exceptions;
 
 /**
  * @author anushm

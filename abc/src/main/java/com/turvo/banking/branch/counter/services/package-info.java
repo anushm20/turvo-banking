@@ -1,5 +1,5 @@
 /**
- * Contains Service Classed for Service Counters
+ * Contains Service Classes for  Counters
  */
 /**
  * @author anushm

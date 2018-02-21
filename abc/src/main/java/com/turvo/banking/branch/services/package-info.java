@@ -1,5 +1,5 @@
 /**
- * Contains classes required for common entities
+ * Contains classes required for Branch level entities
  */
 /**
  * @author anushm

@@ -1,5 +1,5 @@
 /**
- * REST Controller for Customer Token
+ * REST Controller for Token
  */
 package com.turvo.banking.branch.token.controller;
 
@@ -27,36 +27,36 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@Api(description="API's to create customer tokens in a bank")
+@Api(description="API's to create tokens in a branch for Queue Management")
 public class TokenController {
 	
 	@Autowired
 	TokenService tokenService;
 	
-	@ApiOperation(value = "View a customer Token Details", response = Token.class)
+	@ApiOperation(value = "View a Token Details", response = Token.class)
 	@GetMapping("/token/{id}")
-	public Token getCustomerToken(@PathVariable("id") Long number) {
+	public Token getToken(@PathVariable("id") Long number) {
 		return tokenService.getTokenById(number);
 	}
 	
-	@ApiOperation(value = "Create a new Customer token", response = HttpStatus.class)
+	@ApiOperation(value = "Create a new token", response = HttpStatus.class)
 	@PostMapping(path="/tokens",consumes = "application/json")
-	public ResponseEntity<Integer> createCustomerToken(@Valid @RequestBody Token token){
+	public ResponseEntity<Integer> createToken(@Valid @RequestBody Token token){
 		int id = tokenService.createToken(token);
 		return new ResponseEntity<Integer>(id,HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Update a new Customer token", response = HttpStatus.class)
+	@ApiOperation(value = "Update a new token", response = HttpStatus.class)
 	@PutMapping("/token/{id}")
-	public HttpStatus updateCustomerToken(@PathVariable("id") Long id,
+	public HttpStatus updateToken(@PathVariable("id") Long id,
 				@Valid @RequestBody Token token){
 		tokenService.updateToken(token);
 		return HttpStatus.OK;
 	}
 	
-	@ApiOperation(value = "Delete a new Customer token", response = HttpStatus.class)
+	@ApiOperation(value = "Delete a new token", response = HttpStatus.class)
 	@DeleteMapping("/token/{id}")
-	public HttpStatus deleteCustomerToken(@PathVariable("id") Long tokenId) {
+	public HttpStatus deleteToken(@PathVariable("id") Long tokenId) {
 		tokenService.deleteToken(tokenId);
 		return HttpStatus.OK;
 	}

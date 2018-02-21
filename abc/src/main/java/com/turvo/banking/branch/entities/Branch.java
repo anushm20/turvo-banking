@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.turvo.banking.bank.entities.Bank;
-import com.turvo.banking.branch.counter.entities.StrategyType;
+import com.turvo.banking.branch.counter.entities.CounterStrategyType;
 import com.turvo.banking.customer.entities.Address;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -64,10 +64,10 @@ public class Branch {
 	@Enumerated(EnumType.STRING)
 	@ApiModelProperty(notes = "Strategy type for Counter "
 			+ "queues in the branch")
-	private StrategyType counterStrategyType;
+	private CounterStrategyType counterStrategyType;
 	
-	@ApiModelProperty(notes = "Frequency of assiging a token"
-			+ " for regular customers")
+	@ApiModelProperty(notes = "Frequency in which a priority customer has "
+			+ "to be placed in mixed strategy")
 	@Column(name="frequency")
 	private int frequency;
 
@@ -103,11 +103,11 @@ public class Branch {
 		this.branchAddress = branchAddress;
 	}
 
-	public StrategyType getCounterStrategyType() {
+	public CounterStrategyType getCounterStrategyType() {
 		return counterStrategyType;
 	}
 
-	public void setCounterStrategyType(StrategyType type) {
+	public void setCounterStrategyType(CounterStrategyType type) {
 		this.counterStrategyType = type;
 	}
 

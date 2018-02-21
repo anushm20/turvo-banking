@@ -1,5 +1,5 @@
 /**
- * 
+ * Repository class for Branch crud operations
  */
 package com.turvo.banking.branch.repositories;
 

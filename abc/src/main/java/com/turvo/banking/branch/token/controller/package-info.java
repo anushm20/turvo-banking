@@ -1,5 +1,5 @@
 /**
- * Contains Controller classes for Customer Token
+ * Contains Controller classes for Token
  */
 /**
  * @author anushm

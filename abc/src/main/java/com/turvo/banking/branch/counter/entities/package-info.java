@@ -1,5 +1,5 @@
 /**
- * Contains entities related to Service Counter
+ * Contains entities related to Counter in Branch of a bank
  */
 /**
  * @author anushm

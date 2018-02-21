@@ -1,5 +1,5 @@
 /**
- * 
+ * Repository class for Counter operations
  */
 package com.turvo.banking.branch.counter.repositories;
 

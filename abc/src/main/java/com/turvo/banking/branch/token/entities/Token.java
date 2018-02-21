@@ -26,7 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.turvo.banking.branch.counter.entities.TokenCounterQueue;
+import com.turvo.banking.branch.counter.entities.TokenCounterMapper;
 import com.turvo.banking.customer.entities.Customer;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -90,7 +90,7 @@ public class Token {
 	@OneToMany(mappedBy="token",cascade=CascadeType.ALL,orphanRemoval=true)
 	@JsonManagedReference(value="token-reference")
 	@ApiModelProperty(notes = "List of counters which customer has to go")
-	private Set<TokenCounterQueue> counters;
+	private Set<TokenCounterMapper> counters;
 	
 	public Long getTokenId() {
 		return tokenId;
@@ -156,11 +156,11 @@ public class Token {
 		this.counters = counters;
 	}*/
 	
-	public Set<TokenCounterQueue> getCounters() {
+	public Set<TokenCounterMapper> getCounters() {
 		return counters;
 	}
 
-	public void setCounters(Set<TokenCounterQueue> counters) {
+	public void setCounters(Set<TokenCounterMapper> counters) {
 		this.counters = counters;
 	}
 	

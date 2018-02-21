@@ -1,5 +1,5 @@
 /**
- * 
+ * Implementation for the DAO interface of Count entity
  */
 package com.turvo.banking.branch.repositories;
 
@@ -9,6 +9,7 @@ import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
@@ -58,6 +59,7 @@ public class CountDaoImpl implements CountDao {
 	 * @see com.turvo.banking.branch.repositories.CountDao#createCount(com.turvo.banking.branch.entities.Count)
 	 */
 	@Override
+	@Transactional
 	public Integer createCount(Count count) {
 		em.persist(count);
 		em.flush();
@@ -68,6 +70,7 @@ public class CountDaoImpl implements CountDao {
 	 * @see com.turvo.banking.branch.repositories.CountDao#updateCount(com.turvo.banking.branch.entities.Count)
 	 */
 	@Override
+	@Transactional
 	public boolean updateCount(Count count) {
 		Count saved = em.merge(count);
 		if(Objects.nonNull(saved))
@@ -80,6 +83,7 @@ public class CountDaoImpl implements CountDao {
 	 * @see com.turvo.banking.branch.repositories.CountDao#deleteCountForName(java.lang.String)
 	 */
 	@Override
+	@Transactional
 	public boolean deleteCountForName(String name) {
 		Count count = em.find(Count.class, name);
 		if(Objects.nonNull(count)) {

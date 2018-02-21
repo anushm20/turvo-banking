@@ -1,5 +1,6 @@
 /**
- * 
+ * Custom repository interface class for counter 
+ * Contains dynamic queries required for the operations
  */
 package com.turvo.banking.branch.counter.repositories;
 
@@ -18,6 +19,4 @@ public interface CounterRepositoryCustom {
 	
 	List<Counter> findByBrServiceIdAndCounterType(Long serviceId, CounterType type);
 	
-	//Integer getCounterTokenSize(Long counterId);
-
 }

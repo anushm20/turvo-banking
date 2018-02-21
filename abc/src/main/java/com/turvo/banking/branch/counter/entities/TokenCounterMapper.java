@@ -1,9 +1,10 @@
 /**
- * 
+ * Token Counter Mapper entity 
+ *  for a token all the counters which customer has to 
+ *  go will be stored with the order
  */
 package com.turvo.banking.branch.counter.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,8 +27,8 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="counter_queue")
-public class TokenCounterQueue {
-
+public class TokenCounterMapper {
+	
 	@Id
 	@GeneratedValue(generator = "counterQueueId")
 	@GenericGenerator(
@@ -59,6 +60,15 @@ public class TokenCounterQueue {
 	@ApiModelProperty(notes = "Order of the counter in "
 			+ "which customer has to go")
 	private Integer order;
+	
+	public TokenCounterMapper() {
+	}
+	
+	public TokenCounterMapper(Token token, Counter counter, Integer order){
+		this.token = token;
+		this.counter = counter;
+		this.order = order;
+	}
 
 	public Long getCounterQueueId() {
 		return counterQueueId;

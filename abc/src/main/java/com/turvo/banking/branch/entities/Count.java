@@ -1,6 +1,6 @@
 /**
  * All the counter variables which has to be reset everyday
- * will be achieved with this
+ * will be stored with this entity
  */
 package com.turvo.banking.branch.entities;
 

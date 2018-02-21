@@ -1,5 +1,5 @@
 /**
- * Rest Controller for Service Counter
+ * Rest Controller for Counter related operations
  */
 /**
  * @author anushm

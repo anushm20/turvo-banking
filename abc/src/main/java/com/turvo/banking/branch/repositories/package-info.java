@@ -1,5 +1,5 @@
 /**
- * Contains classes required for common repositories
+ * Contains classes required for Branch DAO operations
  */
 /**
  * @author anushm

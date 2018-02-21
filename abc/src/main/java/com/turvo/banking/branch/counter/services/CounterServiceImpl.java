@@ -1,5 +1,5 @@
 /**
- * Implementation of Services for Service Counter
+ * Implementation of Services for Counter
  */
 package com.turvo.banking.branch.counter.services;
 
@@ -10,11 +10,11 @@ import java.util.PriorityQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.turvo.banking.branch.comparators.TokenPriorityComparator;
 import com.turvo.banking.branch.counter.entities.Counter;
 import com.turvo.banking.branch.counter.entities.CounterType;
 import com.turvo.banking.branch.counter.repositories.CounterRepository;
 import com.turvo.banking.branch.token.entities.Token;
-import com.turvo.banking.branch.token.services.TokenPriorityComparator;
 
 /**
  * @author anushm
@@ -102,10 +102,5 @@ public class CounterServiceImpl implements CounterService {
 			return false;
 		}
 	}
-
-	/*
-	 * @Override public Integer getTokensCountInACounter(Long counterId) { return
-	 * counterRepo.getCounterTokenSize(counterId); }
-	 */
 
 }

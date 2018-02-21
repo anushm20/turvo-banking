@@ -1,5 +1,5 @@
 /**
- * 
+ * REST End points for Customer Services
  */
 package com.turvo.banking.customer.controller;
 

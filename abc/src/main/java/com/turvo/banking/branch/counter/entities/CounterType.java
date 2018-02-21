@@ -1,5 +1,5 @@
 /**
- * Enum for Service Counter Type
+ * Enum for Counter Type
  */
 package com.turvo.banking.branch.counter.entities;
 

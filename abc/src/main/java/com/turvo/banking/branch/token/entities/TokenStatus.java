@@ -1,5 +1,5 @@
 /**
- * Possible status for customer token
+ * Possible status for token
  */
 package com.turvo.banking.branch.token.entities;
 

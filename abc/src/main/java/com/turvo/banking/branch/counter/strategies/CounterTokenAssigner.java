@@ -1,21 +1,21 @@
 /**
  * Listener to update queues
  * For each customer token created this listener will be 
- * updated with the created the tokne
+ * updated with the created the token
  * 
  * This will take care of keeping the token in queues at respective 
  * service counters
  */
-package com.turvo.banking.branch.counter.operations;
+package com.turvo.banking.branch.counter.strategies;
 
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.turvo.banking.branch.entities.Branch;
+import com.turvo.banking.branch.exceptions.CounterStrategyNotFoundException;
 import com.turvo.banking.branch.services.BranchCrudService;
 import com.turvo.banking.branch.services.BranchCrudServiceImpl;
 import com.turvo.banking.branch.token.entities.Token;
@@ -31,6 +31,7 @@ public class CounterTokenAssigner implements Observer {
 	
 	private BranchCrudService branchCrudService;
 	
+	@SuppressWarnings("unused")
 	private TokenHelper helper = null;
 	
 	public CounterTokenAssigner() {
@@ -51,7 +52,10 @@ public class CounterTokenAssigner implements Observer {
 		}
 
 	}
-	
+	/**
+	 * helper method to update the token into queues
+	 * @param token
+	 */
 	public void updateTokeninQueues(Token token) {
 		// Get the branch from the token
 		if(token.getBranchId() != null) {
@@ -63,8 +67,11 @@ public class CounterTokenAssigner implements Observer {
 				CounterStrategyPicker counterType;
 				try {
 					counterType = CounterTokenAssignerFactory.
-								getTokenPicker(branch.getCounterStrategyType().toString());
-					counterType.updateServiceCounterQueue(token);
+								getStrategyPicker(branch.getCounterStrategyType().toString());
+					boolean queued = counterType.updateCounterQueue(token);
+					if(!queued) {
+						// Re try Mechanism should go here
+					}
 				} catch (CounterStrategyNotFoundException e) {
 					e.printStackTrace();
 				}

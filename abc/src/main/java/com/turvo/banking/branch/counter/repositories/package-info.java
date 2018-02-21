@@ -1,5 +1,5 @@
 /**
- * Contains repositories classes for Service counters
+ * Contains repositories classes for Counters
  */
 /**
  * @author anushm

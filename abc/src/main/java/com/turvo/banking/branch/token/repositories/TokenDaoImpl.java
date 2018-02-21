@@ -1,5 +1,5 @@
 /**
- * 
+ * DAO implementation for Token
  */
 package com.turvo.banking.branch.token.repositories;
 

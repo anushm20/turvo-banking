@@ -28,13 +28,6 @@ public interface CounterService {
 	List<Counter> getCountersByServiceAndType(Long serviceId,CounterType type);
 	
 	/**
-	 * Method to return the count of tokens in a counter
-	 * @param counterId
-	 * @return the tokens count in the counter
-	 */
-	//Integer getTokensCountInACounter(Long counterId);
-	
-	/**
 	 * Get Counter by Counter Id
 	 * @param counterId
 	 * @return Service counter object

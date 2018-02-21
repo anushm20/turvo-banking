@@ -1,7 +1,7 @@
 /**
- * 
+ * Comparator to compare tokens based on Priority
  */
-package com.turvo.banking.branch.token.services;
+package com.turvo.banking.branch.comparators;
 
 import java.util.Comparator;
 

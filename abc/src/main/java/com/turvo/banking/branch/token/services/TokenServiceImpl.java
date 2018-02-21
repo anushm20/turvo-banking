@@ -40,11 +40,11 @@ public class TokenServiceImpl implements TokenService {
 	public int createToken(Token token) {
 		token.setNumber(countDao.getCountForUpdate
 					(token.getBranchId(), "TOKEN_NUMBER",true));
-		tokenDao.createToken(token);
+		Integer number = tokenDao.createToken(token);
 		TokenHelper helper = ApplicationContextProvider.getApplicationContext().
 				getBean("customTokenHelper",TokenHelper.class);
 		helper.notifyPicker(token);
-		return token.getNumber(); 
+		return number; 
 	}
 
 	/* (non-Javadoc)

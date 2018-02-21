@@ -1,5 +1,6 @@
 /**
- * 
+ * Custom repository Implementation class for counter 
+ * Contains dynamic queries required for the operations
  */
 package com.turvo.banking.branch.counter.repositories;
 
@@ -50,13 +51,5 @@ public class CounterRepositoryCustomImpl implements CounterRepositoryCustom {
 		query.setParameter(1, serviceId);
 		return query.getResultList();
 	}
-
-	/*@Override
-	public Integer getCounterTokenSize(Long counterId) {
-		Query query = entityManager.createNativeQuery("select count(token_id) as tokenCount from "
-				+ " counter_queue where counter_id= ?");
-		query.setParameter(0, counterId);
-		return (Integer) query.getParameterValue("tokenCount");
-	}*/
 
 }

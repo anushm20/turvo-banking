@@ -1,7 +1,7 @@
 /**
- * 
+ * Comparator class used to find counter with lowest tokensa
  */
-package com.turvo.banking.branch.counter.operations;
+package com.turvo.banking.branch.comparators;
 
 import java.util.Comparator;
 

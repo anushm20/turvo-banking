@@ -15,7 +15,8 @@ import java.util.Observer;
 import org.springframework.stereotype.Component;
 
 import com.turvo.banking.branch.entities.Branch;
-import com.turvo.banking.branch.exceptions.CounterStrategyNotFoundException;
+import com.turvo.banking.branch.exceptions.EntityNotFoundException;
+import com.turvo.banking.branch.exceptions.InvalidDataException;
 import com.turvo.banking.branch.services.BranchCrudService;
 import com.turvo.banking.branch.services.BranchCrudServiceImpl;
 import com.turvo.banking.branch.token.entities.Token;
@@ -48,15 +49,21 @@ public class CounterTokenAssigner implements Observer {
 	public void update(Observable o, Object arg) {
 		if(Objects.nonNull(arg)) {
 			Token token = (Token)arg;
-			updateTokeninQueues(token);
+			try {
+				updateTokeninQueues(token);
+			} catch (EntityNotFoundException e) {
+				e.printStackTrace();
+				// LOG the statement
+			}
 		}
 
 	}
 	/**
 	 * helper method to update the token into queues
 	 * @param token
+	 * @throws EntityNotFoundException 
 	 */
-	public void updateTokeninQueues(Token token) {
+	public void updateTokeninQueues(Token token) throws EntityNotFoundException {
 		// Get the branch from the token
 		if(token.getBranchId() != null) {
 			branchCrudService = ApplicationContextProvider.getApplicationContext().
@@ -68,15 +75,22 @@ public class CounterTokenAssigner implements Observer {
 				try {
 					counterType = CounterTokenAssignerFactory.
 								getStrategyPicker(branch.getCounterStrategyType().toString());
-					boolean queued = counterType.updateCounterQueue(token);
+					boolean queued = false;
+					try {
+						queued = counterType.updateCounterQueue(token);
+					} catch (InvalidDataException e) {
+						e.printStackTrace();
+						// LOG the statement
+						// Inform the branch
+					}
 					if(!queued) {
 						// Re try Mechanism should go here
 					}
-				} catch (CounterStrategyNotFoundException e) {
+				} catch (EntityNotFoundException e) {
 					e.printStackTrace();
 				}
 			} else {
-				// TODO Throw exception 
+				throw new EntityNotFoundException("Customer Selected Branch is not available");
 			}
 		}
 	}

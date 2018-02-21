@@ -4,8 +4,9 @@
 package com.turvo.banking.branch.counter.strategies;
 
 import com.turvo.banking.branch.counter.entities.CounterStrategyType;
-import com.turvo.banking.branch.exceptions.CounterStrategyNotFoundException;
+import com.turvo.banking.branch.exceptions.EntityNotFoundException;
 import com.turvo.banking.common.ApplicationContextProvider;
+import com.turvo.banking.common.BankingConstants;
 
 /**
  * @author anushm
@@ -18,19 +19,19 @@ public class CounterTokenAssignerFactory {
 	 * branch strategy
 	 * @param strategyType
 	 * @return counter strategy pickers
-	 * @throws CounterStrategyNotFoundException
+	 * @throws EntityNotFoundException
 	 */
 	public static CounterStrategyPicker getStrategyPicker(String strategyType) 
-			throws CounterStrategyNotFoundException {
+			throws EntityNotFoundException {
 		
 		if(CounterStrategyType.MIXED.toString().equalsIgnoreCase(strategyType)) {
 			return ApplicationContextProvider.getApplicationContext().getBean
-					("mixedCounterStrategy",MixedCounterStrategy.class);
+					(BankingConstants.MIXED_STRATEGY,MixedCounterStrategy.class);
 		} else if (CounterStrategyType.SEPARATE.toString().equalsIgnoreCase(strategyType)) {
 			return ApplicationContextProvider.getApplicationContext().getBean
-					("separateCounterStrategy",SeparateCounterStrategy.class);
+					(BankingConstants.SEPARATE_STRATEGY,SeparateCounterStrategy.class);
 		} else {
-			throw new CounterStrategyNotFoundException("Counter Picking Strategy Not FOund");
+			throw new EntityNotFoundException("Counter Picking Strategy Not Found");
 		}
 		
 	}

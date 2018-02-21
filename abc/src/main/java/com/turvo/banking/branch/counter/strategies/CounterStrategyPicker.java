@@ -4,6 +4,7 @@
  */
 package com.turvo.banking.branch.counter.strategies;
 
+import com.turvo.banking.branch.exceptions.InvalidDataException;
 import com.turvo.banking.branch.token.entities.Token;
 
 /**
@@ -16,7 +17,8 @@ public interface CounterStrategyPicker {
 	 * Update counter queues based on the services
 	 * 	 selected and customer type
 	 * @param token
+	 * @throws InvalidDataException 
 	 */
-	public boolean updateCounterQueue(Token token);
+	public boolean updateCounterQueue(Token token) throws InvalidDataException;
 
 }

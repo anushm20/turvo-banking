@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @Entity
-@Table(name="counter_queue")
+@Table(name="token_counter_mapper")
 public class TokenCounterMapper {
 	
 	@Id

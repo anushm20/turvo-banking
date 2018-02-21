@@ -6,12 +6,13 @@ package com.turvo.banking.branch.counter.strategies;
 import org.springframework.stereotype.Component;
 
 import com.turvo.banking.branch.token.entities.Token;
+import com.turvo.banking.common.BankingConstants;
 
 /**
  * @author anushm
  *
  */
-@Component("mixedCounterStrategy")
+@Component(BankingConstants.MIXED_STRATEGY)
 public class MixedCounterStrategy implements CounterStrategyPicker {
 
 	/* (non-Javadoc)

@@ -64,11 +64,6 @@ public class Counter {
 			+ " order which it has to get executed",required=true)
 	private int order;
 	
-	@Column(name="capacity")
-	@ApiModelProperty(notes = "Maximum Number of "
-			+ "customers it can serve",required=true)
-	private int capacity;
-	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="counter")
 	@JsonManagedReference(value="counter-reference")
 	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
@@ -109,14 +104,6 @@ public class Counter {
 
 	public void setOrder(int order) {
 		this.order = order;
-	}
-
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
 	}
 
 	public List<TokenCounterMapper> getQueuedTokens() {

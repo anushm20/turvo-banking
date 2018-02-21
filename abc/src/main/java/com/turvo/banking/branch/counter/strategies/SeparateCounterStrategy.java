@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,16 +23,18 @@ import com.turvo.banking.branch.counter.entities.CounterType;
 import com.turvo.banking.branch.counter.entities.TokenCounterMapper;
 import com.turvo.banking.branch.counter.services.CounterService;
 import com.turvo.banking.branch.entities.BranchService;
+import com.turvo.banking.branch.exceptions.InvalidDataException;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.entities.TokenStatus;
 import com.turvo.banking.branch.token.services.TokenService;
+import com.turvo.banking.common.BankingConstants;
 
 /**
  * @author anushm
  *
  */
-@Component("separateCounterStrategy")
+@Component(BankingConstants.SEPARATE_STRATEGY)
 public class SeparateCounterStrategy implements CounterStrategyPicker {
 
 	@Autowired
@@ -49,7 +53,8 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 	 * updateServiceCounterQueue(com.turvo.banking.branch.token.entities.Token)
 	 */
 	@Override
-	public boolean updateCounterQueue(Token token) {
+	public boolean updateCounterQueue(Token token) throws 
+				InvalidDataException, EntityNotFoundException {
 		Set<TokenCounterMapper> tokenCounters = new HashSet<>();
 		// Since we are following separate counter strategy
 		// Let's keep priority same as token number
@@ -75,8 +80,8 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 					counterOrder++;
 				}
 			} else {
-				// TODO throw exception
-				// Counters not found for the services selected
+				throw new EntityNotFoundException("Counters cannot be found for the service "+
+							serviceId+" for customer type :"+token.getCustomer().getType());
 			}
 		}
 		// Assign the token
@@ -116,8 +121,10 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 	 * @param token
 	 * @param serviceId
 	 * @return list of counter objects
+	 * @throws InvalidDataException 
 	 */
-	private List<Counter> getListOfCountersForService(Token token, Long serviceId) {
+	private List<Counter> getListOfCountersForService(Token token, Long serviceId) 
+					throws InvalidDataException {
 		List<Counter> counters = new ArrayList<>();
 		if (CounterType.PREMIUM.toString().equals(token.getCustomer().
 									getType().toString())) {
@@ -130,8 +137,7 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 			counters.addAll(counterServices.getCountersByServiceAndType
 					(serviceId, CounterType.REGULAR));
 		} else {
-			// TODO Throw exception
-			// Unknown customer type exception
+			throw new InvalidDataException("Invalid Customer Type.");
 		}
 		return counters;
 	}

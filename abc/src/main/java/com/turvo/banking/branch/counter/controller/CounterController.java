@@ -5,6 +5,7 @@ package com.turvo.banking.branch.counter.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import javax.validation.Valid;
 
@@ -20,12 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turvo.banking.branch.counter.entities.Counter;
-import com.turvo.banking.branch.counter.operations.BranchCounterOperator;
+import com.turvo.banking.branch.counter.operations.CounterOperations;
 import com.turvo.banking.branch.counter.services.CounterService;
-import com.turvo.banking.branch.entities.BranchService;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.token.entities.Token;
-import com.turvo.banking.branch.token.entities.TokenStatus;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +41,7 @@ public class CounterController {
 	CounterService counterService;
 	
 	@Autowired
-	BranchCounterOperator operator;
+	CounterOperations operator;
 	
 	@Autowired
 	BranchServices branchServices; 
@@ -57,9 +56,9 @@ public class CounterController {
 	@PostMapping(path="/servicecounters",consumes = "application/json")
 	public ResponseEntity<Long> createBranchCounter(@Valid @RequestBody Counter counter){
 		//Get Branch Service object
-		BranchService brService = branchServices.getBranchServiceById
-				(counter.getBrService().getBranchServiceId());
-		counter.setBrService(brService);
+		/*BranchService brService = branchServices.getBranchServiceById
+				(counter.getBranchServiceId());
+		counter.setBrService(brService);*/
 		Long id = counterService.createCounter(counter);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);
 	}
@@ -90,11 +89,9 @@ public class CounterController {
 	@GetMapping("/servicecounter/{id}/tokens")
 	public List<Integer> getTokensAtCounter(@PathVariable("id") Long id){
 		List<Integer> tokens = new ArrayList<>();
-		/*PriorityQueue<CustomerToken> queue = counterService.getQueueForServiceCounter(id);
-		Iterator<CustomerToken> tokenItr = queue.iterator();
-		while(tokenItr.hasNext())
-			tokens.add(tokenItr.next().getNumber());
-		Collections.sort(tokens);*/
+		Counter counter = counterService.getCounterById(id);
+		PriorityQueue<Token> queue = counter.getCounterQueue();
+		queue.forEach((token)->tokens.add(token.getNumber()));
 		return tokens;
 	}
 	
@@ -103,20 +100,13 @@ public class CounterController {
 	@GetMapping("/servicecounter/{id}/token/{action}")
 	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
 			@PathVariable("action") String action) {
-	//	PriorityQueue<CustomerToken> queue = counterService.getQueueForServiceCounter(counterId);
-		Token token = new Token();
-		if(TokenStatus.COMPLETED.toString().equalsIgnoreCase(action)) {
-			operator.takeActiononTokeninCounter(counterId, token);
+		Counter counter = counterService.getCounterById(counterId);
+		Token token = counter.getCounterQueue().peek();
+		boolean success = operator.serveToken(counter, token, action);
+		if(success)
 			return HttpStatus.OK;
-		} else if (TokenStatus.CANCELLED.toString().equalsIgnoreCase(action)) {
-			operator.cancelToken(counterId, token);
-			return HttpStatus.OK;
-		} else if (TokenStatus.REVISIT.toString().equalsIgnoreCase(action)) {
-			operator.revisitToken(counterId, token);
-			return HttpStatus.OK;
-		} else {
+		 else 
 			return HttpStatus.BAD_REQUEST;
-		}
 	}
 	
 }

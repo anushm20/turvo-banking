@@ -35,8 +35,8 @@ public class TokenController {
 	
 	@ApiOperation(value = "View a customer Token Details", response = Token.class)
 	@GetMapping("/token/{id}")
-	public Token getCustomerToken(@PathVariable("id") Integer number) {
-		return tokenService.getTokenByNumber(number);
+	public Token getCustomerToken(@PathVariable("id") Long number) {
+		return tokenService.getTokenById(number);
 	}
 	
 	@ApiOperation(value = "Create a new Customer token", response = HttpStatus.class)
@@ -56,8 +56,8 @@ public class TokenController {
 	
 	@ApiOperation(value = "Delete a new Customer token", response = HttpStatus.class)
 	@DeleteMapping("/token/{id}")
-	public HttpStatus deleteCustomerToken(@PathVariable("id") Integer number) {
-		tokenService.deleteToken(number);
+	public HttpStatus deleteCustomerToken(@PathVariable("id") Long tokenId) {
+		tokenService.deleteToken(tokenId);
 		return HttpStatus.OK;
 	}
 	

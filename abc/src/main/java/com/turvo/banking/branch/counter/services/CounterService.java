@@ -18,7 +18,21 @@ public interface CounterService {
 	 * Get all premium service counters in a branch
 	 * @return list  of counter ids
 	 */
-	List<Long> getCountersByType(CounterType type);
+	List<Counter> getCountersByType(CounterType type);
+	
+	/**
+	 * Get all premium service counters in a branch
+	 * @param serviceId, CounterType
+	 * @return list  of counter ids
+	 */
+	List<Counter> getCountersByServiceAndType(Long serviceId,CounterType type);
+	
+	/**
+	 * Method to return the count of tokens in a counter
+	 * @param counterId
+	 * @return the tokens count in the counter
+	 */
+	//Integer getTokensCountInACounter(Long counterId);
 	
 	/**
 	 * Get Counter by Counter Id

@@ -83,7 +83,7 @@ public class BranchService {
 		this.service = service;
 	}
 
-	public boolean isMultiCounter() {
+	public boolean getMultiCounter() {
 		return multiCounter;
 	}
 

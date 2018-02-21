@@ -6,6 +6,7 @@ package com.turvo.banking.branch.services;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.turvo.banking.branch.entities.Branch;
 import com.turvo.banking.branch.repositories.BranchRepository;
@@ -14,6 +15,7 @@ import com.turvo.banking.branch.repositories.BranchRepository;
  * @author anushm
  *
  */
+@Service("branchCrudService")
 public class BranchCrudServiceImpl implements BranchCrudService {
 	
 	@Autowired

@@ -12,7 +12,7 @@ import com.turvo.banking.branch.token.entities.Token;
  * @author anushm
  *
  */
-public class CustomerTokenHelper extends Observable {
+public class TokenHelper extends Observable {
 	
 	public void notifyPicker(Token token) {
 		setChanged();

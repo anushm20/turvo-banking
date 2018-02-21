@@ -13,6 +13,7 @@ import com.turvo.banking.common.BankingRepository;
  *
  */
 @Repository
-public interface CounterRepository extends BankingRepository<Counter,Long> {
+public interface CounterRepository extends 
+		BankingRepository<Counter,Long>,CounterRepositoryCustom {
 
 }

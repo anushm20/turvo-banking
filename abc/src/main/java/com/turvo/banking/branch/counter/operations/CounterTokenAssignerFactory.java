@@ -3,8 +3,8 @@
  */
 package com.turvo.banking.branch.counter.operations;
 
+import com.turvo.banking.branch.counter.entities.StrategyType;
 import com.turvo.banking.common.ApplicationContextProvider;
-import com.turvo.banking.customer.entities.CustomerType;
 
 /**
  * @author anushm
@@ -12,15 +12,15 @@ import com.turvo.banking.customer.entities.CustomerType;
  */
 public class CounterTokenAssignerFactory {
 	
-	public static BranchCounterTokenPicker getTokenPicker(String tokenType) 
+	public static CounterStrategyPicker getTokenPicker(String tokenType) 
 			throws CounterStrategyNotFoundException {
 		
-		if(CustomerType.PREMIUM.toString().equalsIgnoreCase(tokenType)) {
+		if(StrategyType.MIXED.toString().equalsIgnoreCase(tokenType)) {
 			return ApplicationContextProvider.getApplicationContext().getBean
-					("premiumServiceCounter",PremiumCounterTokenPicker.class);
-		} else if (CustomerType.REGULAR.toString().equalsIgnoreCase(tokenType)) {
+					("mixedCounterStrategy",MixedCounterStrategy.class);
+		} else if (StrategyType.SEPARATE.toString().equalsIgnoreCase(tokenType)) {
 			return ApplicationContextProvider.getApplicationContext().getBean
-					("regularServiceCounter",PremiumCounterTokenPicker.class);
+					("separateCounterStrategy",SeparateCounterStrategy.class);
 		} else {
 			throw new CounterStrategyNotFoundException("Counter Picking Strategy Not FOund");
 		}

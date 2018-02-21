@@ -6,8 +6,10 @@ package com.turvo.banking.branch.token.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.turvo.banking.branch.repositories.CountDao;
 import com.turvo.banking.branch.token.entities.Token;
-import com.turvo.banking.branch.token.repositories.TokenRepository;
+import com.turvo.banking.branch.token.repositories.TokenDao;
+import com.turvo.banking.common.ApplicationContextProvider;
 
 /**
  * @author anushm
@@ -16,15 +18,18 @@ import com.turvo.banking.branch.token.repositories.TokenRepository;
 @Service
 public class TokenServiceImpl implements TokenService {
 	
-	@Autowired 
-	TokenRepository tokenRepo;
+	@Autowired
+	TokenDao tokenDao;
+	
+	@Autowired
+	CountDao countDao;
 	
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.TokenService#getTokenById(java.lang.Long)
 	 */
 	@Override
-	public Token getTokenByNumber(int number) {
-		return tokenRepo.findOne(number);
+	public Token getTokenById(Long tokenId) {
+		return tokenDao.getTokenById(tokenId);
 	}
 
 	/* (non-Javadoc)
@@ -33,10 +38,12 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public int createToken(Token token) {
-		tokenRepo.save(token);
-		/*TokenHelper helper = ApplicationContextProvider.getApplicationContext().
+		token.setNumber(countDao.getCountForUpdate
+					(token.getBranchId(), "TOKEN_NUMBER",true));
+		tokenDao.createToken(token);
+		TokenHelper helper = ApplicationContextProvider.getApplicationContext().
 				getBean("customTokenHelper",TokenHelper.class);
-		helper.notifyPicker(token);*/
+		helper.notifyPicker(token);
 		return token.getNumber(); 
 	}
 
@@ -45,16 +52,16 @@ public class TokenServiceImpl implements TokenService {
 	 * #updateToken(com.turvo.banking.branch.token.entities.Token)
 	 */
 	@Override
-	public void updateToken(Token token) {
-		tokenRepo.save(token);
+	public boolean updateToken(Token token) {
+		return tokenDao.updateToken(token);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.TokenService#deleteToken(java.lang.Long)
 	 */
 	@Override
-	public void deleteToken(int number) {
-		tokenRepo.delete(number);
+	public boolean deleteToken(Long tokenId) {
+		return tokenDao.deleteToken(tokenId);
 	}
 
 }

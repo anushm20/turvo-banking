@@ -4,6 +4,7 @@
 package com.turvo.banking.branch.counter.entities;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,15 +14,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.turvo.banking.branch.entities.BranchService;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.turvo.banking.branch.token.entities.Token;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -55,10 +56,9 @@ public class Counter {
 	@ApiModelProperty(notes = "Type of the Service Counter", required = true)
 	private CounterType counterType;
 	
-	@ManyToOne
-	@JoinColumn(name="branch_service_id")
+	@Column(name="branch_service_id")
 	@ApiModelProperty(notes = "Service which Service counter can serve",required=true)
-	private BranchService brService;
+	private Long brServiceId;
 	
 	@Column(name="multi_counter_order")
 	@ApiModelProperty(notes = "For a Multicounter service, tells the"
@@ -70,9 +70,15 @@ public class Counter {
 			+ "customers it can serve",required=true)
 	private int capacity;
 	
-	@ManyToMany(cascade=CascadeType.ALL,mappedBy="counters")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="counter")
+	@JsonManagedReference(value="counter-reference")
 	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
-	private List<Token> tokens;
+	private List<TokenCounterQueue> queuedTokens;
+	
+	@Transient
+	@ApiModelProperty(notes = "Queue which holds the "
+			+ "	List of tokens based on priority which can be served in this counter")
+	private PriorityQueue<Token> counterQueue;
 
 	public Long getCounterId() {
 		return counterId;
@@ -90,14 +96,14 @@ public class Counter {
 		this.counterType = counterType;
 	}
 
-	public BranchService getBrService() {
-		return brService;
+	public Long getBrServiceId() {
+		return brServiceId;
 	}
 
-	public void setBrService(BranchService brService) {
-		this.brService = brService;
+	public void setBrServiceId(Long brServiceId) {
+		this.brServiceId = brServiceId;
 	}
-	
+
 	public int getOrder() {
 		return order;
 	}
@@ -114,11 +120,19 @@ public class Counter {
 		this.capacity = capacity;
 	}
 
-	public List<Token> getTokens() {
-		return tokens;
+	public List<TokenCounterQueue> getQueuedTokens() {
+		return queuedTokens;
 	}
 
-	public void setTokens(List<Token> tokens) {
-		this.tokens = tokens;
+	public void setQueuedTokens(List<TokenCounterQueue> queuedTokens) {
+		this.queuedTokens = queuedTokens;
+	}
+
+	public PriorityQueue<Token> getCounterQueue() {
+		return counterQueue;
+	}
+
+	public void setCounterQueue(PriorityQueue<Token> counterQueue) {
+		this.counterQueue = counterQueue;
 	}
 }

@@ -3,7 +3,6 @@
  */
 package com.turvo.banking.branch.token.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +39,7 @@ public class TokenComment {
 	@ApiModelProperty(notes = "Primary Key for this entity")
 	private Long tokenCommentId;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="token_id")
 	@ApiModelProperty(notes = "Customer Token Number")
 	private Token token;

@@ -9,7 +9,7 @@ import com.turvo.banking.branch.token.entities.Token;
  * @author anushm
  *
  */
-public interface BranchCounterTokenPicker {
+public interface CounterStrategyPicker {
 	
 	/**
 	 * Update queue of respective service counter

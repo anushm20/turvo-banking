@@ -1,7 +1,7 @@
 /**
- * Service for generating Token
+ * 
  */
-package com.turvo.banking.branch.token.services;
+package com.turvo.banking.branch.token.repositories;
 
 import com.turvo.banking.branch.token.entities.Token;
 
@@ -9,8 +9,8 @@ import com.turvo.banking.branch.token.entities.Token;
  * @author anushm
  *
  */
-public interface TokenService {
-	
+public interface TokenDao {
+
 	/**
 	 * Get token by token Number
 	 * @param tokenId

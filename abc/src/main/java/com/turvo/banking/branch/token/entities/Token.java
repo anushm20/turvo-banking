@@ -17,8 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,7 +25,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.turvo.banking.branch.counter.entities.Counter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.turvo.banking.branch.counter.entities.TokenCounterQueue;
 import com.turvo.banking.customer.entities.Customer;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="token")
-public class Token implements Comparable<Token>{
+public class Token {
 	
 	@Id
 	@Column(name="token_id")
@@ -53,10 +53,14 @@ public class Token implements Comparable<Token>{
 			)
 	@ApiModelProperty(notes = "Primary Key of the table")
 	private Long tokenId;
+	
+	@Column(name="branch_id")
+	@ApiModelProperty(notes = "Branch in which the token generated")
+	private Integer branchId;
 
 	@Column(name="number")
 	@ApiModelProperty(notes = "Token Number(Generated internally)")
-	private int number;
+	private Integer number;
 	
 	@NotNull
 	@OneToOne
@@ -81,16 +85,12 @@ public class Token implements Comparable<Token>{
 	        joinColumns = @JoinColumn(name = "token_id")
 	)
 	@ApiModelProperty(notes = "List of services opted by customer")
-	private Set<Long> branchServices;
+	private List<Long> branchServices;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(
-	        name = "counter_queue",
-	        joinColumns = @JoinColumn(name = "token_id"),
-	        inverseJoinColumns = @JoinColumn(name = "counter_id")
-	)
-	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
-	private List<Counter> counters;
+	@OneToMany(mappedBy="token",cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonManagedReference(value="token-reference")
+	@ApiModelProperty(notes = "List of counters which customer has to go")
+	private Set<TokenCounterQueue> counters;
 	
 	public Long getTokenId() {
 		return tokenId;
@@ -100,12 +100,20 @@ public class Token implements Comparable<Token>{
 		this.tokenId = tokenId;
 	}
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
+	}
+
+	public Integer getBranchId() {
+		return branchId;
+	}
+
+	public void setBranchId(Integer branchId) {
+		this.branchId = branchId;
 	}
 
 	public Customer getCustomer() {
@@ -132,22 +140,30 @@ public class Token implements Comparable<Token>{
 		this.status = status;
 	}
 
-	public Set<Long> getBranchServices() {
+	public List<Long> getBranchServices() {
 		return branchServices;
 	}
 
-	public void setBranchServices(Set<Long> branchServices) {
+	public void setBranchServices(List<Long> branchServices) {
 		this.branchServices = branchServices;
 	}
 
-	public List<Counter> getCounters() {
+/*	public List<Counter> getCounters() {
 		return counters;
 	}
 
 	public void setCounters(List<Counter> counters) {
 		this.counters = counters;
+	}*/
+	
+	public Set<TokenCounterQueue> getCounters() {
+		return counters;
 	}
 
+	public void setCounters(Set<TokenCounterQueue> counters) {
+		this.counters = counters;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(Objects.isNull(obj)) return false;
@@ -155,12 +171,7 @@ public class Token implements Comparable<Token>{
 		if(!(obj instanceof Token)) return false;
 		
 		Token token = (Token) obj;
-		return this.priority == token.getPriority();
-	}
-	
-	@Override
-	public int compareTo(Token token) {
-		return Integer.compare(this.number, token.number);
+		return this.number == token.getNumber();
 	}
 	
 }

@@ -3,9 +3,9 @@
  */
 package com.turvo.banking.branch.counter.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.PriorityQueue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.turvo.banking.branch.counter.entities.Counter;
 import com.turvo.banking.branch.counter.entities.CounterType;
 import com.turvo.banking.branch.counter.repositories.CounterRepository;
+import com.turvo.banking.branch.token.entities.Token;
+import com.turvo.banking.branch.token.services.TokenPriorityComparator;
 
 /**
  * @author anushm
@@ -20,37 +22,45 @@ import com.turvo.banking.branch.counter.repositories.CounterRepository;
  */
 @Service
 public class CounterServiceImpl implements CounterService {
-	
+
 	@Autowired
 	CounterRepository counterRepo;
-	
+
 	/**
 	 * Method to return counters for a given counter type
 	 */
 	@Override
-	public List<Long> getCountersByType(CounterType type) {
-		List<Long> counters = new ArrayList<>();
-		counterRepo.findAll().forEach((Counter counter)->{
-			if(type.toString().equals
-						(counter.getCounterType().toString())) {
-				counters.add(counter.getCounterId());
-			}
-		});
-		return counters;
+	public List<Counter> getCountersByType(CounterType type) {
+		return counterRepo.findByCounterType(type);
 	}
-	
+
+	/**
+	 * Method to return counters for a service based on type
+	 */
+	@Override
+	public List<Counter> getCountersByServiceAndType(Long serviceId, CounterType type) {
+		return counterRepo.findByBrServiceIdAndCounterType(serviceId, type);
+	}
+
 	/*
 	 * @see com.turvo.banking.branch.counter.services.CounterService#
-	 * getCounterById(java.lang.Long)
-	 * (non-Javadoc)
-	 * @see com.turv
+	 * getCounterById(java.lang.Long) (non-Javadoc)
 	 */
 	@Override
 	public Counter getCounterById(Long counterId) {
-		return counterRepo.findOne(counterId);
+		Counter counter = counterRepo.findOne(counterId);
+		PriorityQueue<Token> queue = new PriorityQueue<>(new TokenPriorityComparator());
+		// Populate the queue now
+		counter.getQueuedTokens().forEach((queued) -> {
+			queue.add(queued.getToken());
+		});
+		counter.setCounterQueue(queue);
+		return counter;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.turvo.banking.branch.counter.services.CounterService#
 	 * createCounter(com.turvo.banking.branch.counter.entities.Counter)
 	 */
@@ -60,21 +70,25 @@ public class CounterServiceImpl implements CounterService {
 		return counter.getCounterId();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.turvo.banking.branch.counter.services.ServiceCounterService
 	 * #updateCounter(com.turvo.banking.branch.counter.entities.Counter)
 	 */
 	@Override
 	public boolean updateCounter(Counter counter) {
 		Counter savedCounter = counterRepo.save(counter);
-		if(Objects.nonNull(savedCounter)) {
+		if (Objects.nonNull(savedCounter)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.turvo.banking.branch.counter.services.ServiceCounterService
 	 * #deleteCounter(java.lang.Long)
 	 */
@@ -82,11 +96,16 @@ public class CounterServiceImpl implements CounterService {
 	public boolean deleteCounter(Long counterId) {
 		counterRepo.delete(counterId);
 		Counter counter = getCounterById(counterId);
-		if(Objects.isNull(counter)) {	
+		if (Objects.isNull(counter)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	/*
+	 * @Override public Integer getTokensCountInACounter(Long counterId) { return
+	 * counterRepo.getCounterTokenSize(counterId); }
+	 */
 
 }

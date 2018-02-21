@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.turvo.banking.branch.counter.operations.BranchCounterTokenAssigner;
-import com.turvo.banking.branch.token.services.CustomerTokenHelper;
+import com.turvo.banking.branch.counter.operations.CounterTokenAssigner;
+import com.turvo.banking.branch.token.services.TokenHelper;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -19,9 +19,9 @@ public class AbcApplication {
 	}
 	
 	@Bean
-	public  CustomerTokenHelper customTokenHelper() {
-		CustomerTokenHelper helper = new CustomerTokenHelper();
-		BranchCounterTokenAssigner listener = new BranchCounterTokenAssigner(helper);
+	public  TokenHelper customTokenHelper() {
+		TokenHelper helper = new TokenHelper();
+		CounterTokenAssigner listener = new CounterTokenAssigner(helper);
 		helper.addObserver(listener);
 		return helper;
 	}

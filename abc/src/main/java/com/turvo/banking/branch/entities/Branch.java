@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @Entity
-@Table(name="bank_branch")
+@Table(name="branch")
 public class Branch {
 	
 	@Id
@@ -64,7 +64,7 @@ public class Branch {
 	@Enumerated(EnumType.STRING)
 	@ApiModelProperty(notes = "Strategy type for Counter "
 			+ "queues in the branch")
-	private StrategyType type;
+	private StrategyType counterStrategyType;
 	
 	@ApiModelProperty(notes = "Frequency of assiging a token"
 			+ " for regular customers")
@@ -103,12 +103,12 @@ public class Branch {
 		this.branchAddress = branchAddress;
 	}
 
-	public StrategyType getType() {
-		return type;
+	public StrategyType getCounterStrategyType() {
+		return counterStrategyType;
 	}
 
-	public void setType(StrategyType type) {
-		this.type = type;
+	public void setCounterStrategyType(StrategyType type) {
+		this.counterStrategyType = type;
 	}
 
 	public int getFrequency() {

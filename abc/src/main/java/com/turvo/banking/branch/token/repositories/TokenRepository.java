@@ -13,6 +13,6 @@ import com.turvo.banking.common.BankingRepository;
  *
  */
 @Repository	
-public interface TokenRepository extends BankingRepository<Token, Integer> {
-
+public interface TokenRepository extends BankingRepository<Token, Long> {
+	
 }

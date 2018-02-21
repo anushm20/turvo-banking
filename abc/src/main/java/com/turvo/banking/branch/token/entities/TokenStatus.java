@@ -9,6 +9,7 @@ package com.turvo.banking.branch.token.entities;
  */
 public enum TokenStatus {
 	CREATED,
+	QUEUED,
 	INPROGRESS,
 	REVISIT,
 	COMPLETED,

@@ -3,9 +3,8 @@
  */
 package com.turvo.banking.branch.counter.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -25,6 +24,7 @@ import com.turvo.banking.branch.counter.operations.CounterOperations;
 import com.turvo.banking.branch.counter.services.CounterService;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.token.entities.Token;
+import com.turvo.banking.branch.token.services.TokenService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +45,9 @@ public class CounterController {
 	
 	@Autowired
 	BranchServices branchServices; 
+	
+	@Autowired
+	TokenService tokenService;
 	
 	@ApiOperation(value = "View a given Branch Counter", response = Counter.class)
 	@GetMapping("/counter/{id}")
@@ -83,12 +86,9 @@ public class CounterController {
 	@ApiOperation(value = "View list of tokens available at a "
 			+ "Branch Counter", response = List.class)
 	@GetMapping("/counter/{id}/tokens")
-	public List<Integer> getTokensAtCounter(@PathVariable("id") Long id){
-		List<Integer> tokens = new ArrayList<>();
-		Counter counter = counterService.getCounterById(id);
-		PriorityQueue<Token> queue = counter.getCounterQueue();
-		queue.forEach((token)->tokens.add(token.getNumber()));
-		return tokens;
+	public List<Long> getTokensAtCounter(@PathVariable("id") Long id){
+		List<Long> tokenIds= counterService.getTokensInCounter(id);
+		return tokenIds;
 	}
 	
 	@ApiOperation(value = "Take an action aganist a token in a "
@@ -96,13 +96,21 @@ public class CounterController {
 	@GetMapping("/counter/{id}/token/{action}")
 	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
 			@PathVariable("action") String action) {
-		Counter counter = counterService.getCounterById(counterId);
-		Token token = counter.getCounterQueue().peek();
-		boolean success = operations.serveToken(counter, token, action);
-		if(success)
-			return HttpStatus.OK;
-		 else 
+		List<Long> tokenIds= counterService.getTokensInCounter(counterId);
+		if(tokenIds != null) {
+			Token token = tokenService.getTokenBasedOnPriority(tokenIds);
+			if(Objects.nonNull(token)) {
+				boolean success = operations.serveToken(counterId, token, action);
+				if(success)
+					return HttpStatus.OK;
+				else 
+					return HttpStatus.BAD_REQUEST;
+			} else {
+				return HttpStatus.BAD_REQUEST;
+			}
+		} else {
 			return HttpStatus.BAD_REQUEST;
+		}
 	}
 	
 }

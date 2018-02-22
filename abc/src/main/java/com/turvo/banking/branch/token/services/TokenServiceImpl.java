@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.branch.token.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +64,11 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public boolean deleteToken(Long tokenId) {
 		return tokenDao.deleteToken(tokenId);
+	}
+
+	@Override
+	public Token getTokenBasedOnPriority(List<Long> tokenIds) {
+		return tokenDao.getTokenBasedOnPriority(tokenIds);
 	}
 
 }

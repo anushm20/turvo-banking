@@ -18,6 +18,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,6 +40,10 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="token")
+@NamedQueries({
+	@NamedQuery(name="Token.findTokenBasedOnPriority", query="from Token where "
+			+ "tokenId in :tokenIds order by priority desc"),
+})
 public class Token implements Serializable{
 	
 	/**

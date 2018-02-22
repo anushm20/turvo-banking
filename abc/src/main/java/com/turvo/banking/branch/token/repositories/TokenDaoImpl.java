@@ -3,10 +3,12 @@
  */
 package com.turvo.banking.branch.token.repositories;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +70,19 @@ public class TokenDaoImpl implements TokenDao {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Token getTokenBasedOnPriority(List<Long> tokenIds) {
+		Query query= em.createNamedQuery("Token.findTokenBasedOnPriority", Token.class);
+		query.setParameter("tokenIds", tokenIds);
+		List<Token> tokens = query.getResultList();
+		if(Objects.nonNull(tokens) && tokens.size() > 0) {
+			return tokens.get(0);
+		} else {
+			return null;
 		}
 	}
 

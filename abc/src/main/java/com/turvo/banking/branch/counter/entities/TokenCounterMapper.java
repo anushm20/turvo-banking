@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -29,6 +31,14 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="token_counter_mapper")
+@NamedQueries({
+	@NamedQuery(name="TokenCounterMapper.getNextToken",query="select map.token.tokenId from TokenCounterMapper map"
+		+ " where map.counter.counterId=:counterId"),
+	@NamedQuery(name="Counter.findMinTokensCounter", query="from TokenCounterMapper map " + 
+			"where map.counter.counterId in :counterIdList " + 
+			"group by map.counter.counterId,map.counterQueueId order by count(map.token.tokenId) asc")
+	
+})
 public class TokenCounterMapper implements Serializable{
 	
 	/**
@@ -63,18 +73,12 @@ public class TokenCounterMapper implements Serializable{
 	@ApiModelProperty(notes = "Counter ID")
 	private Counter counter;
 	
-	@Column(name="token_counter_order")
-	@ApiModelProperty(notes = "Order of the counter in "
-			+ "which customer has to go")
-	private Integer order;
-	
 	public TokenCounterMapper() {
 	}
 	
-	public TokenCounterMapper(Token token, Counter counter, Integer order){
+	public TokenCounterMapper(Token token, Counter counter){
 		this.token = token;
 		this.counter = counter;
-		this.order = order;
 	}
 
 	public Long getCounterQueueId() {
@@ -101,12 +105,4 @@ public class TokenCounterMapper implements Serializable{
 		this.counter = counter;
 	}
 
-	public Integer getOrder() {
-		return order;
-	}
-
-	public void setOrder(Integer order) {
-		this.order = order;
-	}
-	
 }

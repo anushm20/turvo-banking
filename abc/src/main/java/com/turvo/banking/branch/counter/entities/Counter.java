@@ -5,7 +5,6 @@ package com.turvo.banking.branch.counter.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,16 +13,16 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.turvo.banking.branch.token.entities.Token;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -33,6 +32,10 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="counter")
+@NamedQueries({
+	@NamedQuery(name="Counter.findByServiceAndType", query="from Counter where "
+			+ "brServiceId=:brServiceId and counterType=:type"),
+})
 public class Counter implements Serializable {
 	
 	/**
@@ -75,11 +78,6 @@ public class Counter implements Serializable {
 	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
 	private List<TokenCounterMapper> queuedTokens;
 	
-	@Transient
-	@ApiModelProperty(notes = "Queue which holds the "
-			+ "	List of tokens based on priority which can be served in this counter")
-	private PriorityQueue<Token> counterQueue;
-
 	public Long getCounterId() {
 		return counterId;
 	}
@@ -120,11 +118,4 @@ public class Counter implements Serializable {
 		this.queuedTokens = queuedTokens;
 	}
 
-	public PriorityQueue<Token> getCounterQueue() {
-		return counterQueue;
-	}
-
-	public void setCounterQueue(PriorityQueue<Token> counterQueue) {
-		this.counterQueue = counterQueue;
-	}
 }

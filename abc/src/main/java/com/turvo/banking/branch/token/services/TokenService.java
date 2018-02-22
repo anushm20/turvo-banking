@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.branch.token.services;
 
+import java.util.List;
+
 import com.turvo.banking.branch.token.entities.Token;
 
 /**
@@ -17,6 +19,13 @@ public interface TokenService {
 	 * @return  token object
 	 */
 	Token getTokenById(Long tokenId);
+	
+	/**
+	 * Method to return prioritized token among the list
+	 * @param tokenIds
+	 * @return
+	 */
+	Token getTokenBasedOnPriority(List<Long> tokenIds);
 	
 	/**
 	 * Create a new  Token

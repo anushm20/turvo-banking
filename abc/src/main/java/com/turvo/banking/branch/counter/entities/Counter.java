@@ -3,6 +3,7 @@
  */
 package com.turvo.banking.branch.counter.entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -32,8 +33,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="counter")
-public class Counter {
+public class Counter implements Serializable {
 	
+	/**
+	 * Default Serial Verison ID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(generator = "counterId")
 	@GenericGenerator(
@@ -64,7 +70,7 @@ public class Counter {
 			+ " order which it has to get executed",required=true)
 	private int order;
 	
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="counter")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="counter",orphanRemoval=true)
 	@JsonManagedReference(value="counter-reference")
 	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
 	private List<TokenCounterMapper> queuedTokens;

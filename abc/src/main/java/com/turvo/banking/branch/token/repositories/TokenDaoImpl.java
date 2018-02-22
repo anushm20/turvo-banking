@@ -7,9 +7,9 @@ import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.turvo.banking.branch.token.entities.Token;
 
@@ -27,6 +27,7 @@ public class TokenDaoImpl implements TokenDao {
 	 * @see com.turvo.banking.branch.token.repositories.TokenDao#getTokenById(java.lang.Long)
 	 */
 	@Override
+	@Transactional(readOnly=true)
 	public Token getTokenById(Long tokenId) {
 		return em.find(Token.class, tokenId);
 	}

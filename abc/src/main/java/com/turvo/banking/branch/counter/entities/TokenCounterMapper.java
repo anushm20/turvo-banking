@@ -5,6 +5,8 @@
  */
 package com.turvo.banking.branch.counter.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,8 +29,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="token_counter_mapper")
-public class TokenCounterMapper {
+public class TokenCounterMapper implements Serializable{
 	
+	/**
+	 * Default Serial Verison ID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(generator = "counterQueueId")
 	@GenericGenerator(

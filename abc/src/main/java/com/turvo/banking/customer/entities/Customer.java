@@ -3,6 +3,7 @@
  */
 package com.turvo.banking.customer.entities;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,8 +30,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="customer")
-public class Customer {
+public class Customer implements Serializable{
 	
+	/**
+	 * Default Serial Version ID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(generator = "customerId")
 	@GenericGenerator(

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.turvo.banking.branch.repositories.CountDao;
 import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.repositories.TokenDao;
-import com.turvo.banking.common.ApplicationContextProvider;
 
 /**
  * @author anushm
@@ -23,6 +22,9 @@ public class TokenServiceImpl implements TokenService {
 	
 	@Autowired
 	CountDao countDao;
+	
+	@Autowired
+	TokenHelper helper;
 	
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.TokenService#getTokenById(java.lang.Long)
@@ -41,9 +43,7 @@ public class TokenServiceImpl implements TokenService {
 		token.setNumber(countDao.getCountForUpdate
 					(token.getBranchId(), "TOKEN_NUMBER",true));
 		Integer number = tokenDao.createToken(token);
-		TokenHelper helper = ApplicationContextProvider.getApplicationContext().
-				getBean("customTokenHelper",TokenHelper.class);
-		helper.notifyPicker(token);
+		helper.sendToken(token.getTokenId());
 		return number; 
 	}
 

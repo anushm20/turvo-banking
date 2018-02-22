@@ -4,19 +4,24 @@
  */
 package com.turvo.banking.branch.token.services;
 
-import java.util.Observable;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.turvo.banking.branch.token.entities.Token;
+import com.turvo.banking.RabbitConfig;
 
 /**
  * @author anushm
  *
  */
-public class TokenHelper extends Observable {
+@Component
+public class TokenHelper  {
 	
-	public void notifyPicker(Token token) {
-		setChanged();
-		notifyObservers(token);
+	@Autowired
+	RabbitTemplate rabbitTemplate;
+	
+	public void sendToken(Long tokenId) {
+		this.rabbitTemplate.convertAndSend(RabbitConfig.TOKENS_QUEUE,tokenId);
 	}
 	
 }

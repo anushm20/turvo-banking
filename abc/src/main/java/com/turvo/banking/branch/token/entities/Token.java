@@ -3,6 +3,7 @@
  */
 package com.turvo.banking.branch.token.entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -37,8 +38,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name="token")
-public class Token {
+public class Token implements Serializable{
 	
+	/**
+	 * Default Serial version ID
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="token_id")
 	@GeneratedValue(generator = "tokenId")
@@ -148,20 +154,13 @@ public class Token {
 		this.branchServices = branchServices;
 	}
 
-/*	public List<Counter> getCounters() {
-		return counters;
-	}
-
-	public void setCounters(List<Counter> counters) {
-		this.counters = counters;
-	}*/
-	
 	public Set<TokenCounterMapper> getCounters() {
 		return counters;
 	}
 
 	public void setCounters(Set<TokenCounterMapper> counters) {
-		this.counters = counters;
+		this.counters.clear();
+		this.counters.addAll(counters);
 	}
 	
 	@Override

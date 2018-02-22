@@ -9,54 +9,54 @@
 package com.turvo.banking.branch.counter.strategies;
 
 import java.util.Objects;
-import java.util.Observable;
-import java.util.Observer;
 
+import javax.transaction.Transactional;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.turvo.banking.RabbitConfig;
 import com.turvo.banking.branch.entities.Branch;
 import com.turvo.banking.branch.exceptions.EntityNotFoundException;
 import com.turvo.banking.branch.exceptions.InvalidDataException;
 import com.turvo.banking.branch.services.BranchCrudService;
-import com.turvo.banking.branch.services.BranchCrudServiceImpl;
 import com.turvo.banking.branch.token.entities.Token;
-import com.turvo.banking.branch.token.services.TokenHelper;
-import com.turvo.banking.common.ApplicationContextProvider;
+import com.turvo.banking.branch.token.services.TokenService;
 
 /**
  * @author anushm
  *
  */
 @Component
-public class CounterTokenAssigner implements Observer {
+public class CounterTokenAssigner {
 	
+	@Autowired
 	private BranchCrudService branchCrudService;
 	
-	@SuppressWarnings("unused")
-	private TokenHelper helper = null;
-	
-	public CounterTokenAssigner() {
-	}
-	
-	public CounterTokenAssigner(TokenHelper helper) {
-		this.helper = helper;
-	}
+	@Autowired
+	private TokenService tokenService;
 	
 	/* (non-Javadoc)
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
-	@Override
-	public void update(Observable o, Object arg) {
-		if(Objects.nonNull(arg)) {
-			Token token = (Token)arg;
+	@RabbitListener(queues=RabbitConfig.TOKENS_QUEUE)
+	@Transactional
+	public void update(Long tokenId) {
+		if(Objects.nonNull(tokenId)) {
 			try {
+				Token token = tokenService.getTokenById(tokenId);
 				updateTokeninQueues(token);
 			} catch (EntityNotFoundException e) {
 				e.printStackTrace();
 				// LOG the statement
+			} catch (Exception e) {
+				e.printStackTrace();
+				// Add them to dead letter queue
 			}
+		} else {
+			// Handle exception
 		}
-
 	}
 	/**
 	 * helper method to update the token into queues
@@ -66,8 +66,6 @@ public class CounterTokenAssigner implements Observer {
 	public void updateTokeninQueues(Token token) throws EntityNotFoundException {
 		// Get the branch from the token
 		if(token.getBranchId() != null) {
-			branchCrudService = ApplicationContextProvider.getApplicationContext().
-							getBean("branchCrudService",BranchCrudServiceImpl.class);
 			Branch branch = branchCrudService.getBranchById(token.getBranchId());
 			if(Objects.nonNull(branch)) {
 				// Based on branch strategy pick strategy
@@ -85,6 +83,7 @@ public class CounterTokenAssigner implements Observer {
 					}
 					if(!queued) {
 						// Re try Mechanism should go here
+						// Can be moved to Dead letter queue
 					}
 				} catch (EntityNotFoundException e) {
 					e.printStackTrace();

@@ -1,11 +1,11 @@
 # turvo-banking
 This repository contains Prototype for Turvo Banking Problem. 
 <h2> Technologies</h2>
-Java, 
-Spring Boot ,
-MySQL - For Database,
-Spring Data JPA(with Hibernate) - For ORM,
-Rabbit MQ - Messaging Queues,
+Java <br/>
+Spring Boot <br/>
+MySQL - For Database <br/>
+Spring Data JPA(with Hibernate) - For ORM <br/>
+Rabbit MQ - Messaging Queues <br/>
 Swagger - For API documentation
 
 <h2> High Level Flow </h2>
@@ -15,22 +15,22 @@ Operator takes the token and completes the action and places it to another queue
 Processor takes the token and based on the services selected and completed, it will either place the token in next counter or mark the status as completed.
 
 <h2> Available services : </h2>
-1. CRUD operations for creating a Bank (No REST End Points)
-2. CRUD operations for creating a Branch of Bank(No REST End Points)
-3. CRUD operations for creating services in Bank
-4. CRUD operations for Mapping a Bank service to a Branch
-5. CRUD operations for creating a Counter in a Branch
-6. CRUD operations for creating a Customer in a Bank
-7. CRUD operations for creating a Token 
-8. Different services for taking actions on a token in a Counter
+1. CRUD operations for creating a Bank (No REST End Points) <br/>
+2. CRUD operations for creating a Branch of Bank(No REST End Points)<br/>
+3. CRUD operations for creating services in Bank<br/>
+4. CRUD operations for Mapping a Bank service to a Branch<br/>
+5. CRUD operations for creating a Counter in a Branch<br/>
+6. CRUD operations for creating a Customer in a Bank<br/>
+7. CRUD operations for creating a Token <br/>
+8. Different services for taking actions on a token in a Counter<br/>
 
 <h2>Assumptions : </h2>
-1. Only one service is done at a particular counter 
-2. Service to Service counters should be provided using the application. Also, for a multi counter service, order of counters should be given correctly using the application
-3. In case of Multi Services , a single token with the list of services will be used across different counters. 
-4. Same token will be pushed to different counters. Customer will be moved counter by counter, based on priority he will come up in the next counter 
-5. Minimum validations are applied in code. Prototype works for cases which have proper data.
-6. Based on the problem statement, an assumption is made that tokens should be allocated to token counters in advance. 
+1. Only one service is done at a particular counter <br/>
+2. Service to Service counters should be provided using the application. Also, for a multi counter service, order of counters should be given correctly using the application<br/>
+3. In case of Multi Services , a single token with the list of services will be used across different counters. <br/>
+4. Same token will be pushed to different counters. Customer will be moved counter by counter, based on priority he will come up in the next counter <br/>
+5. Minimum validations are applied in code. Prototype works for cases which have proper data.<br/>
+6. Based on the problem statement, an assumption is made that tokens should be allocated to token counters in advance. <br/>
 
 <h2>Build Instructions : </h2>
 This is a simple Spring boot application. 

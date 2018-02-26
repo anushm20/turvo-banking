@@ -12,6 +12,7 @@ Assumptions :
 3. In case of Multi Services , a single token with the list of services will be used across different counters. 
 4. Same token will be pushed to different counters. Customer will be moved counter by counter, based on priority he will come up in the next counter 
 5. Minimum validations are applied in code. Prototype works for cases which have proper data.
+6. Based on the problem statement, an assumption is made that tokens should be allocated to token counters in advance. 
 
 
 

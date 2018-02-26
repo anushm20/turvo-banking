@@ -57,7 +57,7 @@ public class TokenCounterMapper implements Serializable{
 					value="com.turvo.banking.branch.counter.entities.CounterQueue")
 			}
 			)
-	@Column(name="counter_queue_id")
+	@Column(name="mapper_id")
 	@ApiModelProperty(notes = "Database Generated ID for Counter Queue")
 	private Long counterQueueId;
 	

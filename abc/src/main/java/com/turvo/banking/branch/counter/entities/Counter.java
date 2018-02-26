@@ -35,6 +35,8 @@ import io.swagger.annotations.ApiModelProperty;
 @NamedQueries({
 	@NamedQuery(name="Counter.findByServiceAndType", query="from Counter where "
 			+ "brServiceId=:brServiceId and counterType=:type"),
+	@NamedQuery(name="Counter.findTokenNumbersByCounter", query="select number from Token"
+			+ "	where tokenId in (select map.token.tokenId from TokenCounterMapper map where map.counter.counterId=:counterId)")
 })
 public class Counter implements Serializable {
 	

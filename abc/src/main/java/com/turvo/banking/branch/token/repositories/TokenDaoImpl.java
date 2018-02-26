@@ -33,6 +33,32 @@ public class TokenDaoImpl implements TokenDao {
 	public Token getTokenById(Long tokenId) {
 		return em.find(Token.class, tokenId);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Token getTokenBasedOnPriority(List<Long> tokenIds) {
+		Query query= em.createNamedQuery("Token.findTokenBasedOnPriority", Token.class);
+		query.setParameter("tokenIds", tokenIds);
+		List<Token> tokens = query.getResultList();
+		if(Objects.nonNull(tokens) && tokens.size() > 0) {
+			return tokens.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Token getTokenByNumber(Integer number) {
+		Query query = em.createNamedQuery("Token.findTokenByNumber",Token.class);
+		query.setParameter("number", number);
+		List<Token> tokens = query.getResultList();
+		if(Objects.nonNull(tokens) && tokens.size() > 0) {
+			return tokens.get(0);
+		} else {
+			return null;
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.repositories.TokenDao#createToken(com.turvo.banking.branch.token.entities.Token)
@@ -70,19 +96,6 @@ public class TokenDaoImpl implements TokenDao {
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Token getTokenBasedOnPriority(List<Long> tokenIds) {
-		Query query= em.createNamedQuery("Token.findTokenBasedOnPriority", Token.class);
-		query.setParameter("tokenIds", tokenIds);
-		List<Token> tokens = query.getResultList();
-		if(Objects.nonNull(tokens) && tokens.size() > 0) {
-			return tokens.get(0);
-		} else {
-			return null;
 		}
 	}
 

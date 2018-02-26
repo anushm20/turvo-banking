@@ -4,7 +4,7 @@
 package com.turvo.banking;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,8 +18,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author anushm
  *
  */
-@Configuration
 @EnableSwagger2
+@Profile("!test")
 public class SwaggerConfig {
 
     @Bean

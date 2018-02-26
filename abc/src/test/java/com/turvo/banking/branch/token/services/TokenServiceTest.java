@@ -8,37 +8,48 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.turvo.banking.AbcApplication;
+import com.turvo.banking.AbstractCommonTest;
 import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.entities.TokenStatus;
+import com.turvo.banking.customer.entities.Customer;
 import com.turvo.banking.customer.entities.CustomerType;
 
 /**
  * @author anushm
  *
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {AbcApplication.class})
-public class TokenServiceTest {
+public class TokenServiceTest extends AbstractCommonTest{
 	
 	@Autowired
 	TokenService tokenService;
 	
 	@Test
-	public void createCustomerToken() {
-		/*CustomerToken token = new CustomerToken();
+	public void createToken() {
+		Token token = new Token();
+		token.setBranchId(1);
 		token.setStatus(TokenStatus.CREATED);
-		token.setCustomerType(CustomerType.PREMIUM.toString());
-		token.setCustomerId(2L);
-		token.setServices(Arrays.asList(new Long[] {1L,2L,3L,4L}));
-		int id = tokenService.createCustomerToken(token);
-		CustomerToken token1 = tokenService.getCustomerTokenByNumber(id);
-		assertEquals(token1.getCustomerId().longValue(), 2L);*/
+		Customer customer = new Customer();
+		customer.setCustomerId(2L);
+		customer.setType(CustomerType.PREMIUM);
+		token.setCustomer(customer);
+		token.setBranchServices(Arrays.asList(new Long[] {2L}));
+		Integer number = tokenService.createToken(token);
+		Token token1 = tokenService.getTokenByNumber(number);
+		assertEquals(number, token1.getNumber());
+	}
+	
+	@Test
+	public void updateToken() {
+		Token token = tokenService.getTokenByNumber(10);
+		token.setPriority(100);
+		assertEquals(tokenService.updateToken(token), true);
 	}
 
+	@Test
+	public void deleteToken() {
+		assertEquals(tokenService.deleteToken(852L), true);
+	}
+	
 }

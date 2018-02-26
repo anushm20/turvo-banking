@@ -6,12 +6,9 @@ package com.turvo.banking.customer.services;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.turvo.banking.AbcApplication;
+import com.turvo.banking.AbstractCommonTest;
 import com.turvo.banking.customer.entities.Customer;
 import com.turvo.banking.customer.entities.CustomerType;
 
@@ -19,9 +16,7 @@ import com.turvo.banking.customer.entities.CustomerType;
  * @author anushm
  *
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {AbcApplication.class})
-public class CustomerServiceTest {
+public class CustomerServiceTest  extends AbstractCommonTest{
 
 	@Autowired
 	CustomerService customerServcie;
@@ -35,5 +30,17 @@ public class CustomerServiceTest {
 		Long id = customerServcie.createCustomer(customer);
 		Customer cust = customerServcie.getCustomerById(id);
 		assertEquals(cust.getName(), "MAK");
+	}
+	
+	@Test
+	public void updateCustomer() {
+		Customer customer = customerServcie.getCustomerById(1L);
+		customer.setName("Updated");
+		assertEquals(customerServcie.updateCustomer(customer), true);
+	}
+	
+	@Test
+	public void deleteCustomer() {
+		assertEquals(customerServcie.deleteCustomer(1L), true);
 	}
 }

@@ -6,52 +6,68 @@ package com.turvo.banking.branch.counter.services;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.turvo.banking.AbcApplication;
+import com.turvo.banking.AbstractCommonTest;
 import com.turvo.banking.branch.counter.entities.Counter;
 import com.turvo.banking.branch.counter.entities.CounterType;
-import com.turvo.banking.branch.token.entities.Token;
-import com.turvo.banking.branch.token.entities.TokenStatus;
-import com.turvo.banking.customer.entities.CustomerType;
 
 /**
  * @author anushm
  *
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {AbcApplication.class})
-public class CounterServiceTest {
+public class CounterServiceTest extends AbstractCommonTest{
 	
 	@Autowired
 	CounterService counterService;
 	
 	@Test
-	public void createServiceCounter() {
-		/*Counter counter = new Counter();
+	public void createCounter() {
+		Counter counter = new Counter();
 		counter.setCounterType(CounterType.PREMIUM);
-		counter.setServiceId(1L);
-		PriorityQueue<CustomerToken> queue = new PriorityQueue<>();
-		counter.setTokenQueue(queue);
-		Long id = counterService.createServiceCounter(counter);
-		Counter counter1 = counterService.getServiceCounterById(id);
-		assertEquals(counter1.getServiceId().longValue(), 1L);
-		// Update queue
-		CustomerToken token = new CustomerToken();
-		token.setStatus(TokenStatus.CREATED);
-		token.setNumber(1);
-		token.setCustomerType(CustomerType.PREMIUM.toString());
-		token.setServices(Arrays.asList(new Long[] {1L,2L,3L,4L}));
-		counter1.getTokenQueue().add(token);
-		// Assert token
-		Counter counter2 = counterService.getServiceCounterById(id);
-		assertEquals(counter2.getTokenQueue().peek(), token);*/
+		counter.setBrServiceId(2L);
+		Long id = counterService.createCounter(counter);
+		Counter counter1 = counterService.getCounterById(id);
+		assertEquals(counter1.getBrServiceId().longValue(), 2L);
 	}
-
+	
+	@Test
+	public void updateCounter() {
+		Counter counter = counterService.getCounterById(52L);
+		counter.setOrder(100);
+		boolean success = counterService.updateCounter(counter);
+		assertEquals(true, success);
+	}
+	
+	@Test
+	public void deleteCounter() {
+		boolean success = counterService.deleteCounter(52L);
+		assertEquals(true, success);
+	}
+	
+	@Test
+	public void getCountersByServiceAndType() {
+		List<Counter> counters = counterService.getCountersByServiceAndType
+							(2L, CounterType.PREMIUM);
+		counters.forEach((counter)->{
+			assertEquals(CounterType.PREMIUM.toString(),counter.
+									getCounterType().toString());
+		});
+	}
+	
+	@Test
+	public void getCounterWithMinTokens() {
+		Counter counter = counterService.getCounterWithMinTokens
+								(Arrays.asList(new Long[] {52L,102L}));
+		assertEquals(counter.getCounterId().longValue(), 102L);
+	}
+	
+	@Test
+	public void getTokenNumbersAtCounter() {
+		List<Integer> tokenNumbers = counterService.getTokenNumbersAtCounter(52L);
+		assertEquals(0, tokenNumbers.size());
+	}
 }

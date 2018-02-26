@@ -38,6 +38,30 @@ public class CounterServiceImpl implements CounterService {
 	public Counter getCounterById(Long counterId) {
 		return counterDao.getCounterById(counterId);
 	}
+	
+	/**
+	 * Method to get counter with minimum tokens 
+	 */
+	@Override
+	public Counter getCounterWithMinTokens(List<Long> counterIds) {
+		return counterDao.getCounterWithMinTokens(counterIds);
+	}
+
+	/**
+	 * Method to get tokens in a counter. Only Ids
+	 */
+	@Override
+	public List<Long> getTokensInCounter(Long counterId) {
+		return counterDao.getTokensInCounter(counterId);
+	}
+	
+	/**
+	 * Method to get tokens in  a counter. Only Numbers
+	 */
+	@Override
+	public List<Integer> getTokenNumbersAtCounter(Long counterId) {
+		return counterDao.getTokenNumbersAtCounter(counterId);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -70,16 +94,6 @@ public class CounterServiceImpl implements CounterService {
 	@Override
 	public boolean deleteCounter(Long counterId) {
 		return counterDao.deleteCounter(counterId);
-	}
-
-	@Override
-	public Counter getCounterWithMinTokens(List<Long> counterIds) {
-		return counterDao.getCounterWithMinTokens(counterIds);
-	}
-
-	@Override
-	public List<Long> getTokensInCounter(Long counterId) {
-		return counterDao.getTokensInCounter(counterId);
 	}
 
 }

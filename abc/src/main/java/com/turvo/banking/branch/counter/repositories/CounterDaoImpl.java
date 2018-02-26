@@ -108,5 +108,14 @@ public class CounterDaoImpl implements CounterDao {
 		else 
 			return null;
 	}
+	
+	@Override
+	public List<Integer> getTokenNumbersAtCounter(Long counterId) {
+		Query query= em.createNamedQuery("Counter.findTokenNumbersByCounter");
+		query.setParameter("counterId", counterId);
+		@SuppressWarnings("unchecked")
+		List<Integer> numbers = query.getResultList();
+		return numbers;
+	}
 
 }

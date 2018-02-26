@@ -39,6 +39,13 @@ public interface CounterDao {
 	List<Long> getTokensInCounter(Long counterId);
 	
 	/**
+	 * Method to return list of token numbers at a counter
+	 * @param counterId
+	 * @return list of token numbers
+	 */
+	List<Integer> getTokenNumbersAtCounter(Long counterId);
+	
+	/**
 	 * Get Service Counter by Counter Id
 	 * @param counterId
 	 * @return Service counter object

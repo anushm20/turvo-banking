@@ -21,6 +21,13 @@ public interface TokenDao {
 	Token getTokenById(Long tokenId);
 	
 	/**
+	 * Method to get token by token number
+	 * @param number
+	 * @return token object
+	 */
+	Token getTokenByNumber(Integer number);
+	
+	/**
 	 * Method to return prioritized token among the list
 	 * @param tokenIds
 	 * @return

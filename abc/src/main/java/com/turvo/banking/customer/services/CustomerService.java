@@ -29,12 +29,12 @@ public interface CustomerService {
 	 * Update a new customer
 	 * @param customer
 	 */
-	public void updateCustomer(Customer customer);
+	public boolean updateCustomer(Customer customer);
 	
 	/**
 	 * Delete a new customer
 	 * @param customerId
 	 */
-	public void deleteCustomer(Long customerId);
+	public boolean deleteCustomer(Long customerId);
 
 }

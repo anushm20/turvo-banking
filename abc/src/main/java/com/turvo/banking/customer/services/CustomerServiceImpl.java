@@ -3,6 +3,8 @@
  */
 package com.turvo.banking.customer.services;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +34,24 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void updateCustomer(Customer customer) {
-		customerRepo.save(customer);
+	public boolean updateCustomer(Customer customer) {
+		Customer saved = customerRepo.save(customer);
+		if(Objects.nonNull(saved)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public void deleteCustomer(Long customerId) {
+	public boolean deleteCustomer(Long customerId) {
 		customerRepo.delete(customerId);
+		Customer cust = getCustomerById(customerId);
+		if(Objects.isNull(cust)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

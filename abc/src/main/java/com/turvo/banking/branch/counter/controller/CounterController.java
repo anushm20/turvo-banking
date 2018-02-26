@@ -86,8 +86,8 @@ public class CounterController {
 	@ApiOperation(value = "View list of tokens available at a "
 			+ "Branch Counter", response = List.class)
 	@GetMapping("/counter/{id}/tokens")
-	public List<Long> getTokensAtCounter(@PathVariable("id") Long id){
-		List<Long> tokenIds= counterService.getTokensInCounter(id);
+	public List<Integer> getTokensAtCounter(@PathVariable("id") Long id){
+		List<Integer> tokenIds= counterService.getTokenNumbersAtCounter(id);
 		return tokenIds;
 	}
 	

@@ -43,6 +43,8 @@ import io.swagger.annotations.ApiModelProperty;
 @NamedQueries({
 	@NamedQuery(name="Token.findTokenBasedOnPriority", query="from Token where "
 			+ "tokenId in :tokenIds order by priority desc"),
+	@NamedQuery(name="Token.findTokenByNumber", query="from Token where "
+			+ "number=:number")
 })
 public class Token implements Serializable{
 	

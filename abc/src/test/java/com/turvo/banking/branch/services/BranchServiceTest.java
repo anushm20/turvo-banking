@@ -3,28 +3,49 @@
  */
 package com.turvo.banking.branch.services;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertEquals;
 
-import com.turvo.banking.AbcApplication;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.turvo.banking.AbstractCommonTest;
+import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.services.BankServices;
+import com.turvo.banking.branch.entities.BranchService;
 
 /**
  * @author anushm
  *
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {AbcApplication.class})
-public class BranchServiceTest {
+public class BranchServiceTest extends AbstractCommonTest{
+	
+	@Autowired
+	BranchServices branchServices;
+	
+	@Autowired
+	BankServices bankService;
 	
 	@Test
 	public void createBranchService() {
-		/*BranchCounterMapping mapping = new BranchCounterMapping();
-		mapping.setServiceId(1L);
-		mapping.setServiceCounters(Arrays.asList(new Long[] {1L,2L}));
-		branchCounterMappingServices.createServiceToServiceCounterMapping(mapping);
-		List<Long> counters = branchCounterMappingServices.getServiceCountersForService(1L);
-		assertEquals(counters, mapping.getServiceCounters());*/
+		BranchService brService = new BranchService();
+		brService.setBranchId(1);
+		brService.setMultiCounter(false);
+		BankService service = bankService.getBankServiceById(202L);
+		brService.setService(service);
+		Long id = branchServices.createBranchService(brService);
+		BranchService dbFetch = branchServices.getBranchServiceById(id);
+		assertEquals(dbFetch.getBranchId(), 1);
+	}
+	
+	@Test
+	public void updateBranchService() {
+		BranchService brService = branchServices.getBranchServiceById(2L);
+		brService.setMultiCounter(true);
+		assertEquals(branchServices.updateBranchService(brService), true);
+	}
+	
+	@Test
+	public void deleteBranchService() {
+		assertEquals(branchServices.deleteBranchService(2L), true);
 	}
 }

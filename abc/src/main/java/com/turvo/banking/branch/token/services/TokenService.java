@@ -14,12 +14,19 @@ import com.turvo.banking.branch.token.entities.Token;
 public interface TokenService {
 	
 	/**
-	 * Get token by token Number
+	 * Get token by token Id
 	 * @param tokenId
 	 * @return  token object
 	 */
 	Token getTokenById(Long tokenId);
 	
+	/**
+	 * Method to get token by token number
+	 * @param number
+	 * @return token object
+	 */
+	Token getTokenByNumber(Integer number);
+
 	/**
 	 * Method to return prioritized token among the list
 	 * @param tokenIds

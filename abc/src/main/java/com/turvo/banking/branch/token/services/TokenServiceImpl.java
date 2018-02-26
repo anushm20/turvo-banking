@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.turvo.banking.branch.repositories.CountDao;
 import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.repositories.TokenDao;
+import com.turvo.banking.common.BankingConstants;
 
 /**
  * @author anushm
@@ -35,6 +36,16 @@ public class TokenServiceImpl implements TokenService {
 	public Token getTokenById(Long tokenId) {
 		return tokenDao.getTokenById(tokenId);
 	}
+	
+	@Override
+	public Token getTokenBasedOnPriority(List<Long> tokenIds) {
+		return tokenDao.getTokenBasedOnPriority(tokenIds);
+	}
+	
+	@Override
+	public Token getTokenByNumber(Integer number) {
+		return tokenDao.getTokenByNumber(number);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.turvo.banking.branch.token.services.TokenService#
@@ -43,7 +54,7 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public int createToken(Token token) {
 		token.setNumber(countDao.getCountForUpdate
-					(token.getBranchId(), "TOKEN_NUMBER",true));
+					(token.getBranchId(), BankingConstants.TOKEN_NUMBER,true));
 		Integer number = tokenDao.createToken(token);
 		helper.sendToken(token.getTokenId());
 		return number; 
@@ -64,11 +75,6 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public boolean deleteToken(Long tokenId) {
 		return tokenDao.deleteToken(tokenId);
-	}
-
-	@Override
-	public Token getTokenBasedOnPriority(List<Long> tokenIds) {
-		return tokenDao.getTokenBasedOnPriority(tokenIds);
 	}
 
 }

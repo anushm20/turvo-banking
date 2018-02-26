@@ -47,7 +47,7 @@ public class BranchServiceController {
 	
 	@ApiOperation(value = "Create a new mapping of service to a Branch")
 	@PostMapping(path="/branchservices",consumes = "application/json")
-	public ResponseEntity<Long> createBranchCounter(@Valid @RequestBody BranchService service){
+	public ResponseEntity<Long> createBranchService(@Valid @RequestBody BranchService service){
 		BankService bankService = bankServices.getBankServiceById
 				(service.getService().getServiceId());
 		service.setService(bankService);
@@ -57,7 +57,7 @@ public class BranchServiceController {
 	
 	@ApiOperation(value = "Update a mapping of service to a Branch")
 	@PutMapping("/branchservice/{id}")
-	public HttpStatus updateBranchCounter(@PathVariable("id") Long id,
+	public HttpStatus updateBranchService(@PathVariable("id") Long id,
 				@Valid @RequestBody BranchService service){
 		boolean success = branchServices.updateBranchService(service);
 		if(success)
@@ -68,7 +68,7 @@ public class BranchServiceController {
 	
 	@ApiOperation(value = "Delete a mapping of service to a Branch")
 	@DeleteMapping("/branchservice/{id}")
-	public HttpStatus deleteBranchCounter(@PathVariable("id") Long id) {
+	public HttpStatus deleteBranchService(@PathVariable("id") Long id) {
 		boolean success = branchServices.deleteBranchService(id);
 		if(success)
 			return HttpStatus.OK;

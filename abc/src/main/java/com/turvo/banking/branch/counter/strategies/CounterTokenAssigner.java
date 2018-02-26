@@ -16,13 +16,12 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.RabbitConfig;
-import com.turvo.banking.branch.entities.Branch;
-import com.turvo.banking.branch.exceptions.EntityNotFoundException;
+import com.turvo.banking.branch.counter.operations.CountersUtil;
+import com.turvo.banking.branch.exceptions.BankEntityNotFoundException;
 import com.turvo.banking.branch.exceptions.InvalidDataException;
-import com.turvo.banking.branch.services.BranchCrudService;
 import com.turvo.banking.branch.token.entities.Token;
 import com.turvo.banking.branch.token.services.TokenService;
+import com.turvo.banking.common.BankingConstants;
 
 /**
  * @author anushm
@@ -32,22 +31,19 @@ import com.turvo.banking.branch.token.services.TokenService;
 public class CounterTokenAssigner {
 	
 	@Autowired
-	private BranchCrudService branchCrudService;
+	CountersUtil util;
 	
 	@Autowired
 	private TokenService tokenService;
 	
-	/* (non-Javadoc)
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	@RabbitListener(queues=RabbitConfig.TOKENS_QUEUE)
+	@RabbitListener(queues=BankingConstants.CREATED_TOKEN_QUEUE)
 	@Transactional
 	public void update(Long tokenId) {
 		if(Objects.nonNull(tokenId)) {
 			try {
 				Token token = tokenService.getTokenById(tokenId);
 				updateTokeninQueues(token);
-			} catch (EntityNotFoundException e) {
+			} catch (BankEntityNotFoundException e) {
 				e.printStackTrace();
 				// LOG the statement
 			} catch (Exception e) {
@@ -61,35 +57,24 @@ public class CounterTokenAssigner {
 	/**
 	 * helper method to update the token into queues
 	 * @param token
-	 * @throws EntityNotFoundException 
+	 * @throws BankEntityNotFoundException 
 	 */
-	public void updateTokeninQueues(Token token) throws EntityNotFoundException {
+	public void updateTokeninQueues(Token token) throws BankEntityNotFoundException {
 		// Get the branch from the token
-		if(token.getBranchId() != null) {
-			Branch branch = branchCrudService.getBranchById(token.getBranchId());
-			if(Objects.nonNull(branch)) {
-				// Based on branch strategy pick strategy
-				CounterStrategyPicker counterType;
-				try {
-					counterType = CounterTokenAssignerFactory.
-								getStrategyPicker(branch.getCounterStrategyType().toString());
-					boolean queued = false;
-					try {
-						queued = counterType.updateCounterQueue(token);
-					} catch (InvalidDataException e) {
-						e.printStackTrace();
-						// LOG the statement
-						// Inform the branch
-					}
-					if(!queued) {
-						// Re try Mechanism should go here
-						// Can be moved to Dead letter queue
-					}
-				} catch (EntityNotFoundException e) {
-					e.printStackTrace();
+		if (token.getBranchId() != null) {
+			// Based on branch strategy pick strategy
+			try {
+				CounterStrategyPicker counterType = util.getStrategyPickerForBranch(token.getBranchId());
+				boolean queued = false;
+				queued = counterType.queueTokenAtFirstCounter(token);
+				if (!queued) {
+					// Re try Mechanism should go here
+					// Can be moved to Dead letter queue
 				}
-			} else {
-				throw new EntityNotFoundException("Customer Selected Branch is not available");
+			} catch (InvalidDataException e) {
+				e.printStackTrace();
+				// LOG the statement
+				// Inform the branch
 			}
 		}
 	}

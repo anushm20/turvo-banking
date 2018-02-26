@@ -56,7 +56,7 @@ public class TokenServiceImpl implements TokenService {
 		token.setNumber(countDao.getCountForUpdate
 					(token.getBranchId(), BankingConstants.TOKEN_NUMBER,true));
 		Integer number = tokenDao.createToken(token);
-		helper.sendToken(token.getTokenId());
+		helper.sendToken(token.getTokenId(),BankingConstants.CREATED_TOKEN_QUEUE);
 		return number; 
 	}
 

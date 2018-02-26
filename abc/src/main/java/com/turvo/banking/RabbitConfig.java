@@ -14,6 +14,8 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.turvo.banking.common.BankingConstants;
+
 /**
  * @author anushm
  *
@@ -21,21 +23,36 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig  
 {
-    public static final String TOKENS_QUEUE= "tokens-queue";
-    public static final String TOKENS_EXCHANGE = "tokens-exchange";
- 
     @Bean
     Queue tokensQueue() {
-        return QueueBuilder.durable(TOKENS_QUEUE).build();
+        return QueueBuilder.durable(BankingConstants.CREATED_TOKEN_QUEUE).build();
     }
  
     @Bean
     Exchange tokensExchange() {
-        return ExchangeBuilder.topicExchange(TOKENS_EXCHANGE).build();
+        return ExchangeBuilder.topicExchange(BankingConstants.CREATED_TOKEN_EXCHANGE).build();
     }
  
     @Bean
-    Binding binding(Queue tokensQueue, TopicExchange tokensExchange) {
-        return BindingBuilder.bind(tokensQueue).to(tokensExchange).with(TOKENS_QUEUE);
+    Binding tokenBinding(Queue tokensQueue, TopicExchange tokensExchange) {
+        return BindingBuilder.bind(tokensQueue).to(tokensExchange).
+        				with(BankingConstants.CREATED_TOKEN_QUEUE);
+    }
+    
+    
+    @Bean
+    Queue countersExchangeQueue() {
+        return QueueBuilder.durable(BankingConstants.TOKEN_COUNTER_EXCHANGE_QUEUE).build();
+    }
+ 
+    @Bean
+    Exchange countersExchange() {
+        return ExchangeBuilder.topicExchange(BankingConstants.TOKEN_COUNTER_EXCHANGE).build();
+    }
+ 
+    @Bean
+    Binding countersBinding(Queue countersExchangeQueue, TopicExchange countersExchange) {
+        return BindingBuilder.bind(countersExchangeQueue).to(countersExchange).
+        			with(BankingConstants.TOKEN_COUNTER_EXCHANGE_QUEUE);
     }
 }

@@ -20,12 +20,18 @@ public class MixedCounterStrategy implements CounterStrategyPicker {
 	 * updateServiceCounterQueue(com.turvo.banking.branch.token.entities.Token)
 	 */
 	@Override
-	public boolean updateCounterQueue(Token token) {
+	public boolean queueTokenAtFirstCounter(Token token) {
 		// Get services list
 		// Get counters associated to services and place them in the list
 		// For a multicounter service , consider the order of counters
 		// Try to load balance them 
 		// Assign the token to first counter
+		return true;
+	}
+
+	@Override
+	public boolean processTokenToNextStages(Token token,Long counterId) {
+		// 
 		return true;
 	}
 

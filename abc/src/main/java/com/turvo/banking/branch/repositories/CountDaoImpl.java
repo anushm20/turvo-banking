@@ -9,10 +9,10 @@ import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.turvo.banking.branch.entities.Count;
 
@@ -31,7 +31,7 @@ public class CountDaoImpl implements CountDao {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	@org.springframework.transaction.annotation.Transactional(isolation=Isolation.SERIALIZABLE)
+	@Transactional(isolation=Isolation.SERIALIZABLE)
 	public Integer getCountForUpdate(Integer branchId,String name,boolean updateCount) {
 		Query query = em.createNamedQuery("Count.findByBranchAndName",Count.class);
 		query.setParameter("branchId", branchId);

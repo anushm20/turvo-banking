@@ -7,14 +7,14 @@ package com.turvo.banking.branch.exceptions;
  * @author anushm
  *
  */
-public class EntityNotFoundException extends Exception{
+public class BankEntityNotFoundException extends Exception{
 	
 	/**
 	 * Default Serial Version ID
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public EntityNotFoundException(String s) {
+	public BankEntityNotFoundException(String s) {
 		super(s);
 	}
 

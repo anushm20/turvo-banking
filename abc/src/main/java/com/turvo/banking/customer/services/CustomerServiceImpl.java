@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.customer.entities.Customer;
+import com.turvo.banking.customer.model.Customer;
 import com.turvo.banking.customer.repositories.CustomerRepository;
 
 /**

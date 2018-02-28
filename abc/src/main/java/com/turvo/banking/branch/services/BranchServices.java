@@ -5,7 +5,7 @@ package com.turvo.banking.branch.services;
 
 import java.util.List;
 
-import com.turvo.banking.branch.entities.BranchService;
+import com.turvo.banking.branch.model.BranchService;
 
 /**
  * @author anushm

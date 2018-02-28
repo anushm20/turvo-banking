@@ -3,14 +3,13 @@
  */
 package com.turvo.banking.customer.repositories;
 
-import org.springframework.data.repository.CrudRepository;
-
-import com.turvo.banking.customer.entities.Customer;
+import com.turvo.banking.common.BankingRepository;
+import com.turvo.banking.customer.model.Customer;
 
 /**
  * @author anushm
  *
  */
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends BankingRepository<Customer, Long> {
 
 }

@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.turvo.banking.AbstractCommonTest;
-import com.turvo.banking.customer.entities.Customer;
-import com.turvo.banking.customer.entities.CustomerType;
+import com.turvo.banking.customer.model.Customer;
+import com.turvo.banking.customer.model.CustomerType;
 
 /**
  * @author anushm

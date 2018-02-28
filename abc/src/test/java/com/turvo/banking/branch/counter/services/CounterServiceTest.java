@@ -12,8 +12,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.turvo.banking.AbstractCommonTest;
-import com.turvo.banking.branch.counter.entities.Counter;
-import com.turvo.banking.branch.counter.entities.CounterType;
+import com.turvo.banking.branch.model.Counter;
+import com.turvo.banking.branch.model.CounterType;
+import com.turvo.banking.branch.services.CounterService;
 
 /**
  * @author anushm

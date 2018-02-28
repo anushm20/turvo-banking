@@ -10,7 +10,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.branch.entities.BranchService;
+import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.branch.repositories.BranchServiceRepository;
 
 /**

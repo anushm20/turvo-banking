@@ -5,7 +5,7 @@ package com.turvo.banking.branch.repositories;
 
 import org.springframework.stereotype.Repository;
 
-import com.turvo.banking.branch.entities.BranchService;
+import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.common.BankingRepository;
 
 /**

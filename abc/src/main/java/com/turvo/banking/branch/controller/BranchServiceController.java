@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.model.BankService;
 import com.turvo.banking.bank.services.BankServices;
-import com.turvo.banking.branch.entities.BranchService;
+import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.branch.services.BranchServices;
 
 import io.swagger.annotations.Api;

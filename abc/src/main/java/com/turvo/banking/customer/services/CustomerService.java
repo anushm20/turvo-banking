@@ -3,7 +3,7 @@
  */
 package com.turvo.banking.customer.services;
 
-import com.turvo.banking.customer.entities.Customer;
+import com.turvo.banking.customer.model.Customer;
 
 /**
  * @author anushm

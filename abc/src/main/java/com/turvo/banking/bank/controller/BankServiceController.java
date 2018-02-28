@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turvo.banking.bank.entities.Bank;
-import com.turvo.banking.bank.entities.BankService;
-import com.turvo.banking.bank.services.BankCrudService;
+import com.turvo.banking.bank.model.Bank;
+import com.turvo.banking.bank.model.BankService;
+import com.turvo.banking.bank.services.BankModelService;
 import com.turvo.banking.bank.services.BankServices;
 
 import io.swagger.annotations.Api;
@@ -38,7 +38,7 @@ public class BankServiceController {
 	BankServices bankServices;
 	
 	@Autowired
-	BankCrudService bankCrudService;
+	BankModelService bankModelService;
 	
 	@ApiOperation(value = "View a list of available bank services", response = List.class)
 	@GetMapping("/bankservices")
@@ -56,7 +56,7 @@ public class BankServiceController {
 	@PostMapping(path="/bankservices",consumes = "application/json")
 	public ResponseEntity<Long> createBankService(@Valid @RequestBody BankService bankService){
 		// Get Bank object of bank Service
-		Bank bank = bankCrudService.getBankById(bankService.getBank().getBankId());
+		Bank bank = bankModelService.getBankById(bankService.getBank().getBankId());
 		bankService.setBank(bank);
 		Long id = bankServices.createBankService(bankService);
 		return new ResponseEntity<Long>(id,HttpStatus.CREATED);

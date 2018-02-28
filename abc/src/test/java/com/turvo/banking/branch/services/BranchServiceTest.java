@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.turvo.banking.AbstractCommonTest;
-import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.model.BankService;
 import com.turvo.banking.bank.services.BankServices;
-import com.turvo.banking.branch.entities.BranchService;
+import com.turvo.banking.branch.model.BranchService;
 
 /**
  * @author anushm

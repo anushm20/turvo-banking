@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.turvo.banking.AbstractCommonTest;
-import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.model.BankService;
 
 /**
  * @author anushm

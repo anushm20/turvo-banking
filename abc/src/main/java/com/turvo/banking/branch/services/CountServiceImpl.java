@@ -6,8 +6,8 @@ package com.turvo.banking.branch.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.turvo.banking.branch.entities.Count;
-import com.turvo.banking.branch.repositories.CountDao;
+import com.turvo.banking.branch.dao.CountDao;
+import com.turvo.banking.branch.model.Count;
 
 /**
  * @author anushm

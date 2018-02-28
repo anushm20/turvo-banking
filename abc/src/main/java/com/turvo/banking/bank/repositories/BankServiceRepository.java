@@ -3,16 +3,16 @@
  */
 package com.turvo.banking.bank.repositories;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
-import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.model.BankService;
+import com.turvo.banking.common.BankingRepository;
 
 /**
  * @author anushm
  *
  */
 @Component
-public interface BankServiceRepository extends CrudRepository<BankService, Long> {
+public interface BankServiceRepository extends BankingRepository<BankService, Long> {
 
 }

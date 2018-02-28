@@ -5,7 +5,7 @@ package com.turvo.banking.bank.dao;
 
 import java.util.List;
 
-import com.turvo.banking.bank.entities.BankService;
+import com.turvo.banking.bank.model.BankService;
 
 /**
  * @author anushm

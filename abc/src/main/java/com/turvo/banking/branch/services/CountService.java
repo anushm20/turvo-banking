@@ -3,7 +3,7 @@
  */
 package com.turvo.banking.branch.services;
 
-import com.turvo.banking.branch.entities.Count;
+import com.turvo.banking.branch.model.Count;
 
 /**
  * @author anushm

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.turvo.banking.customer.entities.Customer;
+import com.turvo.banking.customer.model.Customer;
 import com.turvo.banking.customer.services.CustomerService;
 
 import io.swagger.annotations.Api;

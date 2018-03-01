@@ -57,7 +57,7 @@ public class Token implements Serializable{
 	@GeneratedValue(generator = "tokenId")
 	@GenericGenerator(
 			name="tokenId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="TokenImpl"),
 					@Parameter(name="entity_name", 

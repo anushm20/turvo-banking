@@ -28,7 +28,7 @@ public class Operator {
 	@GeneratedValue(generator = "operatorId")
 	@GenericGenerator(
 			name="operatorId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="OperatorImpl"),
 					@Parameter(name="entity_name", 

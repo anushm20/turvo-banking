@@ -49,7 +49,7 @@ public class TokenCounterMapper implements Serializable{
 	@GeneratedValue(generator = "counterQueueId")
 	@GenericGenerator(
 			name="counterQueueId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="CounterQueueImpl"),
 					@Parameter(name="entity_name", 

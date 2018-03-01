@@ -28,7 +28,7 @@ public class Address {
 	@GeneratedValue(generator = "addressId")
 	@GenericGenerator(
 			name="addressId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="AddressImpl"),
 					@Parameter(name="entity_name", 

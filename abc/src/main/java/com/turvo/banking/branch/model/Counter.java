@@ -49,7 +49,7 @@ public class Counter implements Serializable {
 	@GeneratedValue(generator = "counterId")
 	@GenericGenerator(
 			name="counterId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="CounterImpl"),
 					@Parameter(name="entity_name", 

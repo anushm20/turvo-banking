@@ -28,7 +28,7 @@ public class TokenComment {
 	@GeneratedValue(generator = "commentId")
 	@GenericGenerator(
 			name="commentId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="TokenCommentImpl"),
 					@Parameter(name="entity_name", 

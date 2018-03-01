@@ -31,7 +31,7 @@ public class Bank {
 	@GeneratedValue(generator = "bankId")
 	@GenericGenerator(
 			name="bankId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="BankImpl"),
 					@Parameter(name="entity_name", 

@@ -41,7 +41,7 @@ public class Customer implements Serializable{
 	@GeneratedValue(generator = "customerId")
 	@GenericGenerator(
 			name="customerId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="CustomerServiceImpl"),
 					@Parameter(name="entity_name", 

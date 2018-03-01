@@ -32,7 +32,7 @@ public class BranchService {
 	@GeneratedValue(generator = "branchServiceId")
 	@GenericGenerator(
 			name="branchServiceId",
-			strategy="com.turvo.banking.common.IdOverrideTableGenerator",
+			strategy="com.turvo.banking.common.OverrideTableIdGenerator",
 			parameters = {
 					@Parameter(name="segment_value", value="BranchServiceImpl"),
 					@Parameter(name="entity_name", 

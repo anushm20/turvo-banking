@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.turvo.banking.AbstractCommonTest;
+import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.Token;
 import com.turvo.banking.branch.model.TokenStatus;
 import com.turvo.banking.branch.services.TokenService;
@@ -32,7 +33,7 @@ public class TokenServiceTest extends AbstractCommonTest{
 		token.setBranchId(1);
 		token.setStatus(TokenStatus.CREATED);
 		Customer customer = new Customer();
-		customer.setCustomerId(2L);
+		customer.setCustomerId(302L);
 		customer.setType(CustomerType.PREMIUM);
 		token.setCustomer(customer);
 		token.setBranchServices(Arrays.asList(new Long[] {2L}));
@@ -43,8 +44,11 @@ public class TokenServiceTest extends AbstractCommonTest{
 	
 	@Test
 	public void updateToken() {
-		Token token = tokenService.getTokenByNumber(10);
+		Token token = tokenService.getTokenByNumber(23);
 		token.setPriority(100);
+		/*Counter counter = new Counter();
+		counter.setCounterId(52L);*/
+		token.setCounter(null);
 		assertEquals(tokenService.updateToken(token), true);
 	}
 

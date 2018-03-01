@@ -4,11 +4,9 @@
 package com.turvo.banking.branch.operations;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
 import com.turvo.banking.branch.model.Token;
-import com.turvo.banking.branch.model.TokenCounterMapper;
 import com.turvo.banking.branch.services.BranchModelService;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.services.CounterService;
@@ -53,9 +50,8 @@ public class CountersUtil {
 	 * @throws InvalidDataException
 	 * @throws BankEntityNotFoundException 
 	 */
-	public Set<TokenCounterMapper> placeTokenInFirstCounter(Long serviceId,Token token) 
+	public Counter placeTokenInFirstCounter(Long serviceId,Token token) 
 					throws InvalidDataException, BankEntityNotFoundException {
-		Set<TokenCounterMapper> tokenCounters = new HashSet<>();
 		BranchService brService = branchServices.getBranchServiceById(serviceId);
 		// Get the counters for the services based on token type
 		List<Counter> counters = getListOfCountersForService(token, serviceId);
@@ -64,18 +60,16 @@ public class CountersUtil {
 				// Assign counter for Multi counter service
 				// Generate Map of counter order to counter object
 				// For each order pass it to the method to get counter
-				tokenCounters.add(assignCounterForMultiCounterService
-							(token, counters));
+				return assignCounterForMultiCounterService
+							(token, counters);
 			} else {
 				// Assign counter for single counter service
-				Counter counter = getCounterFromList(counters);
-				tokenCounters.add(new TokenCounterMapper(token, counter));
+				return getCounterFromList(counters);
 			}
 		} else {
 			throw new BankEntityNotFoundException("Counters cannot be found for the service "+
 						serviceId+" for customer type :"+token.getCustomer().getType());
 		}
-		return tokenCounters;
 	}
 	
 	/**
@@ -111,17 +105,14 @@ public class CountersUtil {
 	 * @param tokenCounters
 	 * @param counterOrder
 	 * @param counters
-	 * @return final counter order number
+	 * @return the first counter for the service where customer has to go
 	 */
-	private TokenCounterMapper assignCounterForMultiCounterService(Token token, 
+	private Counter assignCounterForMultiCounterService(Token token, 
 			List<Counter> counters) {
 		Map<Integer, List<Counter>> counterOrderMap = 
 				generateMultiCounterOrderMap(counters);
 		for (Integer order : counterOrderMap.keySet()) {
-			Counter counter = getCounterFromList(counterOrderMap.get(order));
-			TokenCounterMapper mapper = new TokenCounterMapper
-					(token, counter);
-			return mapper;
+			return getCounterFromList(counterOrderMap.get(order));
 		}
 		return null;
 	}
@@ -166,12 +157,11 @@ public class CountersUtil {
 			List<Long> counterIds = new ArrayList<>();
 			counters.forEach((counter)->counterIds.add(counter.getCounterId()));
 			return counterServices.getCounterWithMinTokens(counterIds);
-			//return loadBalanceCounters(counters);
 		}
 	}
 	
 	/**
-	 * Method to return propery strategy picker based on branch type
+	 * Method to return proper strategy picker based on branch type
 	 * @param branchId
 	 * @return strategypicker object
 	 * @throws BankEntityNotFoundException
@@ -194,7 +184,8 @@ public class CountersUtil {
 	 * @param counterOrderMap
 	 * @return
 	 */
-	public Integer findNextOrderedMultiCounterService(Counter counter, Map<Integer, List<Counter>> counterOrderMap) {
+	public Integer findNextOrderedMultiCounterService(Counter counter,
+						Map<Integer, List<Counter>> counterOrderMap) {
 		// Assumption is next counter order will be incremented by 1
 		boolean next = false;
 		Integer nextOrder = null;
@@ -217,7 +208,8 @@ public class CountersUtil {
 	 * @param brService
 	 * @return map
 	 */
-	public Map<Integer, List<Counter>> generateMapForMultiCounter(Token token, BranchService brService) {
+	public Map<Integer, List<Counter>> generateMapForMultiCounter(Token token, 
+							BranchService brService) {
 		List<Counter> counters = null;
 		try {
 			counters = getListOfCountersForService
@@ -244,7 +236,7 @@ public class CountersUtil {
 		Long nextService = getNextServiceForToken(token, brService);
 		if(Objects.nonNull(nextService)) {
 			try {
-				token.setCounters(placeTokenInFirstCounter(nextService, token));
+				token.setCounter(placeTokenInFirstCounter(nextService, token));
 			} catch (InvalidDataException e) {
 				e.printStackTrace();
 			}

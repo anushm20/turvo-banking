@@ -5,13 +5,10 @@
  */
 package com.turvo.banking.branch.operations;
 
-import java.util.Iterator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.turvo.banking.branch.model.Token;
-import com.turvo.banking.branch.model.TokenCounterMapper;
 import com.turvo.banking.branch.model.TokenStatus;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.services.CounterService;
@@ -73,8 +70,7 @@ public class CounterOperations {
 	public boolean completeToken(Long counterId, Token token) {
 		// Action Completed
 		// Remove current counter from the list
-		TokenCounterMapper mapper = getCurrentCounterMapper(counterId, token);
-		token.getCounters().remove(mapper);
+		token.setCounter(null);
 		// Update the token status to counter complete
 		token.setStatus(TokenStatus.COUNTER_COMPLETE);
 		// Add any token comments
@@ -118,22 +114,4 @@ public class CounterOperations {
 		return true;
 	}
 	
-	/**
-	 * Method to get current counter mapper from the list of counter mappers
-	 * 
-	 * @param counter
-	 * @param dbToken
-	 * @return current token counter mapper object
-	 */
-	private TokenCounterMapper getCurrentCounterMapper(Long counterId, Token dbToken) {
-		TokenCounterMapper queue = null;
-		Iterator<TokenCounterMapper> iterator = dbToken.getCounters().iterator();
-		while (iterator.hasNext()) {
-			queue = iterator.next();
-			if (queue.getCounter().getCounterId() == counterId) {
-				break;
-			}
-		}
-		return queue;
-	}
 }

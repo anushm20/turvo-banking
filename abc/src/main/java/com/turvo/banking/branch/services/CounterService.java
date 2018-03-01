@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
+import com.turvo.banking.branch.model.Token;
 
 /**
  * @author anushm
@@ -29,11 +30,11 @@ public interface CounterService {
 	Counter getCounterWithMinTokens(List<Long> counterIds); 
 	
 	/**
-	 * get next token id for the given counter and update the token status
+	 * get next token id for the given counter based on the priority
 	 * @param counterId
 	 * @return list of token ids
 	 */
-	List<Long> getTokensInCounter(Long counterId);
+	Token getNextTokensForCounter(Long counterId);
 	
 	/**
 	 * Method to return list of token numbers at a counter

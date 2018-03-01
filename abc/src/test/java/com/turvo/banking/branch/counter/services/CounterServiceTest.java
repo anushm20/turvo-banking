@@ -4,6 +4,7 @@
 package com.turvo.banking.branch.counter.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.turvo.banking.AbstractCommonTest;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
+import com.turvo.banking.branch.model.Token;
 import com.turvo.banking.branch.services.CounterService;
 
 /**
@@ -64,6 +66,12 @@ public class CounterServiceTest extends AbstractCommonTest{
 		Counter counter = counterService.getCounterWithMinTokens
 								(Arrays.asList(new Long[] {52L,102L}));
 		assertEquals(counter.getCounterId().longValue(), 102L);
+	}
+	
+	@Test
+	public void getNextToken() {
+		Token token = counterService.getNextTokensForCounter(252L);
+		assertNull(token);
 	}
 	
 	@Test

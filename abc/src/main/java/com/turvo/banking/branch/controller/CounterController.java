@@ -94,20 +94,15 @@ public class CounterController {
 	@ApiOperation(value = "Take an action aganist a token in a "
 			+ "	Branch Counter", response = HttpStatus.class)
 	@GetMapping("/counter/{id}/token/{action}")
-	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId,
-			@PathVariable("action") String action) {
-		List<Long> tokenIds= counterService.getTokensInCounter(counterId);
-		if(tokenIds != null) {
-			Token token = tokenService.getTokenBasedOnPriority(tokenIds);
-			if(Objects.nonNull(token)) {
-				boolean success = operations.serveToken(counterId, token, action);
-				if(success)
-					return HttpStatus.OK;
-				else 
-					return HttpStatus.BAD_REQUEST;
-			} else {
+	public HttpStatus takeActionOnToken(@PathVariable("id") Long counterId, 
+						@PathVariable("action") String action) {
+		Token token = counterService.getNextTokensForCounter(counterId);
+		if (Objects.nonNull(token)) {
+			boolean success = operations.serveToken(counterId, token, action);
+			if (success)
+				return HttpStatus.OK;
+			else
 				return HttpStatus.BAD_REQUEST;
-			}
 		} else {
 			return HttpStatus.BAD_REQUEST;
 		}

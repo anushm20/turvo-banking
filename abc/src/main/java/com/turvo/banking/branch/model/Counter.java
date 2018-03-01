@@ -4,9 +4,7 @@
 package com.turvo.banking.branch.model;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,14 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -35,8 +30,13 @@ import io.swagger.annotations.ApiModelProperty;
 @NamedQueries({
 	@NamedQuery(name="Counter.findByServiceAndType", query="from Counter where "
 			+ "brServiceId=:brServiceId and counterType=:type"),
-	@NamedQuery(name="Counter.findTokenNumbersByCounter", query="select number from Token"
-			+ "	where tokenId in (select map.token.tokenId from TokenCounterMapper map where map.counter.counterId=:counterId)")
+	@NamedQuery(name="Counter.findTokenNumbersByCounter", query="select t.number from Token t JOIN t.counter c"
+			+ "	where c.counterId=:counterId"),
+	@NamedQuery(name="Counter.findMinTokensCounter", query="select c.counterId from Token t JOIN t.counter c " + 
+			"where c.counterId in :counterIdList " + 
+			"group by c.counterId order by count(t.tokenId) asc"),
+	@NamedQuery(name="Counter.getNextToken",query="select t from Token t JOIN t.counter c "
+			+ " where c.counterId=:counterId order by t.priority desc")
 })
 public class Counter implements Serializable {
 	
@@ -75,10 +75,10 @@ public class Counter implements Serializable {
 			+ " order which it has to get executed",required=true)
 	private int order;
 	
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="counter",orphanRemoval=true)
+	/*@OneToMany(cascade=CascadeType.ALL,mappedBy="counter",orphanRemoval=true)
 	@JsonManagedReference(value="counter-reference")
 	@ApiModelProperty(notes = "List of tokens which can be served in this counter")
-	private List<TokenCounterMapper> queuedTokens;
+	private List<TokenCounterMapper> queuedTokens;*/
 	
 	public Long getCounterId() {
 		return counterId;
@@ -112,12 +112,12 @@ public class Counter implements Serializable {
 		this.order = order;
 	}
 
-	public List<TokenCounterMapper> getQueuedTokens() {
+/*	public List<TokenCounterMapper> getQueuedTokens() {
 		return queuedTokens;
 	}
 
 	public void setQueuedTokens(List<TokenCounterMapper> queuedTokens) {
 		this.queuedTokens = queuedTokens;
-	}
+	}*/
 
 }

@@ -3,11 +3,9 @@
  */
 package com.turvo.banking.branch.strategies;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.Token;
-import com.turvo.banking.branch.model.TokenCounterMapper;
 import com.turvo.banking.branch.model.TokenStatus;
 import com.turvo.banking.branch.operations.CountersUtil;
 import com.turvo.banking.branch.services.BranchServices;
@@ -53,7 +50,6 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 	@Override
 	public boolean queueTokenAtFirstCounter(Token token) throws 
 				InvalidDataException, BankEntityNotFoundException {
-		Set<TokenCounterMapper> tokenCounters = new HashSet<>();
 		// Since we are following separate counter strategy
 		// Let's keep priority same as token number
 		token.setPriority(token.getNumber());
@@ -63,10 +59,9 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 					token.getBranchServices().size() > 0) {
 			Long serviceId = token.getBranchServices().get(0);  
 			// Get the Branch Service Object
-			tokenCounters.addAll(util.placeTokenInFirstCounter(serviceId, token));
+			token.setCounter(util.placeTokenInFirstCounter(serviceId, token));
 		}
 		// Assign the token
-		token.setCounters(tokenCounters);
 		token.setStatus(TokenStatus.QUEUED);
 		// All counters are assigned in the order
 		// save them now
@@ -97,8 +92,7 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 				Map<Integer, List<Counter>> counterOrderMap = util.generateMapForMultiCounter(token, brService);
 				Integer nextOrder = util.findNextOrderedMultiCounterService(counter, counterOrderMap);
 				if (nextOrder != null) {
-					Counter nextCounter = util.getCounterFromList(counterOrderMap.get(nextOrder));
-					token.getCounters().add(new TokenCounterMapper(token, nextCounter));
+					token.setCounter(util.getCounterFromList(counterOrderMap.get(nextOrder)));
 				} else {
 					moveTokenToNextCounterBasedOnServices(token, brService);
 				}

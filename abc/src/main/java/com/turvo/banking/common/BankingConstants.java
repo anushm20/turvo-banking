@@ -16,7 +16,7 @@ public final class BankingConstants {
 	// Rabbit MQ queues configuration
 	public static final String CREATED_TOKEN_QUEUE= "tokens-queue";
     public static final String CREATED_TOKEN_EXCHANGE = "tokens-exchange";
-    public static final String TOKEN_COUNTER_EXCHANGE_QUEUE= "tokens-queue";
-    public static final String TOKEN_COUNTER_EXCHANGE = "tokens-exchange";
+    public static final String TOKEN_COUNTER_EXCHANGE_QUEUE= "counter-process-queue";
+    public static final String TOKEN_COUNTER_EXCHANGE = "counter-process-exchange";
 
 }

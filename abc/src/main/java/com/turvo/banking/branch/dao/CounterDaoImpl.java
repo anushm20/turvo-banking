@@ -5,6 +5,7 @@ package com.turvo.banking.branch.dao;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
-import com.turvo.banking.branch.model.TokenCounterMapper;
+import com.turvo.banking.branch.model.Token;
 
 /**
  * @author anushm
@@ -87,24 +88,44 @@ public class CounterDaoImpl implements CounterDao {
 	@Override
 	@org.springframework.transaction.annotation.Transactional
 	public Counter getCounterWithMinTokens(List<Long> counterIds) {
-		Query query = em.createNamedQuery("Counter.findMinTokensCounter", TokenCounterMapper.class);
-		query.setParameter("counterIdList", counterIds);
-		List<TokenCounterMapper> counters = query.getResultList();
-		if(Objects.nonNull(counters) && counters.size() > 0) {
-			return getCounterById(counters.get(0).getCounter().getCounterId());
+		if(Objects.nonNull(counterIds) && counterIds.size() > 0) {
+			Query query = em.createNamedQuery("Counter.findMinTokensCounter");
+			query.setParameter("counterIdList", counterIds);
+			List<Long> dbCounters = query.getResultList();
+			System.out.println(dbCounters);
+			if(Objects.nonNull(dbCounters) && dbCounters.size() > 0) {
+				return getCounterById(loadBalanceCounters(counterIds, dbCounters));
+			} else {
+				// First time counters are assigned for the day
+				return getCounterById(counterIds.get(0));
+			}
 		} else {
+			// Throw exception
 			return null;
 		}
+	}
+	private Long loadBalanceCounters(List<Long> counterIds, List<Long> dbCounters) {
+		Long counterId = null;
+		if(counterIds.size() == dbCounters.size()) {
+			// All counters are busy with atleast one token
+			counterId = dbCounters.get(0);
+		} else {
+			// Some counters are free . They don't have tokens assigned yet
+			Optional<Long> optVal = counterIds.stream().filter(id->!dbCounters.
+										contains(id)).findFirst();
+			counterId = optVal.get();
+		}
+		return counterId;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Long> getTokensInCounter(Long counterId) {
-		Query query = em.createNamedQuery("TokenCounterMapper.getNextToken");
+	public Token getTokenForCounter(Long counterId) {
+		Query query = em.createNamedQuery("Counter.getNextToken",Token.class);
 		query.setParameter("counterId", counterId);
-		List<Long> tokens = query.getResultList();
+		List<Token> tokens = query.getResultList();
 		if(Objects.nonNull(tokens) && tokens.size() > 0)
-			return tokens;
+			return tokens.get(0);
 		else 
 			return null;
 	}

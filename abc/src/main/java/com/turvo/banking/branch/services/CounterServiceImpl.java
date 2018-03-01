@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.turvo.banking.branch.dao.CounterDao;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
+import com.turvo.banking.branch.model.Token;
 
 /**
  * @author anushm
@@ -51,8 +52,8 @@ public class CounterServiceImpl implements CounterService {
 	 * Method to get tokens in a counter. Only Ids
 	 */
 	@Override
-	public List<Long> getTokensInCounter(Long counterId) {
-		return counterDao.getTokensInCounter(counterId);
+	public Token getNextTokensForCounter(Long counterId) {
+		return counterDao.getTokenForCounter(counterId);
 	}
 	
 	/**

@@ -6,9 +6,7 @@ package com.turvo.banking.branch.model;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -18,9 +16,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,7 +26,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.turvo.banking.customer.model.Customer;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -100,10 +97,11 @@ public class Token implements Serializable{
 	@ApiModelProperty(notes = "List of services opted by customer")
 	private List<Long> branchServices;
 	
-	@OneToMany(mappedBy="token",cascade=CascadeType.ALL,orphanRemoval=true)
-	@JsonManagedReference(value="token-reference")
-	@ApiModelProperty(notes = "List of counters which customer has to go")
-	private Set<TokenCounterMapper> counters;
+	@OneToOne
+	@JoinTable(name="token_counter",
+					joinColumns=@JoinColumn(name="token_id"),
+					inverseJoinColumns=@JoinColumn(name="counter_id"))
+	private Counter counter;
 	
 	public Long getTokenId() {
 		return tokenId;
@@ -160,16 +158,15 @@ public class Token implements Serializable{
 	public void setBranchServices(List<Long> branchServices) {
 		this.branchServices = branchServices;
 	}
-
-	public Set<TokenCounterMapper> getCounters() {
-		return counters;
-	}
-
-	public void setCounters(Set<TokenCounterMapper> counters) {
-		this.counters.clear();
-		this.counters.addAll(counters);
-	}
 	
+	public Counter getCounter() {
+		return counter;
+	}
+
+	public void setCounter(Counter counter) {
+		this.counter = counter;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(Objects.isNull(obj)) return false;

@@ -5,6 +5,7 @@ package com.turvo.banking.branch.dao;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.turvo.banking.branch.model.Token;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -30,8 +32,12 @@ public class TokenDaoImpl implements TokenDao {
 	 */
 	@Override
 	@Transactional(readOnly=true)
-	public Token getTokenById(Long tokenId) {
-		return em.find(Token.class, tokenId);
+	public Token getTokenById(Long tokenId) throws BankEntityNotFoundException {
+		Optional<Token> token = Optional.ofNullable(em.find(Token.class, tokenId));
+		if(token.isPresent())
+			return token.get();
+		else
+			throw new BankEntityNotFoundException("Token not found with given ID : "+tokenId);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -49,14 +55,14 @@ public class TokenDaoImpl implements TokenDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Token getTokenByNumber(Integer number) {
+	public Token getTokenByNumber(Integer number) throws BankEntityNotFoundException {
 		Query query = em.createNamedQuery("Token.findTokenByNumber",Token.class);
 		query.setParameter("number", number);
 		List<Token> tokens = query.getResultList();
 		if(Objects.nonNull(tokens) && tokens.size() > 0) {
 			return tokens.get(0);
 		} else {
-			return null;
+			throw new BankEntityNotFoundException("Token not found with given Number : "+number);
 		}
 	}
 
@@ -90,7 +96,7 @@ public class TokenDaoImpl implements TokenDao {
 	@Override
 	@Transactional
 	public boolean deleteToken(Long tokenId) {
-		Token token = getTokenById(tokenId);
+		Token token = em.find(Token.class, tokenId);
 		if(Objects.nonNull(token)) {
 			em.remove(token);
 			return true;

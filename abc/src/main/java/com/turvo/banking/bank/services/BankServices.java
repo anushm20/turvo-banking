@@ -6,6 +6,7 @@ package com.turvo.banking.bank.services;
 import java.util.List;
 
 import com.turvo.banking.bank.model.BankService;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -23,8 +24,10 @@ public interface BankServices {
 	 * Method to return service by service Id
 	 * @param serviceId
 	 * @return bank service object
+	 * @throws BankEntityNotFoundException 
 	 */
-	BankService getBankServiceById(Long serviceId);
+	BankService getBankServiceById(Long serviceId) 
+						throws BankEntityNotFoundException;
 	
 	/**
 	 * Method to create bank service

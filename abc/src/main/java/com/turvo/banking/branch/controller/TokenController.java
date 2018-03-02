@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.turvo.banking.branch.model.Token;
 import com.turvo.banking.branch.services.TokenService;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ public class TokenController {
 	
 	@ApiOperation(value = "View a Token Details", response = Token.class)
 	@GetMapping("/token/{id}")
-	public Token getToken(@PathVariable("id") Long number) {
+	public Token getToken(@PathVariable("id") Long number) throws BankEntityNotFoundException {
 		return tokenService.getTokenById(number);
 	}
 	
@@ -50,15 +51,21 @@ public class TokenController {
 	@PutMapping("/token/{id}")
 	public HttpStatus updateToken(@PathVariable("id") Long id,
 				@Valid @RequestBody Token token){
-		tokenService.updateToken(token);
-		return HttpStatus.OK;
+		boolean success = tokenService.updateToken(token);
+		if(success)
+			return HttpStatus.OK;
+		else
+			return HttpStatus.BAD_REQUEST;
 	}
 	
 	@ApiOperation(value = "Delete a new token", response = HttpStatus.class)
 	@DeleteMapping("/token/{id}")
 	public HttpStatus deleteToken(@PathVariable("id") Long tokenId) {
-		tokenService.deleteToken(tokenId);
-		return HttpStatus.OK;
+		boolean success = tokenService.deleteToken(tokenId);
+		if(success)
+			return HttpStatus.OK;
+		else
+			return HttpStatus.BAD_REQUEST;
 	}
 	
 }

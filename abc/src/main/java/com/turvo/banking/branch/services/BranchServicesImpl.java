@@ -6,12 +6,14 @@ package com.turvo.banking.branch.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.branch.repositories.BranchServiceRepository;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -28,7 +30,6 @@ public class BranchServicesImpl implements BranchServices {
 	 */
 	@Override
 	public List<BranchService> getAllServicesForBranch(Long branchId) {
-		// TODO write a custom query here
 		return new ArrayList<>();
 	}
 
@@ -36,12 +37,20 @@ public class BranchServicesImpl implements BranchServices {
 	 * @see com.turvo.banking.branch.services.BranchServices#getBranchServiceById(java.lang.Long)
 	 */
 	@Override
-	public BranchService getBranchServiceById(Long branchServiceId) {
-		return branchServiceRepo.findOne(branchServiceId);
+	public BranchService getBranchServiceById(Long branchServiceId) 
+					throws BankEntityNotFoundException {
+		Optional<BranchService> brService = Optional.ofNullable
+						(branchServiceRepo.findOne(branchServiceId));
+		if(brService.isPresent())
+			return brService.get();
+		else  
+			throw new BankEntityNotFoundException("Given Service is not "
+					+ "	associated with the branch : "+branchServiceId);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.services.BranchServices#createBranchService(com.turvo.banking.branch.entities.BranchService)
+	 * @see com.turvo.banking.branch.services.BranchServices#
+			createBranchService(com.turvo.banking.branch.entities.BranchService)
 	 */
 	@Override
 	public Long createBranchService(BranchService service) {
@@ -67,7 +76,7 @@ public class BranchServicesImpl implements BranchServices {
 	@Override
 	public boolean deleteBranchService(Long branchServiceId) {
 		branchServiceRepo.delete(branchServiceId);
-		BranchService service = getBranchServiceById(branchServiceId);
+		BranchService service = branchServiceRepo.findOne(branchServiceId);
 		if(Objects.isNull(service))
 			return true;
 		else 

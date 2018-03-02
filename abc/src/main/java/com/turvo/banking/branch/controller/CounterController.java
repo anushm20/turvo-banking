@@ -25,6 +25,7 @@ import com.turvo.banking.branch.operations.CounterOperations;
 import com.turvo.banking.branch.services.BranchServices;
 import com.turvo.banking.branch.services.CounterService;
 import com.turvo.banking.branch.services.TokenService;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,7 +52,7 @@ public class CounterController {
 	
 	@ApiOperation(value = "View a given Branch Counter", response = Counter.class)
 	@GetMapping("/counter/{id}")
-	public Counter getCounter(@PathVariable("id") Long id) {
+	public Counter getCounter(@PathVariable("id") Long id) throws BankEntityNotFoundException {
 		return counterService.getCounterById(id);
 	}
 	

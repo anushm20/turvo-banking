@@ -50,15 +50,21 @@ public class CustomerController {
 	@PutMapping("/customer/{id}")
 	public HttpStatus updateCustomer(@PathVariable("id") Long id,
 				@Valid @RequestBody Customer customer){
-		customerService.updateCustomer(customer);
-		return HttpStatus.OK;
+		boolean success = customerService.updateCustomer(customer);
+		if(success)
+			return HttpStatus.OK;
+		else
+			return HttpStatus.BAD_REQUEST;
 	}
 	
 	@ApiOperation(value = "Delete a Customer", response = HttpStatus.class)
 	@DeleteMapping("/customer/{id}")
 	public HttpStatus deleteCustomer(@PathVariable("id") Long customerId) {
-		customerService.deleteCustomer(customerId);
-		return HttpStatus.OK;
+		boolean success = customerService.deleteCustomer(customerId);
+		if(success)
+			return HttpStatus.OK;
+		else
+			return HttpStatus.BAD_REQUEST;
 	}
 
 }

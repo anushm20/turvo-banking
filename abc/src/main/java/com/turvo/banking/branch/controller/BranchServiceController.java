@@ -21,6 +21,7 @@ import com.turvo.banking.bank.model.BankService;
 import com.turvo.banking.bank.services.BankServices;
 import com.turvo.banking.branch.model.BranchService;
 import com.turvo.banking.branch.services.BranchServices;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,13 +42,15 @@ public class BranchServiceController {
 	
 	@ApiOperation(value = "Get Mapping of a service to a branch", response = BranchService.class)
 	@GetMapping("/branchservice/{id}")
-	public BranchService getBranchService(@PathVariable("id") Long id) {
+	public BranchService getBranchService(@PathVariable("id") Long id) 
+						throws BankEntityNotFoundException {
 		return branchServices.getBranchServiceById(id);
 	}
 	
 	@ApiOperation(value = "Create a new mapping of service to a Branch")
 	@PostMapping(path="/branchservices",consumes = "application/json")
-	public ResponseEntity<Long> createBranchService(@Valid @RequestBody BranchService service){
+	public ResponseEntity<Long> createBranchService(@Valid @RequestBody BranchService service) 
+						throws BankEntityNotFoundException{
 		BankService bankService = bankServices.getBankServiceById
 				(service.getService().getServiceId());
 		service.setService(bankService);

@@ -8,6 +8,7 @@ import java.util.List;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
 import com.turvo.banking.branch.model.Token;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -50,8 +51,9 @@ public interface CounterDao {
 	 * Get Service Counter by Counter Id
 	 * @param counterId
 	 * @return Service counter object
+	 * @throws BankEntityNotFoundException 
 	 */
-	Counter getCounterById(Long counterId);
+	Counter getCounterById(Long counterId) throws BankEntityNotFoundException;
 	
 	/**
 	 * Method to Create a service counter 

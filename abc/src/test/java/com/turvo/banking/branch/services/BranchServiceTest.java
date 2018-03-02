@@ -12,6 +12,7 @@ import com.turvo.banking.AbstractCommonTest;
 import com.turvo.banking.bank.model.BankService;
 import com.turvo.banking.bank.services.BankServices;
 import com.turvo.banking.branch.model.BranchService;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -26,7 +27,7 @@ public class BranchServiceTest extends AbstractCommonTest{
 	BankServices bankService;
 	
 	@Test
-	public void createBranchService() {
+	public void createBranchService() throws BankEntityNotFoundException {
 		BranchService brService = new BranchService();
 		brService.setBranchId(1);
 		brService.setMultiCounter(false);
@@ -38,7 +39,7 @@ public class BranchServiceTest extends AbstractCommonTest{
 	}
 	
 	@Test
-	public void updateBranchService() {
+	public void updateBranchService() throws BankEntityNotFoundException {
 		BranchService brService = branchServices.getBranchServiceById(2L);
 		brService.setMultiCounter(true);
 		assertEquals(branchServices.updateBranchService(brService), true);

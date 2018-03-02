@@ -11,12 +11,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.turvo.banking.AbstractCommonTest;
-import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.Token;
 import com.turvo.banking.branch.model.TokenStatus;
 import com.turvo.banking.branch.services.TokenService;
 import com.turvo.banking.customer.model.Customer;
 import com.turvo.banking.customer.model.CustomerType;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -28,7 +28,7 @@ public class TokenServiceTest extends AbstractCommonTest{
 	TokenService tokenService;
 	
 	@Test
-	public void createToken() {
+	public void createToken() throws BankEntityNotFoundException {
 		Token token = new Token();
 		token.setBranchId(1);
 		token.setStatus(TokenStatus.CREATED);
@@ -43,7 +43,7 @@ public class TokenServiceTest extends AbstractCommonTest{
 	}
 	
 	@Test
-	public void updateToken() {
+	public void updateToken() throws BankEntityNotFoundException {
 		Token token = tokenService.getTokenByNumber(23);
 		token.setPriority(100);
 		/*Counter counter = new Counter();

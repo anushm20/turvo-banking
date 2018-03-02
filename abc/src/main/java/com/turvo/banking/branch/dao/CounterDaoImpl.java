@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
 import com.turvo.banking.branch.model.Token;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -28,7 +29,9 @@ public class CounterDaoImpl implements CounterDao {
 	EntityManager em;
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#findByBrServiceIdAndCounterType(java.lang.Long, com.turvo.banking.branch.counter.entities.CounterType)
+	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#
+	 * 	findByBrServiceIdAndCounterType(java.lang.Long,
+	 *  com.turvo.banking.branch.counter.entities.CounterType)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -41,15 +44,22 @@ public class CounterDaoImpl implements CounterDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#getCounterById(java.lang.Long)
+	 * @see com.turvo.banking.branch.counter.repositories.CounterDao
+	 * 			#getCounterById(java.lang.Long)
 	 */
 	@Override
-	public Counter getCounterById(Long counterId) {
-		return em.find(Counter.class, counterId);
+	public Counter getCounterById(Long counterId) throws BankEntityNotFoundException {
+		Optional<Counter> counter = Optional.ofNullable
+							(em.find(Counter.class, counterId));
+		if(counter.isPresent())
+			return counter.get();
+		else 
+			throw new BankEntityNotFoundException("Counter not found with given ID :"+counterId);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#createCounter(com.turvo.banking.branch.counter.entities.Counter)
+	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#
+	 * 		createCounter(com.turvo.banking.branch.counter.entities.Counter)
 	 */
 	@Override
 	public Long createCounter(Counter counter) {
@@ -59,7 +69,8 @@ public class CounterDaoImpl implements CounterDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#updateCounter(com.turvo.banking.branch.counter.entities.Counter)
+	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#
+	 * updateCounter(com.turvo.banking.branch.counter.entities.Counter)
 	 */
 	@Override
 	public boolean updateCounter(Counter counter) {
@@ -71,11 +82,12 @@ public class CounterDaoImpl implements CounterDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#deleteCounter(java.lang.Long)
+	 * @see com.turvo.banking.branch.counter.repositories.CounterDao#
+	 * 	deleteCounter(java.lang.Long)
 	 */
 	@Override
 	public boolean deleteCounter(Long counterId) {
-		Counter counter = getCounterById(counterId);
+		Counter counter = em.find(Counter.class, counterId);
 		if(Objects.nonNull(counter)) {
 			em.remove(counter);
 			return true;
@@ -93,11 +105,16 @@ public class CounterDaoImpl implements CounterDao {
 			query.setParameter("counterIdList", counterIds);
 			List<Long> dbCounters = query.getResultList();
 			System.out.println(dbCounters);
-			if(Objects.nonNull(dbCounters) && dbCounters.size() > 0) {
-				return getCounterById(loadBalanceCounters(counterIds, dbCounters));
-			} else {
-				// First time counters are assigned for the day
-				return getCounterById(counterIds.get(0));
+			try {
+				if(Objects.nonNull(dbCounters) && dbCounters.size() > 0) {
+					return getCounterById(loadBalanceCounters(counterIds, dbCounters));
+				} else {
+					// First time counters are assigned for the day
+					return getCounterById(counterIds.get(0));
+				}
+			} catch (BankEntityNotFoundException e) {
+				e.printStackTrace();
+				return null;
 			}
 		} else {
 			// Throw exception

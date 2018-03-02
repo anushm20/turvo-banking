@@ -4,12 +4,14 @@
 package com.turvo.banking.branch.services;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turvo.banking.branch.model.Branch;
 import com.turvo.banking.branch.repositories.BranchRepository;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -25,8 +27,14 @@ public class BranchModelServiceImpl implements BranchModelService {
 	 * @see com.turvo.banking.branch.services.BranchCrudService#getBranchById(java.lang.Integer)
 	 */
 	@Override
-	public Branch getBranchById(Integer branchId) {
-		return branchRepo.findOne(branchId);
+	public Branch getBranchById(Integer branchId) throws BankEntityNotFoundException {
+		Optional<Branch> branch = Optional.ofNullable
+							(branchRepo.findOne(branchId));
+		if(branch.isPresent())
+			return branch.get();
+		else 
+			throw new BankEntityNotFoundException("Branch not found"
+					+ "		 with given ID : "+ branchId);
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +64,7 @@ public class BranchModelServiceImpl implements BranchModelService {
 	@Override
 	public boolean deleteBranch(Integer branchId) {
 		branchRepo.delete(branchId);
-		Branch branch = getBranchById(branchId);
+		Branch branch = branchRepo.findOne(branchId);
 		if(Objects.isNull(branch))
 			return true;
 		else

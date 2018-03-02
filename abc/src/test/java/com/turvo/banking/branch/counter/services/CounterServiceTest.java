@@ -17,6 +17,7 @@ import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
 import com.turvo.banking.branch.model.Token;
 import com.turvo.banking.branch.services.CounterService;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -28,7 +29,7 @@ public class CounterServiceTest extends AbstractCommonTest{
 	CounterService counterService;
 	
 	@Test
-	public void createCounter() {
+	public void createCounter() throws BankEntityNotFoundException {
 		Counter counter = new Counter();
 		counter.setCounterType(CounterType.PREMIUM);
 		counter.setBrServiceId(2L);
@@ -38,7 +39,7 @@ public class CounterServiceTest extends AbstractCommonTest{
 	}
 	
 	@Test
-	public void updateCounter() {
+	public void updateCounter() throws BankEntityNotFoundException {
 		Counter counter = counterService.getCounterById(52L);
 		counter.setOrder(100);
 		boolean success = counterService.updateCounter(counter);

@@ -6,12 +6,14 @@ package com.turvo.banking.bank.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turvo.banking.bank.model.BankService;
 import com.turvo.banking.bank.repositories.BankServiceRepository;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -37,12 +39,21 @@ public class BankServicesImpl implements BankServices {
 	 * @see com.turvo.banking.services.BankServices#getBankServiceById(java.lang.Long)
 	 */
 	@Override
-	public BankService getBankServiceById(Long serviceId) {
-		return serviceRepository.findOne(serviceId);
+	public BankService getBankServiceById(Long serviceId) 
+						throws BankEntityNotFoundException {
+		Optional<BankService> service = Optional.ofNullable
+							(serviceRepository.findOne(serviceId));
+		if(service.isPresent())
+			return service.get();
+		else
+			throw new BankEntityNotFoundException("Bank Service "
+					+ "not found with the ID : "+serviceId);
+		
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.services.BankServices#createBankService(com.turvo.banking.entities.BankService)
+	 * @see com.turvo.banking.services.BankServices#createBankService
+	 * 				(com.turvo.banking.entities.BankService)
 	 */
 	@Override
 	public Long createBankService(BankService service) {
@@ -52,7 +63,8 @@ public class BankServicesImpl implements BankServices {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.turvo.banking.services.BankServices#updateBankService(com.turvo.banking.entities.BankService)
+	 * @see com.turvo.banking.services.BankServices#updateBankService
+	 * 				(com.turvo.banking.entities.BankService)
 	 */
 	@Override
 	public boolean updateBankService(BankService service) {
@@ -70,7 +82,7 @@ public class BankServicesImpl implements BankServices {
 	@Override
 	public boolean deleteBankService(Long serviceId) {
 		serviceRepository.delete(serviceId);
-		BankService service = getBankServiceById(serviceId);
+		BankService service = serviceRepository.findOne(serviceId);
 		if(Objects.isNull(service)) {
 			return true;
 		} else {

@@ -6,6 +6,7 @@ package com.turvo.banking.branch.services;
 import java.util.List;
 
 import com.turvo.banking.branch.model.BranchService;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -24,8 +25,10 @@ public interface BranchServices {
 	 * @param branchServiceId
 	 * Method get branch service by id
 	 * @return branch service id
+	 * @throws BankEntityNotFoundException 
 	 */
-	BranchService getBranchServiceById(Long branchServiceId);
+	BranchService getBranchServiceById(Long branchServiceId)
+					throws BankEntityNotFoundException;
 	
 	/**
 	 * Method to create a new mapping of a service to a bank branch

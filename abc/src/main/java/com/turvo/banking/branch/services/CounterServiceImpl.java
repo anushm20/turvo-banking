@@ -12,6 +12,7 @@ import com.turvo.banking.branch.dao.CounterDao;
 import com.turvo.banking.branch.model.Counter;
 import com.turvo.banking.branch.model.CounterType;
 import com.turvo.banking.branch.model.Token;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -36,7 +37,7 @@ public class CounterServiceImpl implements CounterService {
 	 * getCounterById(java.lang.Long) (non-Javadoc)
 	 */
 	@Override
-	public Counter getCounterById(Long counterId) {
+	public Counter getCounterById(Long counterId) throws BankEntityNotFoundException {
 		return counterDao.getCounterById(counterId);
 	}
 	

@@ -4,12 +4,14 @@
 package com.turvo.banking.bank.services;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.turvo.banking.bank.model.Bank;
 import com.turvo.banking.bank.repositories.BankRepository;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -25,8 +27,13 @@ public class BankModelServiceImpl implements BankModelService {
 	 * @see com.turvo.banking.bank.services.BankCrudService#getBankById(java.lang.Long)
 	 */
 	@Override
-	public Bank getBankById(Integer bankId) {
-		return bankRepo.findOne(bankId);
+	public Bank getBankById(Integer bankId) throws BankEntityNotFoundException {
+		Optional<Bank> bank = Optional.ofNullable(bankRepo.findOne(bankId));
+		if(bank.isPresent())
+			return bank.get();
+		else 
+			throw new BankEntityNotFoundException("Bank not found"
+					+ " with the given ID "+ bankId);
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +63,7 @@ public class BankModelServiceImpl implements BankModelService {
 	@Override
 	public boolean deleteBank(Integer bankId) {
 		bankRepo.delete(bankId);
-		Bank bank = getBankById(bankId);
+		Bank bank = bankRepo.findOne(bankId);
 		if(Objects.isNull(bank))
 			return true;
 		else

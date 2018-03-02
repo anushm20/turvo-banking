@@ -13,6 +13,7 @@ import com.turvo.banking.branch.dao.TokenDao;
 import com.turvo.banking.branch.model.Token;
 import com.turvo.banking.branch.strategies.TokenHelper;
 import com.turvo.banking.common.BankingConstants;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -34,7 +35,7 @@ public class TokenServiceImpl implements TokenService {
 	 * @see com.turvo.banking.branch.token.services.TokenService#getTokenById(java.lang.Long)
 	 */
 	@Override
-	public Token getTokenById(Long tokenId) {
+	public Token getTokenById(Long tokenId) throws BankEntityNotFoundException {
 		return tokenDao.getTokenById(tokenId);
 	}
 	
@@ -44,7 +45,7 @@ public class TokenServiceImpl implements TokenService {
 	}
 	
 	@Override
-	public Token getTokenByNumber(Integer number) {
+	public Token getTokenByNumber(Integer number) throws BankEntityNotFoundException {
 		return tokenDao.getTokenByNumber(number);
 	}
 

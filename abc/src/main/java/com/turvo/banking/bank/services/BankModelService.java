@@ -5,6 +5,7 @@
 package com.turvo.banking.bank.services;
 
 import com.turvo.banking.bank.model.Bank;
+import com.turvo.banking.exceptions.BankEntityNotFoundException;
 
 /**
  * @author anushm
@@ -16,8 +17,9 @@ public interface BankModelService {
 	 * Get bank by ID
 	 * @param bankId
 	 * @return bank object
+	 * @throws BankEntityNotFoundException 
 	 */
-	Bank getBankById(Integer bankId);
+	Bank getBankById(Integer bankId) throws BankEntityNotFoundException;
 	
 	/**
 	 * Create Bank

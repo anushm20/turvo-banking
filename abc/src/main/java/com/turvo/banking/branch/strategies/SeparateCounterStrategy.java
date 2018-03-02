@@ -92,6 +92,7 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 				Map<Integer, List<Counter>> counterOrderMap = util.generateMapForMultiCounter(token, brService);
 				Integer nextOrder = util.findNextOrderedMultiCounterService(counter, counterOrderMap);
 				if (nextOrder != null) {
+					token.setStatus(TokenStatus.QUEUED);
 					token.setCounter(util.getCounterFromList(counterOrderMap.get(nextOrder)));
 				} else {
 					moveTokenToNextCounterBasedOnServices(token, brService);
@@ -125,6 +126,8 @@ public class SeparateCounterStrategy implements CounterStrategyPicker {
 				// means all services done
 				//mark the status as completed
 				token.setStatus(TokenStatus.COMPLETED);
+			} else {
+				token.setStatus(TokenStatus.QUEUED);
 			}
 		}
 	}

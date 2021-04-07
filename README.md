@@ -5,6 +5,7 @@ Branch Push
 Tag Push 2
 Branch Push 2
 Branch Push 3
+Tag Push 3
 
 Build Instructions : 
 This is a simple Spring boot application. 

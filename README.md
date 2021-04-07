@@ -11,6 +11,7 @@ Tag Push 5
 Tag Push 6
 Tag Update
 Tag Update 1
+Tag Update 2
 
 Build Instructions : 
 This is a simple Spring boot application. 

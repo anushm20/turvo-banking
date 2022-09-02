@@ -1,18 +1,6 @@
+Commit
 # turvo-banking
 This repository contains Prototype for Turvo Banking Problem. 
-Tag 1
-Branch Push
-Tag Push 2
-Branch Push 2
-Branch Push 3
-Tag Push 3
-Tag Push 4
-Tag Push 5
-Tag Push 6
-Tag Update
-Tag Update 1
-Tag Update 2
-Tag Update3
 
 Build Instructions : 
 This is a simple Spring boot application. 
